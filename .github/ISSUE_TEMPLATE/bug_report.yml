@@ -1,0 +1,28 @@
+name: 故障报告
+description: 报告可复现的影院、设置或后台故障
+body:
+  - type: input
+    id: version
+    attributes:
+      label: 应用版本与 Windows 版本
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤与预期结果
+      description: 说明使用已有 Jellyfin 还是托管服务，以及涉及哪个来源类型。
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果
+      description: 可附已遮盖私人信息的截图。不要提交媒体文件或整个数据目录。
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: 脱敏诊断
+      description: 仅使用设置页导出的诊断；提交前删除姓名、私有路径、播放链接及账号信息。不要粘贴 Cookie、密码或 API key。

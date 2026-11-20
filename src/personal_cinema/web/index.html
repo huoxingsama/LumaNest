@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="referrer" content="no-referrer">
+  <title>设置 · Personal Cinema</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23212b28'/%3E%3Cpath d='M25 17 47 32 25 47Z' fill='%23e5eee8'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">跳到设置内容</a>
+  <div id="app" class="shell" aria-busy="true">
+    <header class="topbar">
+      <a class="brand" href="#foundation" aria-label="影院设置首页"><span class="brand-mark" aria-hidden="true">▶</span><span>Personal Cinema<small>个人影院</small></span></a>
+      <div class="top-actions"><span id="connection" class="connection">正在连接本机配置服务</span><button id="refresh" class="icon-button" type="button" title="重新读取状态" aria-label="重新读取状态">↻</button></div>
+    </header>
+    <div class="workspace">
+      <aside class="sidebar" aria-label="设置导航">
+        <div class="sidebar-title">设置</div>
+        <nav id="navigation" aria-label="设置分组"></nav>
+        <div class="sidebar-bottom"><span class="small-label">独立配置实例</span><p>设置保存在本机。已有媒体库与本程序托管的服务分别管理。</p><button type="button" class="text-button" data-action="wizard">打开初始配置</button></div>
+      </aside>
+      <main id="content" tabindex="-1">
+        <div id="banner"></div>
+        <div class="page-header"><div><div id="section-kicker" class="small-label">你的影院，按你的习惯</div><h1 id="section-title">正在读取设置</h1><p id="section-description" class="muted">连接完成后可以管理媒体来源、画面、缓存和入库规则。</p></div></div>
+        <div id="toolbar" class="toolbar" hidden>
+          <label class="search-field"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索设置、功能或关键词" aria-label="搜索所有设置" autocomplete="off"></label>
+          <label class="compact-field"><span>作用范围</span><select id="scope" aria-label="设置作用范围"><option value="global">整个系统</option><option value="device">这台设备</option><option value="source">指定来源</option><option value="item">指定作品</option><option value="season">指定季</option></select></label>
+          <label id="scope-id-label" class="compact-field scope-id" hidden><span>对象 ID</span><input id="scope-id" type="text" placeholder="输入对象 ID" autocomplete="off"><button type="button" data-action="scope-apply" class="small-button">切换</button></label>
+          <label class="check-label"><input id="advanced" type="checkbox">高级设置</label>
+        </div>
+        <div id="status-message" role="status" aria-live="polite" class="status-message" hidden></div>
+        <div id="panel"><div class="loading-card"><span class="spinner" aria-hidden="true"></span><p>正在载入本机设置…</p></div></div>
+      </main>
+    </div>
+    <footer id="savebar" class="savebar" hidden><div><strong id="save-count">没有待保存的修改</strong><span id="save-note">画面与规则按各自标注的时机生效。</span></div><div class="button-row"><button type="button" data-action="discard">撤销修改</button><button type="button" class="primary" data-action="save" id="save-button" disabled>保存设置</button></div></footer>
+  </div>
+  <dialog id="modal" aria-labelledby="modal-title"><form id="modal-form"><div class="dialog-head"><h2 id="modal-title"></h2><button type="button" class="icon-button" data-action="close-modal" aria-label="关闭">×</button></div><div id="modal-content"></div><p id="modal-error" class="field-error" role="alert" hidden></p><div id="modal-buttons" class="dialog-buttons"></div></form></dialog>
+  <input id="import-file" type="file" accept="application/json,.json" hidden>
+  <noscript><p class="noscript">设置页需要启用 JavaScript。播放器与媒体文件不受此页面影响。</p></noscript>
+</body>
+</html>

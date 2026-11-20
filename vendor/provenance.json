@@ -1,0 +1,2117 @@
+{
+  "upstream": "https://github.com/jellyfin/jellyfin-mpv-shim",
+  "base_commit": "daca187a9846192fa53d4c95f8eb5bb19aa9332b",
+  "note": "Customized source baseline after Kazumi rollback; path literals normalized for the distributable runtime. No user media, runtime configuration, or credentials imported.",
+  "files": [
+    {
+      "target": "src/personal_cinema/legacy/absolute_series.py",
+      "origin": "custom-backend",
+      "input_sha256": "85863717fdd371c007b37c5243f9a63197aa52c179fc6e7b55c8487284354a70"
+    },
+    {
+      "target": "src/personal_cinema/legacy/artwork_quality.py",
+      "origin": "custom-backend",
+      "input_sha256": "0406e18f0efd878125edf20cd2e835b27cdb99bb75df4a7cbfb4d45e13003722"
+    },
+    {
+      "target": "src/personal_cinema/legacy/auto_versions.py",
+      "origin": "custom-backend",
+      "input_sha256": "e85906ee0739951e063b87eefd6d3c1eb3d23f458260634fe1fb73167d378160"
+    },
+    {
+      "target": "src/personal_cinema/legacy/baidu_manage.py",
+      "origin": "custom-backend",
+      "input_sha256": "e319a1bd43331415231d5f9588cc66a10d77af4d24ce9baed9c12791d837bf14"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cache_naming.py",
+      "origin": "custom-backend",
+      "input_sha256": "19e3e9ca0686fb44e731c86878a35538c4b8e0063e3ab02917c5b8cbeac39116"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cache_policy.py",
+      "origin": "custom-backend",
+      "input_sha256": "80e8e9fe11cb0716ec69d76fea9cf58b69b7caf929785777878e976ed1bdb0db"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cache_report.py",
+      "origin": "custom-backend",
+      "input_sha256": "3bc31f3a21ff1392d06f1c2d6f66286937704c79f9980fb2786626b0416f965c"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cache_status_api.py",
+      "origin": "custom-backend",
+      "input_sha256": "c53e3b6929bd803280860fbef7b7febd8d3cb6de13b8e432bb196d9f0a3308d1"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cache_subtitles.py",
+      "origin": "custom-backend",
+      "input_sha256": "cc0781fc4eadb202a1f134a8cf12f00dfd1006dec56e0195d09a17e0d00011fe"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cache_worker.py",
+      "origin": "custom-backend",
+      "input_sha256": "285f6e635711b25677abed69503186ac90efd780121b3a21ef4b2aae8f4dab1a"
+    },
+    {
+      "target": "src/personal_cinema/legacy/catalog_availability.py",
+      "origin": "custom-backend",
+      "input_sha256": "cbd8849ba97ce7df4bfbddecad6a893285703010b5de7471e7056216651b5cec"
+    },
+    {
+      "target": "src/personal_cinema/legacy/catalog_intelligence.py",
+      "origin": "custom-backend",
+      "input_sha256": "b6040ca8c3e339698011db6cfdd58e837a7b39a5f99ca706e17d502b05c6877b"
+    },
+    {
+      "target": "src/personal_cinema/legacy/catalog_reclassification.py",
+      "origin": "custom-backend",
+      "input_sha256": "1a084d6946b2d078c01204387676ec18e687430847fdfcbb765cea2cd4c88598"
+    },
+    {
+      "target": "src/personal_cinema/legacy/catalog_reconcile.py",
+      "origin": "custom-backend",
+      "input_sha256": "d94afe105311440377d3d492ac2857b39cf2a49a79111ac0b037b1d21dbf9a12"
+    },
+    {
+      "target": "src/personal_cinema/legacy/catalog_rules.py",
+      "origin": "custom-backend",
+      "input_sha256": "d48f370c8dd3aae2c6fe4318b0a5f7d7295eef80d9bf04e75a1a1a3bd8c29e3a"
+    },
+    {
+      "target": "src/personal_cinema/legacy/chinese_credits.py",
+      "origin": "custom-backend",
+      "input_sha256": "c6139fa58783a598fe47f44912e286588a1058a98a838d0db7927a42307f870e"
+    },
+    {
+      "target": "src/personal_cinema/legacy/chinese_credits_worker.py",
+      "origin": "custom-backend",
+      "input_sha256": "0a1e8e0159dcec5cbad607618679792e4075a505acf210077f48a4a42d1f261c"
+    },
+    {
+      "target": "src/personal_cinema/legacy/chinese_identity.py",
+      "origin": "custom-backend",
+      "input_sha256": "78f1c10a01e87f5c59245451dacd01f5868861632e9453efceaa46f1f10beea0"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cloud_cleanup.py",
+      "origin": "custom-backend",
+      "input_sha256": "31146968a0b5c952bf0a70834fd2337f2beb3503b6a56ba888f9d37a6442a5e9"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cloud_identity.py",
+      "origin": "custom-backend",
+      "input_sha256": "de29463219053dd0753e43d51521c73155d5e5ea04af97c386fb1da37dc13290"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cloud_organizer.py",
+      "origin": "custom-backend",
+      "input_sha256": "ac8bb5e27a0b0f4fe3d88c9f697075bbf323dafc6c555622597eb27fec1760f4"
+    },
+    {
+      "target": "src/personal_cinema/legacy/cloud_sync.py",
+      "origin": "custom-backend",
+      "input_sha256": "a1cb3f3fc19b799a8966dadad15916f579766f133bbb0470648ef80d8e2c72aa"
+    },
+    {
+      "target": "src/personal_cinema/legacy/confirmed_series_episodes.py",
+      "origin": "custom-backend",
+      "input_sha256": "df4875b6d08e2ed4220f1f72bd9914d1581a283b0ca7300ab88595a01c44db2e"
+    },
+    {
+      "target": "src/personal_cinema/legacy/deploy_cache_and_one_piece.py",
+      "origin": "custom-backend",
+      "input_sha256": "ba104558a8d15994f1e3ef815929ea4b025e95e57aa375fc20fe386c4302866d"
+    },
+    {
+      "target": "src/personal_cinema/legacy/episode_artwork.py",
+      "origin": "custom-backend",
+      "input_sha256": "de4bc7adfee0251ee7fa754413622174f0034a58eacabca2983d712bee0d2ac3"
+    },
+    {
+      "target": "src/personal_cinema/legacy/episode_metadata_sync.py",
+      "origin": "custom-backend",
+      "input_sha256": "82db6bb16189251407861f2d44ab3ce51dea6148aebf376342c65c772b6314dc"
+    },
+    {
+      "target": "src/personal_cinema/legacy/episode_review_metadata.py",
+      "origin": "custom-backend",
+      "input_sha256": "fadca91bb143015c8375dd8fcb638aa70cddb60eca08e08450c1f8c6f21a0201"
+    },
+    {
+      "target": "src/personal_cinema/legacy/external_ratings.py",
+      "origin": "custom-backend",
+      "input_sha256": "6feba6e42c0aa6cd47e78c8e43002666b20adf82754b36c63e812fa9510577a0"
+    },
+    {
+      "target": "src/personal_cinema/legacy/franchise_context.py",
+      "origin": "custom-backend",
+      "input_sha256": "2a506e7fbf40283becbd2aaf81c397c711238dbcd1b83e24eaae6ec6cf90363f"
+    },
+    {
+      "target": "src/personal_cinema/legacy/incremental_discovery.py",
+      "origin": "custom-backend",
+      "input_sha256": "01b97d2f73fa21730a5c11d10c1b43bf3b086a47e1ae5dc1b28e2e8927aa6017"
+    },
+    {
+      "target": "src/personal_cinema/legacy/jellyfin_ingestion.py",
+      "origin": "custom-backend",
+      "input_sha256": "ea0e5b88f4254a656619f21b2342491d32cc890cc2826837d7434353f50d1f08"
+    },
+    {
+      "target": "src/personal_cinema/legacy/library_activity.py",
+      "origin": "custom-backend",
+      "input_sha256": "66778997b1565acbd26a9a48a2676312a264ef742ba6886672676ac442d7be13"
+    },
+    {
+      "target": "src/personal_cinema/legacy/library_routing.py",
+      "origin": "custom-backend",
+      "input_sha256": "477c983c2614527cf3547ce50b82b8b77648e4467d30b695e3c2a162a5b75ce1"
+    },
+    {
+      "target": "src/personal_cinema/legacy/library_tasks.py",
+      "origin": "custom-backend",
+      "input_sha256": "fb740069f285d13900b0f3f3c75441ccac7f43e12a205faf9d2fe6f71f883580"
+    },
+    {
+      "target": "src/personal_cinema/legacy/manual_ingest.py",
+      "origin": "custom-backend",
+      "input_sha256": "9bc7398c6e97e049c885818a9711bcdb67bf650813d79a3f0c9e0b1c973c4f33"
+    },
+    {
+      "target": "src/personal_cinema/legacy/manual_match.py",
+      "origin": "custom-backend",
+      "input_sha256": "4547f14e89abdc177a8888a13d7d21b3c3fe12bc898296fa90eda7e8e32a7271"
+    },
+    {
+      "target": "src/personal_cinema/legacy/media_attachments.py",
+      "origin": "custom-backend",
+      "input_sha256": "61014de9e213addc13146fdca3ea5ad202eecddb402c5de975db1a5f9b887762"
+    },
+    {
+      "target": "src/personal_cinema/legacy/media_probe.py",
+      "origin": "custom-backend",
+      "input_sha256": "e6a060e4dfc46b20a013c723843537cbb6d331a745164cfd0808d12d46520f58"
+    },
+    {
+      "target": "src/personal_cinema/legacy/metadata_matcher.py",
+      "origin": "custom-backend",
+      "input_sha256": "e047f04f1ab3e08264a7b3c11dbf654eaf8dc78a06804c412875bf7249bcb09c"
+    },
+    {
+      "target": "src/personal_cinema/legacy/metadata_proxy.py",
+      "origin": "custom-backend",
+      "input_sha256": "43aaba74561fe5f37043fd9323ae46358581550799b9557172320fff61a2179a"
+    },
+    {
+      "target": "src/personal_cinema/legacy/movie_groups.py",
+      "origin": "custom-backend",
+      "input_sha256": "7e27dae7c3d4d9d6bb3b3428785f823b20b216ea46ad8fb781fdfaedbd37392d"
+    },
+    {
+      "target": "src/personal_cinema/legacy/organizer_gateway.py",
+      "origin": "custom-backend",
+      "input_sha256": "74198c9ca4634905dc8a552ee660ea2368cd6a4f3c4a153c9077dd13e68b3313"
+    },
+    {
+      "target": "src/personal_cinema/legacy/people_localization.py",
+      "origin": "custom-backend",
+      "input_sha256": "810d674807011986b05628348d749ae24adad16e97beef9f7e14278d681aea98"
+    },
+    {
+      "target": "src/personal_cinema/legacy/person_portraits.py",
+      "origin": "custom-backend",
+      "input_sha256": "f7fb7b853250d3d0d91528232ecd39d20ed997daed3a4926cce246ea5dfb4628"
+    },
+    {
+      "target": "src/personal_cinema/legacy/person_portrait_worker.py",
+      "origin": "custom-backend",
+      "input_sha256": "4c8f885689f8f304b185797b7bdc02c4fb8e07b2e1d764704cad1e31bb62ab5f"
+    },
+    {
+      "target": "src/personal_cinema/legacy/playback_buffer.py",
+      "origin": "custom-backend",
+      "input_sha256": "be5af59da1f1863bd6557bfeb66ac7349dae74af44a7eeaf2b8d2945b22e6333"
+    },
+    {
+      "target": "src/personal_cinema/legacy/playback_cache.py",
+      "origin": "custom-backend",
+      "input_sha256": "e3d8f39870787dab333a4832e900d3f719e435becb5ae79c81328cdfb7b5324a"
+    },
+    {
+      "target": "src/personal_cinema/legacy/pokepedia_credits.py",
+      "origin": "custom-backend",
+      "input_sha256": "3410c218e2184e6d0eeb59aedd6b185397a8abe5971bbb308c62ee3921709ca2"
+    },
+    {
+      "target": "src/personal_cinema/legacy/portrait_baike.py",
+      "origin": "custom-backend",
+      "input_sha256": "114d6d060d5895d68a9a2b3de96fe1a04c08ab33ba335b411527020d47511b9f"
+    },
+    {
+      "target": "src/personal_cinema/legacy/portrait_identity.py",
+      "origin": "custom-backend",
+      "input_sha256": "62dc9aab91dc6ea28965c67c419ab613390f5c83fe57baef82976d547fac9e40"
+    },
+    {
+      "target": "src/personal_cinema/legacy/portrait_sources.py",
+      "origin": "custom-backend",
+      "input_sha256": "8243ed6d02b694d8bf60bc0b9039e5d516f103026c361bda5e171d28be26c691"
+    },
+    {
+      "target": "src/personal_cinema/legacy/quark_manage.py",
+      "origin": "custom-backend",
+      "input_sha256": "b4feab41e943dae015d7ab726ffcb169ec20e3540dc69418d765e20c1bb76fcb"
+    },
+    {
+      "target": "src/personal_cinema/legacy/range_cache.py",
+      "origin": "custom-backend",
+      "input_sha256": "c8b084276599870d224222f7e16c121ea29d1abd5e7891014120032fe8f6e993"
+    },
+    {
+      "target": "src/personal_cinema/legacy/season_artwork.py",
+      "origin": "custom-backend",
+      "input_sha256": "59a240bb0487051e483d37bc2921549463d7b96807898f1948aa5a8ca389e50c"
+    },
+    {
+      "target": "src/personal_cinema/legacy/season_ratings.py",
+      "origin": "custom-backend",
+      "input_sha256": "520fd003135dd793dc7c4a6da6b1c4de40520c5ead11c848a3fe6b8f11a47dfc"
+    },
+    {
+      "target": "src/personal_cinema/legacy/season_release_groups.py",
+      "origin": "custom-backend",
+      "input_sha256": "320738846cea4b9c4e7716caaa6ce1974ef4dd59a8f6204adb19bc1ec12e20e0"
+    },
+    {
+      "target": "src/personal_cinema/legacy/series_view.py",
+      "origin": "custom-backend",
+      "input_sha256": "4d53efa08e4c57d21072dd78f342317e22ff768b849b4828cfba2b543a0cacab"
+    },
+    {
+      "target": "src/personal_cinema/legacy/smart_cache.py",
+      "origin": "custom-backend",
+      "input_sha256": "c399b88770fd20a8ad4aec72fb05faa422b828111ded3b33d3cfbea1c79b33e4"
+    },
+    {
+      "target": "src/personal_cinema/legacy/smart_metadata.py",
+      "origin": "custom-backend",
+      "input_sha256": "32e46d35d6319d010efe3c5f8f7710c78cb0e2b38f6a236761d1d2d25a50bcc4"
+    },
+    {
+      "target": "src/personal_cinema/legacy/source_bindings.py",
+      "origin": "custom-backend",
+      "input_sha256": "595a35a78a2a1f4cfb72ba8c4a1b64ac37db4e2d1e0546d4f50c42e918aabedc"
+    },
+    {
+      "target": "src/personal_cinema/legacy/source_presence.py",
+      "origin": "custom-backend",
+      "input_sha256": "d707d50a2f8c5d9d81771fc7a89b16d1e4fd371245522763ca4dfd7094b8c782"
+    },
+    {
+      "target": "src/personal_cinema/legacy/steam_gate.py",
+      "origin": "custom-backend",
+      "input_sha256": "6d6cf986af457da67421e747787699c06f7f9ec90ce942201227495d12b6386a"
+    },
+    {
+      "target": "src/personal_cinema/legacy/subtitle_reconcile.py",
+      "origin": "custom-backend",
+      "input_sha256": "03fd05131401e54299f1c7fd89b8d3e35121f138644f5a8b23ee041e74de56b5"
+    },
+    {
+      "target": "src/personal_cinema/legacy/subtitle_rules.py",
+      "origin": "custom-backend",
+      "input_sha256": "3b08ac08462f11e6bc6578ef3de10c796e087097e4258efd9675bb496bba083f"
+    },
+    {
+      "target": "src/personal_cinema/legacy/sync_external_ratings.py",
+      "origin": "custom-backend",
+      "input_sha256": "e8a25be435322f7d2db89505c3f1eaa615df6a4f5ace72c7d71206590a9660dc"
+    },
+    {
+      "target": "src/personal_cinema/legacy/task_center_api.py",
+      "origin": "custom-backend",
+      "input_sha256": "a41ce45c4a8a902d3567947103bfe8384f880538ed12a81f47fa3c64e4ceaf6d"
+    },
+    {
+      "target": "src/personal_cinema/legacy/title_art_assets.py",
+      "origin": "custom-backend",
+      "input_sha256": "abb6f655d5004d4bfad1e28adda1d3cd610864c8b2065cff440c2edd1327ab83"
+    },
+    {
+      "target": "src/personal_cinema/legacy/verified_artwork.py",
+      "origin": "custom-backend",
+      "input_sha256": "391b077c418468f5c1c3d7a76007aae5b347dd2c3182226e751e62b52ecdd2d3"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/action_thread.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "aad807b4d56885a9759bda76b6774ac90a5bf5b30cc972172dbb918811b24f18"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/archive_errors.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5376c4fa2ec21be0591b26de8ae5ff6c0278f5a1f27cc9a4f27be7762e3f579e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/args.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "aeaa574c30645de2547ab067bf39cf7b4067caedd157c8f92f582f8045550573"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/bifdecode.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5a31e6ff0bb70d61738dc9a3a3c7871cd1569c07a6907a6363fa97945f73f4db"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/books.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9b79f26448db16be55ffb5ad49497e03c433df0a0c35b07cb792a08646fbb833"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/bulk_subtitle.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "163fdf5dc1db0f8c67257dc6cf3dba338258a0edc8753591948e51ae9864c928"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/clients.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f284c44b8ac872c9171028cedec4bd26f9640c6fb851d23f52585d3fe03220ac"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/clipboard.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8b26503addf1204a33827234fa45259ff277f668c4acd03b9e9ad1dd13208e1b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/cli_mgr.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d5a96f3fdceadc81fbdc6a6bf0cf1ea418c50682e66d512ef355c82770cdca2e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/comic.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "2d2631f229a99d0a22b9fd838d48a83d58a5ddbbe8fb66e586f0bab29477e176"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/conf.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "235da15c4649f57fac2ea9ee9e5f8b2b1bfc75e7577c347d57786d85d768ebf4"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/conffile.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "2350007941ff9ee282e5346ddf37420f632687b2bc1749cc15f0610bec75024a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/constants.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "79c8efd771d9c877acfda7c540c52a72b74d8d53736f600626da3b35ebe21a43"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/event_handler.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "babaae1740acbb8e8285e5f982c6da4ccb133e7af63448b8d2c611df3bf5a883"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/exit_watchdog.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0869c7961b3df811a492a15335a04d4b603d746c435c92389a16c519de2f9663"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/extras.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5f0f8138d7ab3c443aaeccf13a5b9e520eb95515a1b18061581d634535d000c5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/gamepad.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "6b55c485970a5e46135e262dfccc0b70e611df201d97a238e400f61a605155d7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/hostinfo.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8158a762b2413931a0ea190c7699f556115ef860ae261cbdbc79269008a5b832"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/i18n.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4daf3919dfe8177a3398a2a4d7cc9dc42583725bbb6fa5ae77c1841350123c07"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/imageutil.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8355ce63a590555a174030d7abc7e50a6e6360b115a403576632031563bb22b3"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/input_conf.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4607068f4741bb09312edb1e9d8bfec176ac0ad102760e1c45d356513452a76e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/items_api.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4d3b0495cfe5b56d3013bfd9ffd19f0ae4d72946445e1342f4eaca8d114222d7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/keysweep.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "2f2740d11033b549ac78f9e2e2ccf416a2768c194ef65c1e22138621f1a3fc05"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/language_config.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f1558862121e4ab4e91b059cd2f08ed40d6ef40946b98b6368be5c9899bc8af0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/locale_index.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "eb7de16b456c00ae70cce4f5fbf0dcb33fcbd84c9a148375a85f79244f124095"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/logo.png",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "89af786264ecec8cdbbcab59eb2d54c327c2ccdd83dad0f1ba2cd99063209445"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/log_utils.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ef5405879f638f32d1ed2209c821c78706763070991fd1ecccd90286a0647086"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/lua_probe.lua",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "87048c2e3a1c6f102da9f300714a5e59707aa67f301e7f5922201d756ca30e97"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/media.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b266ccd103314a09c5baa395a80a9e86ec1cb5f7ea033482d89e0f6359c0c610"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/menu.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "93a797250bbcfc955a4a4984fdd80c2010911564c4c12c5f97109b54c95f93d9"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mouse.lua",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0ef892977df458766ae21a9a97c8d4ec53d319c36d323111bec018db1bb0b601"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpris.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "70b3b6fd9a714f2fc0a252d3a7a27687eb1d2634e85bffc290ca12930f22b326"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpv_events.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "260f620cab52a0fd0b4f4ef831db0bf0ff85359e5aea659cf517db5ebb2b329c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpv_guard.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4c38680e0cf746458590ba4981d031e61dfead084a7120f0f290e1d76946c810"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpv_options.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7223edff32288f17ccde14c8d9af040f6fd0dde63f80126b30e701fff845712a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpv_shim.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "042e8eb91e5cf96db09fe4607420fee445f75df53c5ef11fe8f619b0aab0803f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/osc_bridge.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d5d8893f1a29fbe5b8cffad8f8057c990aab7431b01a48f684fe870c343bc2b4"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/player.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9bfd13f389f6368b08ad2b2933b4792c1d8f45981895bec915593c3789c75cca"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/player_audio.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a9e5884630b4871af1498bd205fc06f82dad7ded5d4d5ea8666898c089f0ff5c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/player_reporting.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "38fa830d29ad6a28a1cfb89ae0ec0519080a60e3d0f7e090cac03208896b6076"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/player_window.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "332f5e7c743a673d7de67f5ca53973c3a7e4654f731cf5c859d4dc96672ba90f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/restart.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c210322697a474796622bec6e9f45687f515be14134ab363ea4ed3ffb8591877"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/rich_presence.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "502cd772be7ae6cd24b14a1ac5dacba55257fc4bf0c8321ea4e1c9e3223feaaf"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/session_reporter.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ded0ad50531813b553f9f697b9f35d54eb7e4ee90767714768d2809bb82cf1ad"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/settings_base.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "da42420432abb6fb24f553560d59a72d64a77e7abd40816171258e0f8a6dc41d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/shader_overrides.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f1a2e2e60daf885fe87b0f957563750f6ad5cf428c75205be343b62765cf81a3"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/shared_playback.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "970d40c48b4b222150ddde8cec529d068a1aebbcbf86d446b5722934eb78d0e8"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/single_instance.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d0e702dbb3fd2548bc592d7f4a4aade8395441d54a6c68b10c2466f8dd9cfdd9"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/svgpath.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e6687ef9134b67aaf7075261e860290f508f3d8942bcac34a6dd8a0fc3e498b9"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/svp_integration.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c378672f9e6554582f09c47316ecbcc67608657d018c25290e8f0001c8bbdf2a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/syncplay.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "221145454fa8509187a7cf663610d026ca41ae8f2e15042e31b809cf34ea3b40"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/system_open.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0514839001ba9aebfacb0366d59cb856ccc6f998e2ff89932c0b78e63f02a989"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/systray.png",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7c5fbbe60da8dcb2ce290ab4d727d4f13bcfbf1127d9d5f437083d6405a9a845"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/thumbfast.lua",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b941f9f9751e50782e4cb423bba6a8d241e956843855784e330669ca0c7647e1"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/timeline.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a5e47c2e9355995b08a499bc20b6ddac7dcffaf8f18a0aac0b7c318de1c0ae00"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/tray.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "6e5c6bf886530058afa953710d84f51fe21633ee92f60489139f924551412ec0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/trickplay-osc.lua",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f05a73c0c78cf6ac4cc2fa3ac41eb3a8eedc8bbf5b0d463e6a551d510894c485"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/trickplay.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "cca6861b803dcb55e97dd3ae7dd6bd91c2eff12a719e07468ed4c9fe072fdcdc"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/ui_icon_paths.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a9a264ba2dbf0b4b2872b3dd32b12552b69e56a82770baf57795ba66fa91cde5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/update_check.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "11c78512876a0918b21b2bf0a70ce246f445058ec74cada50064279a68b03e7a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/users.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e2192a5d5e345dbde10734562a2ac2e1d47bec0cf99fecfa7bb923de5955e5cd"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/user_policy.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0dbba160b5323101dff6a7592257e735b3c72d61418e2d5b7646c7109b5869c6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/utils.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ba524b3fefe66d8f726d8b09596d79c0354596f4f9eefa50ea5b4bfecd2fd1d4"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/version.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a179f775c4288b5386a921d916d8318ffaa517251422dbd08c353db64bfdf02e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/video_profile.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4d3d4313d97f1b9765c61a187fe5b337c4afd646de10fc082c349b98d0ff899c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/windows_identity.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ab606a17f3a8955c1fde86235c0519824a371455aa1858332372ef6d0bc19523"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/win_fribidi.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "867b9fe1aad576212493c9cc7bb7a9d7791b6334d3fc58a7bc6a0873eef61551"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/win_utils.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8d9dcf5d4ce3c38b010bfa3cbb1a08ffc2f891a5b8ea4b02b8e266d411933563"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/__init__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "27b13474983cc43bc5dbc376ee7b305286ba775f5b2af8d38091a9bf44fdd2a2"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/LICENSE.md",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7cd1be3efd05b2ea4781b885c9298e83a90bbc334f1e845d1658100ce81115ee"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/pack-hq.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "fbf94343890a47aac30bb630442a5efe498f1905ebb9f05d147d1cfd080394e9"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/pack-next.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d4048fe698f76160af2fdef4a89ceed138887df1276fe53f1374740b44b3eba0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/pack.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "fb88b8e210244a02843c7f7dc886a06d1d2bc45b52e80dd5004a2a26a02b3331"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/README.md",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d609844281004f2cc8587fdb672a9ecf156504bea8c650b6b7dfc128b785979f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/archive.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "6b79db7b5f01fc84c182c5fb0674697d8112fe16cca6ed2668d8d8fe5e9e8dc1"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/book.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "159ded283bfe949c7518ca64c6c41ca9177262f5e2076483faf5c3a00fe93fa9"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/content.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1d114929c553d308c9431958e20b17eb1e23cff62af6f904d1bbacd13392b2f5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/css.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e29e1f1b648ecc73448c9bafc5dc5070196835e72a4005259d853accc368112e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/errors.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "771a319a3af6b47169a29c2e3846c8d9865f1d279ff98bd9537377f72cae82a6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/fonts.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0dbea2dfaff60969050210a143b6d123b8577b4575f26b53d7110f8e2b999782"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/layout.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "868163eba0e11cb600fb68584719b702b2c074cca6106eaa36368433be6d5c95"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/locations.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4dae60c6a009e1dd039a8c66e028567878b1c0e11bc0ea083bc9d712a7813eaf"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/paint.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "2b6accca6d7824780b01dc3a9920fd71e4efd5c8ec3a2456ebd5e27b346d1934"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/xmlish.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1bc79409c27270549e631c8fa46951e75d0cb1fb4f11a9b82c9af4848cd896cf"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/epub/__init__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7b71043530e1bfe9a9fd3a8599eeee431d7973d9571e3b1b1f7fbe27f172c593"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/integration/com.github.iwalton3.jellyfin-mpv-shim.appdata.xml",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f98a011d18c0f5de350c764b65019fdc830779e2da6fb183538c0811e6552a12"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/integration/jellyfin-128.png",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7c5fbbe60da8dcb2ce290ab4d727d4f13bcfbf1127d9d5f437083d6405a9a845"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/integration/jellyfin-16.png",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "fcb5d26712336dbc0c4ff22797c4344e5051ae023da3235a19ab7619587f6917"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/integration/jellyfin-256.png",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e47d690eb7e2f202b030aeceecdc4a2ae52c63117d15bdb97f47bced279d2a59"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/integration/jellyfin-32.png",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f2f3c176b6ba3ee1270371e1e68002e00ccffce24ea6eede4e205638dba29677"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/integration/jellyfin-48.png",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "eafa8c6aa7a63cd71ba598a55e8c67adb7455bacd0645f475b61bf6559cb725c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/integration/jellyfin-64.png",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d6b046d778d590fbf523c68bde2447e4203f7fd669de9a9cd50b039d3e17f752"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/app.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5c49faf4cae034728e4566817d390edf938dd7c144a65689baf2faf3d31136bf"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/calibrate.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f274781f26ccaa5e60c0094f7018442a7a259788a821e8c2a75cf31a37cabc7e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/demo.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "15c81fcf7febb37ffd1363e61f9bfde44357e78715a7aef4e37eb75abe7cb2b8"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/fontconfig.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a427dc2ae6c314fc3b9a988936545ef77b62966c910a526f582576d255a37236"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/GUIDE.md",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0c11b230525c6e5d258767809112d7e86b4758b80fcf5ec4ef324123ee256799"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/layout.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "dd8da49a2168d4220b58f3888c52589f4f216d7d34f215a9ecb1d420bd71bd5b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/metrics.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "afbdedc80e36dbb10307c01b9b372fddb578b579244cca8c1a017b1bf4839f1a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/pilfont.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ae645c598724d80723df3ae8f466751a7c501dbc5cd946464e76ec3abe33d6d2"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/rawimage.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f3b8918de79bebbc1b3403d2933000a758f1a112db0721872b38ee328309c0d0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/README.md",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "df30eba62835efeddcd9bbd2b5ffda70428aa76c700c32d3bf2d11d846e83ef2"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/renderer.lua",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "04d852fbb2ed85b521b4fa9e82715b68f0eb6262154b594e2e6e24dfaaaef446"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/scaling.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c4b0deced70004a6de62a0955028b6f37663e0e8a5c0daaf09f357ba3f4b1269"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/theme.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "20826f67db2ceb8cbb0601029791fdc8e41789e30af9f73593242be1da5b90b0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/vector.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1cf8c7cb6918fb3984965224629318f6825673a26a09fbdba0fbd6bd31a7381d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/widgets.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "aeb09ddac01359a7a4d71e94dc565c967313e97f4e637c9f984501cd74823580"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/_fontconfig_child.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ad97b855ab3243b9f47fdfbda2ca16bec5cbfdf709b460bbb96517114f810c2e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/__init__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "02e3decd04314ec3eb529c9c1b271e78fc48cf2e8cdac2ab6cac807371be9749"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk/__main__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1b954098e8238b3e0c028a3194b775f285a3fd1248043417713c8f77e4fcba8a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/app.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f3d3679a64adc159af7242d4979ff68b25cd266fa7b62b63f7388437cf4292fb"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/async_runner.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "60e79bfbc92c40f0cdc4f8be083b65a43125cd6f259304870fc554db2f90389f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/auth.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7d62f1c68ce079b50c63a2fc386634c9b58c120bf9f0077614273e573afb7924"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/cast.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "55c2e3177bfd9e0fc3c7952da82f717eaf815bfc4b6f2d14299a8d8bc1c16ae7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/cinema_featured.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "714994128b184f8792218e4809e738b6c539292dcf02f67c73e796de57f00b6a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/cinema_paint.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "27ff45e52e8e29d25d743e1d34a35e698a384e6065d86d54c8b952bda945ecb7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/config.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "cfb27625087aaac369e0f038892071efd6a4f78501675c449c82af9e9a2214cc"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/dialogs.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "66df810328b6fb337491220e78c1a6a55ab0ade8578dde27c86f438dfe08aa8c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/downloads.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "65f44582bc4f4b5ef944d648bd69952df24f7819f1399a18a5075fc93cc4aef6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/guide_view.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3f61916169f860f108249ef626472733c291262fae86b0ff1f11c00718488377"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/home_sections.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "557ef63f4b7111a9c8d2eedf6cf1e7397723e9c5c5cf39cb373f31ac8bdaff3e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/hud.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8ee8669c5bc5ebf44898a14c2a10f816b672152c8434e64407360b5dcce8cb95"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/hud_control.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b7829e871f8b7949227e1f4928c3c9448d1213e9876df8d15cc5f95314cc6d83"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/item_actions.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "168b6e4015b1ee81c0f3427678ca6be80538a8cd841bb33582479193c90b56d6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/livetv_dialogs.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "04f7c6fe1b02b353abcbba3c35b40ef74e8cefd269c0ca7cd23247f4dc1068ed"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/live_tv.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "12066ed02be71bc936b26d1ae7e3b2f060830e8761c69856a02bf827a6f1b0c7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/load_feedback.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "57573fe74658b044f0580b3427f66bc4a158e3163e1a204b75b6e023b9a09d68"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/music.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e0985cf6d8c91e1796eebae59a1633298d862377e1edafe84bf00867ac19f753"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/navigator.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9c3df25aa5c65554b9263bec4ed75f992ea8224fb740b74ca420d22c9461ea2f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pagination.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e57b83f6fa94a9bc54b2d762224479c2016ab3490ea48c505e2bd9dcb283fc1e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/repository.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0b4b7cdf3854ea1239860e22d67e19311a2f09f61bf7ae91d8ae578335a41dff"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/scroll_state.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9b2b0469c06ecc6e88ab00e593fad245c2ed157a421862bea8074f379c8d5ac9"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/strips.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ea1367d2e591ded0e0ba1d5c91283104c5dfd2676c861baaf3bda397261b415f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/theme.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a364c9858e9066714418c8ef69e1d874848ca5b02bb83bbae21939154a2fddcb"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/themes.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "536b71e82116e1056aade4e98a9dde4e7c6a708122a3003d07ede289033bad6d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/thumbnails.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5dfcebfbbb5a5e294f17d8eacf452ded6529b57fff71d8474e9997bdf8a6f5c7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/tiles.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9650e4ed97cf64b697e5ca20212e6e10767ca96472b3663951f66b88bd86b47e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/tile_renderer.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e8978a5d52e305db5a475426806d7ca1b5a27e32eff586ac273b797ca99192f6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/timefmt.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f292a82495bdffb53113482062068742470226bd1496e34324044ce74006e070"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/ui.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "546acc313082e7768d996cce5711524e8012ee5ebf702563ec9d6617be1cfbe5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/user_prefs.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "832559e66947a6319890fa057c38d963eaa749e2c2a50c97c94d2616e245de76"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/views.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5970968e17d7a082686698ee4f5a8d593887bb05765e5366e4b6918360b71f04"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/view_prefs.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "704bb2992ba00c2d92649546e69ee39e492c112dfe97b62c8799a8a3dac3336b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/window_chrome.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f25988f81ec35134aac9d8f990b7f265b9a06d98d808d5c5ff96ad24e54f706d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/__init__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9166105945f9bc37f382a994856c03d933bf49ab250b298f424853208c5e8823"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/sync/auto.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b51f01db7107c4e89677ccf07bb9e5d249d4ba5eaec89e1af3209de49e2d14be"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/sync/db.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "2705af2620353063b3e44c1099dd66af3f89a487e2e865b798c573b1bdd105eb"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/sync/manager.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1a7bcbc9171d56ce3c2749352296310268c45d7fed20bcd5085f1ef5a58bb873"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/sync/offline_media.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a4d91e349f43da630cd97f2095cac961dd28cc2a6f2cabbedf6828bbcae6bc48"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/sync/__init__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ad636f751f7248e8fcc8537238b2f69a023637977a41f6bcf368fd6ea552976e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/themes/elegance.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7ff14f7674c394544b4a03eea82149851b1fe91c65fbf2af12ac17c798918bc9"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/themes/jf-appletv.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d0e40f3b23b030bc2ed5d94040af7dbc44423b10ef6e1ba9ceed7f45b29be0e7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/themes/jf-blueradiance.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "597cc476eefac5e3995f4b98486480a1153fa79c5b2c17227d4acd1a59cc30b1"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/themes/jf-light.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "02402219a35f9bcace4351cad7aecd0ca03711d212bede4e1218cf3c5eb1b6ad"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/themes/jf-purplehaze.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "134685152836aa061c3ab2be503c6d0e0c6ba9f5de56d09d190a46ff8b9339da"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/themes/jf-wmc.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "52d5813feceeb77c49b95cdf124d64878a89e1fe960d7de9523d4e2991dbf9cc"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/themes/nebula.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "54f40da068f44d9cebd7417a8cd63d440f7ac5982946e0fb6fce71150ff9a5cb"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/themes/superdark.json",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "299f2421fdab233451dac3122d67b9e5359ba7737f8612e56c94adc200be500e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/banner.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "93204de19647568308a75c06e2e6db963ef1e7faa21474fd4465ca7bf5e1a721"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/chrome.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "69891c8529d6337642ed84c12852be77bc1171b387db2c06e92603624edd7cf3"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/cinema_chrome.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "acfeae6b0df52501d578c14ab2fd1b6b8d93a11783bb51e8bbe1295afe394859"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/cinema_composition.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4f9ba6ffe17d8ea75728513463abb8771b1fd3a98095b2a3f1c4b3bca3b81bbf"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/cinema_detail.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "2054b859bc3dc3f5f39a5191a95e5f204ce67cd4b3dfda17392776ec0a4b0830"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/cinema_home.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b4474472db70a24de1b210f5bcdf2a3fbe3f038ef386e2dcf0f8c5af079c7085"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/cinema_presentation.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8037e6bda97b487021a0de20880d04e753b17f2576e9a564ed437c4303227034"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/controls.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ea1014e56771536b4ea67939cea6f1988fc761194fa0281a0823cb4af7ee5d24"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/detail.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "43078abe18f9a64e190e23dfb1eb20a8c561d5414070d70f71f90d6326345fe5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/labels.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "dc4a467e8f113784c107590716453bbba7c18204aaf460e61b86f1dbd4404a49"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/media_info.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a3b6a8e0a610df4ccdf60494e3d08cffebfe8f3aef4ebfc3a975b7db8654d665"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/subject_framing.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "65df8619f473dde4c94a5a49af33805ffca59ed2140dbbdddd629531df810aef"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/__init__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c1ac36e4135a6705b97dd6e88d9c0465381a294385acef8f24509d6f0147ae1c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/base.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "cdb20b3d56e0131ffb72df88d13e180a7ced7576902aa6ef7524398cbcb075e6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/deps.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9ce8588d5e652e2a09c8dd614b07984dd443927ab155ec76a16592f3b8cc1eb7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/diagnostics.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "13279a07798e513638ce1b166a16eae5f6fbd31b5610ecf16c67530179b6a1d4"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/downloads.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f5e23515e24cb042601939339c7d3758d0967baa442da83037f7ff66e155d5ca"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/editing.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "87bfeba1b2cce61331a32c79eca2a71b97093e2ebe70e2e9853facacffd9db2e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/hud.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4d312583840b34d75ac47f0c9699d8bed9397fe222da00114407c0d3a8edc612"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/livetv.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8dfd448d77526fe7600029787494b016d0686df7dd12e34ca9dbd1cd057a7cb6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/lock.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4454be8a94e990876a35972d6e3e15c75b5980e0654642cd6db8659a16fa29c7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/picture.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "33190a4b5321de77d015af8fd8667b4d703058753f8ed9d88ddd0f061132fe23"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/playback.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "01dd4045ecee8f5595ebb4167c6f60269fcd72829b27b201485d7fb8176a3dec"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/queue.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "755f306d71152986694eccb9e0464efa8b5fb8645ae2c538601650a1a24eb597"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/servers.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "da164cdc49207321dfd857a039989164f6a7a5dc3155641987eaa04c2c269ac5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/syncplay.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "90e1e275844059d505faf1d6b38d6b3df314aa1fe0f8d3e1c6fe35eaf504d5bf"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/transport.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8d2edb82b5fc61e7f7ccc526487aa133dc20a682eabb7c4ff59073594fdb2dc5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/userdata.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5d53d72410b48e71d4c6f6e09c2a4b1a08074c45241cb71c8d91ada4bd8bdc5e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/users.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f06f5317a4627360ec7f4d68e04922fa10ad8db9c297f90f0f9a32a80b46c044"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/gateway/__init__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d899a8df93b7293e1b0e075646980020b3834e856e351190855f64dd7f9d1632"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/base.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e1bb4158091df0a42420ee7a1dff6eaab8721f535ccf93365b6a8f3e622b0e83"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/books.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3cebeb8a9209d17404c1825cc20b6c2bd5776d386fa8d0465331a4a1194a1e9d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/byname.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1bb5b548f97b741ef1b877ef3b8c745b271c84201420bea628c877f590a2c921"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/comic.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "406ede27e5e3638c40a1fc2a5cbb7b89ec395b9d32418245386b95a4dc4732df"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/detail.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8f780d961fa09aa99f18197cd3750be481d887dd746e258c9e46c3b1b6451160"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/favorites.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7c5f6c4481c849c639f8719a7e3b2d13859ad44f8eb38b0afd4524ad5be8db89"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/genres.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "adc4bce0b2e96083b98692a22adc51c59bec165ee03233bb42efd2b49e640f62"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/grid.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3a27a38f10dd7b8dd1bc679b8540ee6d40be7f54fffad92df1009899324aafbd"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/home.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "095815e574c725fa91602b181a9ed0f8989f9802a818526544a90b42613afe4f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/livetv.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0c2b191c20e3e974e4ae0067071c71c0dbad76285bb8913a6181069da512c8bf"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/music.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9d087f29a7837755aa17550c12223ab73651381e1687d674ab04de98f9a979de"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/music_detail.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1695a8be07a0ecc05ad0de932da4640c8cc861483d8d2f05c2d1f05327aeea57"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/playlist.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9be5dab6c6940672f5f8b2173f90bdacdff4d9f5246c44c679f84d9830d6d444"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/queue_edit.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "42497379901984b71ce80cb340865eddfea9aa80c9c58a11eac15d5c5129dd69"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/reader.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "223566560006eaa9f320966d7212cc3e33d70092e84b1737ab25553d64144700"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/search.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4baa9cea79811e07720a616a637666eeb6667b3f2373170fe338c7c86236179c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/season.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c73168cbb3c01998c7d15b5b22ad51df295128073a54a3d1cc2ce0cd4f66a7b7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/series.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7bf168dccbc98cd2a7797f26e537420d3ac504585519fc06287a7d8f7337ad4c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/pages/__init__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "acf4a08b297524ecf3ce9d31aa7e9413470041f29002fc5d3dc66470ba44a247"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/settings/base.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "68c9c6c1d250c79310be99810bc6c46e8799b4c67b2724205f30614a1cf7fc0b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/settings/downloads.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c95cadb238029f97164a37b87315aa66967b60f4963728166debc1e3cd1a00e0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/settings/general.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "6d87cd19ee4bd80b9395f43165f8a70a02699fb526d61ad54b7421aeb9a48fb7"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/settings/home.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ed87b329ef8a79b7a8bd21b94503760d427675d0c55cd7d0cc620a077c4855fe"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/settings/logs.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d6e8550fa128033d2fd0a2880844d37485d0d64b36cd51dae840650f1d10749d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/settings/servers.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c21768a4eaa1f2414e49bbb2513b94fff7d31b82c6497dcc8252420d9038e68d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/settings/__init__.py",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4853f0e5edff8360d20e413b34f41462c9c4712129e2f584b88e4413597eda71"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/models/lbpcascade_animeface.README.md",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e75b0b90f4493b955ff202c9f4fdd8cfac847c428d478105b86419f58c8345d5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/models/lbpcascade_animeface.xml",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9376d30ac38db6bda2a68b88b3b76bbd7e6aa33af47f7f5c76bc88ca75f1ce30"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/mpvtk_browser/components/models/SOURCES.md",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ad5aa0391fc41fa511c2cd5c6228912c01c671f916d18aec0b2a57a131569fe1"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/zh_Hant_HK/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e4cfcc8b76d3ae1041a74dc12924bb6a254ef445e08a077513640b1d08fe6e49"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/zh_Hant/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "accccb8245e23a1c1eb0a3a9fe23ece4bd23283509f1e08638a1d07caf49d5aa"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/zh_Hans/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8951d4aeb471d8de6aa3b4fd55a51fa014272a67a6b1e48116519143c0851dba"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/vi/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9141fcb06b845ceab360ff1005656b470576bc4fe09e37dd5a9345891c80588c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/uz/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "14f4717c75ac58c55b69ae862c42f9993afeacb6582e9f9fafa4b6a2f716236e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/uk/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "6c6bdd34d76a21722682932a944c37fbf26e04cf7338fcbbc5d8c961b139af80"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ug/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c9e37274b331729b1d94f35c922af90bcd6ab524f109871131bbd1a79f9ed29e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/tr/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f8c1280df3f93458290888c254b978f2a6e8ba87c3d89cea2f2815ccb270a618"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/th/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c168594e49dd8f53882684383d662c577b5099e24b661fd06bb38bc0dfab77c2"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ta/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "71b56a0564c60ff155aa4657fc0f71cc40bfbd60a17e15eaa05d842bae6a37ec"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/sw/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3e1ce1c092ba453e86a1e574b70efe1663628437b8bbfa43f41bb0f71b435462"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/sv/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a557fdc7b852e95070ce955e9114b810feeaa85b94c88028a8cb255e2a56a62c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/sr/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "33ee0d62049b80f5a41283015cea59fff1f73a52668df2baa19ca08ef7407199"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/sq/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e0ed20b3ec5342fdbd225f0f140ed7237efecab6da1dcd0258afa736e9fba198"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/sl/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "bb3bcbc673ceaf4c1e5e675267681896b9574739de45909600d30f1b347d5ff0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/sk/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ddd88e57fcd6633f42c5f13dbef498cc0dfab5304b56091e12c6ee1c766a9cb0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/sdh/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7aee540966d64e524631ed1397697b180116eb117446927bab105413aa4b0244"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ru/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "22ab5f844ed4609f3db5083b6ba54e30b02fd1de9e40697e580139a837c62dc0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ro/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "88ebc3d891957f4aa98d819b8eef61893e9e87e9e093aab632b80eec933353f5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/pt_PT/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3d0d8f3a7c490db1d72006b9d0e5bd793c9e21c339417e5ae3c6e29250b2838c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/pt_BR/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8ef804765629b8735156982d9b7946c0ef5f383ab41ff01f0e80e71484ff5f9f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/pt/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b437ac8de0cc524932e372f79cbbc87951f8a740918211747f5c7700f9548dcb"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/pon/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3973d61148f1a900538cd477ae7b11820d33e8376614626953802ff3145e0e40"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/pl/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8c250864edf5b49af7f4ead7ccd4455a07acdac9311a64616f104657889fcf03"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/oc/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1f65b4ef16de5946ff3e17dcc95d6676b9a965372aaa878a7f446a39a97ebb93"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/nn/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ffb9d5ad356b6383eddb739acaeb0305fabfb3affcde20adb0b897c543d6e055"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/nl/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b25faeb85dd60d141dca7b572d6ce4242377f163855502a32bf830a657757e2d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ne/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "01a419613a19e0b24528c3d5d80f40c94862c2a0f5ecd80e7b8081ee1d3e6710"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/nds/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d3ab37d478a3cc6e2e255c185808632f56bea525af26f0fa87f6c085ec2afd0b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/nb_NO/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "71fb885236e76b5d2ba192fe48a663d73bbcb1eb140043048698ff0c6ec77d0f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ms/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "cc8cf9f2a9a429318ed2d5aad571eb0f8f84d2f1601a693f8d1221a706c99644"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/mr/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b394761fc364d64c5aec46c0df4abeb4e86ea6af668510da2a2631588837908c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/mn/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e30291c7fc2c63d64cd96e2a8f6f17aa397bbed94c5f965cff28518f3d72d8f9"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ml/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d70a7a8a3852a3f4cd5296996ea938268ce241a3236935ef340ed292111724fb"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/mi/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c9f4063f6751366ca1d0bcc3ecee3d8310ea71a17832b8f7194a69c39f288673"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/lzh/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d82e5342f1997aff1d78c40159fddeeecea12f3468d89dc6fa025c165088c20f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/lv/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "035b58c7ecaa65508da8b350bdf4a561f8911ff5b167420a72e4f5fffb1f402b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/lt/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "445c9919eb957e0461ed2242ca558382ea08835b84031aef5f685dc27d196c6c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/lb/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b61ae2a004844901f2b2138d6e98d02aec9985b6fce70ff9732b7dda5ef58112"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/kw/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b077153f0efcdb471608a2204ff15b499ecd5d757f082a649f1e8a9ae1098ff4"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ko/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4ac2fdb3316f0ca3485d9064d6e24188c608019eaa5ad91bbceff624a722360e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/kn/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8ce4075289d17f0d9769dd290520d4b3599693a9489945e6dc908ff06045f20a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/km/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9f3c8c6f675ef72dd260def82eaefd798c94255a6ffe1fa1939c3037d9e66dd2"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/kk/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "548c5d10284fc327361b3a8f792fe88d1081ac1399e68377d4f19a117ae9e084"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ka/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "768b30b8a840c57bcdff03a27cff719dcc8a0fd18d26022023bcf9c445bb62dc"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/jbo/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "dbedc25a0fb06859d6b7692a2b6c934fe58f2dc025fbd2c2da6b913fa7c6e568"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ja/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "194827df3c00772d0ae3e8a4b3f6b75535d3c839235c28ee05b6ec427924721a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/it/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3cccd328b33c854df8145bbee35f16d07450d30da7bce5b8d1cdc6449c4c8a6a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/id/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "72701a8334bf684bcd6ec4353ef1b191a31fca4ad9bf6d8c0de00ea10114e51c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/hu/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5bf178c9228f4291c1df45e42de03b1a8f947bd9ba3c6fbe2d49d93b9eaa7992"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/hr/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "236623412aac141058811c84de425f29e488c185bb77997c86d26ba747993819"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/hi/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5a21a80f060c8f246d8b0c6b4d7c76ee58800a31a902866b2abcd30de0227552"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/he/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b56842798208c9bcabb3637677f38c5fcb94c98d78236c57b2c02477cb3e6d71"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/gsw/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "71efea3cc15d34b0a78e53bfd8ecb2261e83a0bebea9c44f78e93c8532f8fa04"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/gl/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ca3541436e61ace49be4720bf258c71d1125bbd9857b6dbddc0980642f385423"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ga/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "df01f8f47f0e93ea7344c6b64ec59786b45d17f585d831dfc3f3f537f92e933a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/fr/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "abe13ad1cd5402b21a5f2fc69aca775b0b85008539f1468a1a0e95b84e0f0484"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/fil/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "081b2d71a03e5a3ea4dd08d15176885fa3afbda3599d58050f4cebb2396b20cf"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/fi/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b8c33581d1933b35a4c33cc3a3beebcf6b6fa18c0e8cf9cd99dfddfc50a3ae5b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/fa/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c12d7f7d960d4a52b2c8cbeb6c683b094b91d453bb9d06aed5082d131eafd0ae"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/eu/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "669f346826a0206bb2b242ec9d7039ba6d8d44e57c1eede87f4f7617740ff53a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/et/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d2924e3db3d36a43eacd8dd7c58b4f99dbef23730fe1e874d3f58d6d52b2d62f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/es_MX/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e0fae6c4b5184cb19674a98fb7c06aeda424fcb3acca0121c4b819f142decf63"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/es_AR/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d473bb9cced64b0f255970bdbf2cef58fedff0c252a214a915e37bc59fc49eb0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/es_419/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c683798b215b06decdb6cb029f9219be8896074994fdbd3a28366ac5cc6d736a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/es/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e541bcea4198f0b8bf6c7fa7de70e3e0febf05ff3875788e4c6630f02846de76"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/eo/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "52e60a5fd7b189e1df15410be9baebbef22dd50f712984fcee05a645d942c50a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/en_GB/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "7859acb1feb67359bebaf48485536c90f68d9741cf5c0d6b2c403853d02e8a8a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/en@pirate/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8e756194795b5001c3adf077b4ed6817f5e931c3330c511d74f43bee1a9a16b5"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/el/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "513529670958ac4900b242451b538509a46b6da64c62b7e79c01e828add53369"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/dv/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0ae0f029210673147bdebc26564b60bbca8f1f02cbb1603d36028505c0ef8ace"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/de/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "88423c2fc40c9c01cec3a041f497625e7349d6c06b230b09a416af640189318b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/da/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "12a19ac094fb46ba996cdd5ba72677a255b6e891fb688d7a0c56321bf43ac7d6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/cy/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c3879933500a74ae37f45f9d96d818bd8f9f6d306803b997ce0de995ecaef21b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/cs/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "2ec0ca59c2d3dadf9d321b81da6cf20fd5b9643040cb0bd37a34c772607362be"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ckb/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "b944e14f318d870006235edf50df118f5df0a631ea022a42b37a17a983a9badf"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ca/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "371d976bd413506634901b568ce18b2c03e740a272325a3b237f5b579fda7c0f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/bs/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "cf1bdb4fa16afaacab908536d8f1a1d175149a1b5d4258858f5e0f5fa0e95012"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/br/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "0b75a0ef1f7df478e542dd3cd81e609bd650a889b7844ade4c9185b9f30e97f6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/bn/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "de7065a7319881b7f498b5e4acdbcd1757d3aacc3653b7c55633e2fd11c3930a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/bg/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "cdfc45d2fca0221fa8afb9e6bd6bd6933b55c7aa9873f560dd68185d3b32b4ea"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/be/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "ab565b818b1501377310a9dbe6f38c4a19831ad94f212c4bb7fff0266cdc873a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/az/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3094b67450c1fd5cf80bd3ea5a1a3f2cdacab64d64316519da02091ed270f6f8"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/ar/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "10414542c460dabf88a1460053d900d41be0a4569e95cc338c90ea022b253c92"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/am/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c9891d7e2b3ab3def04de635a8e0cd4cc50787cef26a96265b5f6fe5e0f362a0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/messages/af/LC_MESSAGES/base.mo",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "c8f8e90a0f4b99b6581d9b358888dc981f99a657235fe74c9b032713a3521c00"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_AutoDownscalePre_x2.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9141668ced0b26512253e6396e805820716f35b57c92950d9da489f8b96a7ba4"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_AutoDownscalePre_x4.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "dadb7b713cfa1d810c55b5deff616072f3390e546fed1e6a54f80ea555f7b95d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Clamp_Highlights.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8c5fb67c76bed3021f8a27b050c3b97a6ac1b284f9ce91c04189015c354c0217"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Darken_Fast.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e48e560a2dd7fc3267e0494bbedb540600378eabaf8da74da605b0bdf5899a93"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Darken_HQ.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e50a89ce7c4c8e8c2487faa3a0a5950af0384c51a440482e5f2540c0fa39c7bd"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Darken_VeryFast.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1d8ea6bdc53b733f5be293b3177069e7be16f4bdc8b182854d2b344cc8f19339"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Deblur_DoG.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d24499348ed515a9abd3efd6afd4849d3c952aac69e3bf4c03b6dc0559d5471f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Deblur_Original.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8fd49d93f2079617fcf121b30877bd49094a4e1b0609c1c3038873b80752fb03"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Denoise_Bilateral_Mean.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "48ec0cb087afaf0d2b92b848f45841aa152476f31cd3cf116f1381a087fcc70f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Denoise_Bilateral_Median.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "836d8ea1635088435f56db7837f000481afe185ca5955adc6ea5641679a2d69e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Denoise_Bilateral_Mode.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9067c543a5bd2220c28a05022085ef511402ccc114a76112eabe4e3f7d350285"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_L.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d6efe215e6ee8af1ec560478a91afc1df83fac4ba43b2c806ee61ca2267ed674"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_M.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "67ea3ed26539e8de3b7d307688535d2ff17e8d147e11dda0247da7770dbecf41"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_S.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "97c24dc370ab300c108bfaa09db7f175aeff343674842c299cf3940a3d330427"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_Soft_L.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8f2a5c73b526c6e4c67bce0366f7dcd7410bfa4a31e718240d86f53660788e63"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_Soft_M.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a78a2c76898e08e09e442a9628c64208c26e8e15789649b8755223f009794c02"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_Soft_S.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "9f6867f2ef42786729522d86fe24147cb4ea145418e3974df70496acf52dc392"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_Soft_UL.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "41d71cad7b2f3af9086852fca70046f763272d2cb49dd83de9647d942866cac8"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_Soft_VL.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "094334b0e20c1a201fe4941c7c68de72451e5aee9efb5524d7fb82b12dca64b9"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_UL.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "81ec48ff700108c8e1571ed82d4527006ee200c05e94f8b7f836c02179169b40"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Restore_CNN_VL.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "35036722733305cd4d4e57660b883bbe2569ba2914033c254327107d7b77e35e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Thin_Fast.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d725d210e3fbcc9c85202ef8df7e3ae405969ccde53454035dd927cde19ccf9b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Thin_HQ.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4decfd6626cf5830630fa7b08dfc96df0f199b600937df7de8c6cbda059e7ab6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Thin_VeryFast.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5dbdefeb7254daee261391dde8a5e5bea0c94bc9fa017444be89dbe79da2bdb4"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_CNN_x2_L.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "db1fedf7be82f6fd9034e6bf39b64daf2b7576988bb584ec38f24f5236b1cd97"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_CNN_x2_M.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "716e02098a68f0d648761f2b96b4dd139e1cb09b174bb369fca3aa34328fff7e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_CNN_x2_S.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "4c53ec2e287908f7ee7bcb266b0170421626d663576468b7d7dafc62962649a4"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_CNN_x2_UL.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "fa7cf0ecc1cca84d8291bbff5a42b60f5816d57b4e97d42bc377235ac8db02e8"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_CNN_x2_VL.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5638fe31c37c151a3443fea3451a3ef91af073f4dbb9615f6c0d1e29db11493d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_Deblur_DoG_x2.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5646f119f497f4c2c91267794f8b807823dc5833c233694e3c0a13916264066f"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_Deblur_Original_x2.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8eeea23f935d525ab3dced29c9a44e47c702d0c56c9258d3cda701285213b15b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_Denoise_CNN_x2_L.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "6cc4604c9544fd4fd9e3a75fd797511bf5fe1e626e9e1dbcee03302823a63207"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8c72b042e2301fe66a45c3089720459148e2504cd72af16f9c0d5017ff14181e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_Denoise_CNN_x2_S.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "1a45ad3aa20d8368399f2fd46791deed957c2fd0a4afd131cc92516827abab93"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_Denoise_CNN_x2_UL.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "38bd11e7e92ff1a615a274be912d6f2cfe67f5b43771f0383a91c6ab3d0f8cb6"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_Denoise_CNN_x2_VL.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "359c48fe5a317fbc6b706ce368401eef496e84ed98abac7a43efebca2b65d79b"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_DoG_x2.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "13e204278f400c850e7a9f4df8bc9956e979ae01bf7a3d55d86c3f9debecb39d"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_DTD_x2.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3affea16ff7700d42c25f27fba4e85015ed4d985c7f773f968837e6ad4748d4c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/Anime4K_Upscale_Original_x2.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "5f126010bc7c67924dcc2f590b794f9afb7cf4d1fd3ecfb38eeb17542bb236e4"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/ArtCNN_C4F16.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "03d0b3d31cb82c898a94a46663021a3e8f02c5a21d69c5cfdf0208de4bfd453e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/ArtCNN_C4F16_DS.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "57df650fddec3969e17799f5522c9b03dd2d33b1aeace237fef216bf3858125a"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/ArtCNN_C4F32.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f773bce6cf5fe7e5e5d599a695edd40df5cd7a20c3d08c4d164d07591d5bead3"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/ArtCNN_C4F32_DS.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "a04c9cba6fbb8e6db9239d61848390208aedf8e348ef116e12174c803d22077e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/CAS-scaled.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "fe678abb821e72f839f3f3a6af0105c543a1a9d9ae6c927185cfd400cebab217"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/FSR.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "56d8597fc6b7bf6d13f8c3b2bdf1cdc43b06175d51746aab44cf1dca16929b9e"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/FSRCNNX_x2_16-0-4-1.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "d5a24a271e5d9a3f7f7a053b150c460a44c25b3cf7f770857d57cc3a2e1c9965"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/FSRCNNX_x2_8-0-4-1.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "e800dbc5c1c95185cc82216c597724533ff5f2880179f256eef600f03e8dc2ae"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/KrigBilateral.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "8a4798abb77b83646fce0d71985ddfd14c9806e3be486e8fc7f5a5a8bd940cb0"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/NVScaler.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "bac778ec0108d272e4dad97794a3c257e65bbebd52aa762f95bce930cbd6b73c"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/NVSharpen.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "3d51ac2a9da18284c1f77e46a019e783eac0c609924e6b32e8011889f54f9a12"
+    },
+    {
+      "target": "vendor/jellyfin_mpv_shim/default_shader_pack/shaders/SSimDownscaler.glsl",
+      "origin": "jellyfin-mpv-shim-customized",
+      "input_sha256": "f46f4710a162d17058b9d82ed8610588b0c04d7be07cef6bf2a8c4077828f804"
+    }
+  ]
+}

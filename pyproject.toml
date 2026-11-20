@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools==84.2.1", "wheel==0.48.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "personal-cinema"
+version = "0.1.0a1"
+description = "Configurable Windows personal cinema built on Jellyfin and MPV"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE.md", "THIRD_PARTY_NOTICES.md", "vendor/licenses/*.txt"]
+classifiers = ["Development Status :: 3 - Alpha", "Operating System :: Microsoft :: Windows", "Programming Language :: Python :: 3"]
+dependencies = [
+  "psutil>=6,<8", "requests>=2.32,<3", "pillow>=11,<13",
+  "python-mpv>=1.0.8,<2", "python-mpv-jsonipc>=1.5,<2",
+  "jellyfin-apiclient-python>=1.20.2,<2", "certifi>=2026.10.19",
+  "pystray>=0.19,<1", "playwright>=1.50,<2", "pywin32>=308; sys_platform == 'win32'",
+]
+
+[project.optional-dependencies]
+dev = ["build>=1.2", "playwright>=1.50", "ruff>=0.9"]
+
+[project.scripts]
+personal-cinema = "personal_cinema.server:main"
+personal-cinema-maintenance = "personal_cinema.maintenance:main"
+
+[project.gui-scripts]
+personal-cinema-settings = "personal_cinema.server:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src", "vendor"]
+include = ["personal_cinema*", "jellyfin_mpv_shim*"]
+namespaces = true
+
+[tool.setuptools.package-data]
+personal_cinema = ["web/*.html", "web/*.js", "web/*.css", "resources/*.lua", "legacy/*.html", "legacy/*.css", "legacy/*.js"]
+jellyfin_mpv_shim = ["*.png", "*.lua", "messages/*/LC_MESSAGES/*.mo", "themes/*.json", "default_shader_pack/**/*.glsl", "default_shader_pack/**/*.md", "default_shader_pack/**/*.json", "integration/**/*"]
+"jellyfin_mpv_shim.mpvtk" = ["*.lua"]
+"jellyfin_mpv_shim.mpvtk_browser.components" = ["models/*.xml", "models/*.md"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.pyc", "__pycache__/*"]

@@ -1,0 +1,9 @@
+include README.md LICENSE.md THIRD_PARTY_NOTICES.md SECURITY.md
+include CONTRIBUTING.md CHANGELOG.md requirements-windows.lock .gitignore
+recursive-include .github *.yml
+recursive-include docs *.md *.png
+recursive-include scripts *.ps1
+recursive-include tools *.py
+recursive-include tests *.py *.cjs
+include vendor/provenance.json vendor/JELLYFIN-MPV-SHIM-LICENSE.md
+recursive-exclude * __pycache__ *.pyc *.pyo

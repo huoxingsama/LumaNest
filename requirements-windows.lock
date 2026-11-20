@@ -1,0 +1,28 @@
+# Resolver snapshot: Windows x64, CPython 3.13.3, 2026-11-20.
+# Includes runtime and developer tools from the isolated release environment.
+# Only PyPI package/version pins: no editable checkout, local path, URL or credential.
+# Use: python -m pip install -c requirements-windows.lock .
+# This is a version constraint snapshot, not a wheel hash/integrity lock.
+# Other Python versions require their own dependency-resolution validation.
+
+build==1.6.1
+certifi==2026.10.23
+charset-normalizer==3.5.2
+colorama==0.4.6
+greenlet==3.5.6
+idna==3.20
+jellyfin-apiclient-python==1.21.0
+packaging==26.3
+pillow==12.3.0
+playwright==1.65.2
+psutil==7.2.2
+pyproject_hooks==1.3.3
+pystray==0.19.5
+python-mpv-jsonipc==1.5.0
+python-mpv==1.0.8
+pywin32==312
+requests==2.34.2
+ruff==0.17.6
+six==1.17.0
+urllib3==2.8.0
+websocket-client==1.9.2
