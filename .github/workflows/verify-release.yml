@@ -1,0 +1,147 @@
+name: Verify published Windows player runtime
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-release:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out the fixed published release
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: v0.1.0a1
+          path: release-source
+          persist-credentials: false
+
+      - name: Verify the release commit
+        id: revision
+        shell: pwsh
+        working-directory: release-source
+        run: |
+          $expected = 'f5a1fc6c9fa3f5b09b210e8d8f66438c3dde875f'
+          $actual = (git rev-parse HEAD).Trim()
+          if ($LASTEXITCODE -ne 0 -or $actual -ne $expected) {
+            throw 'The release tag does not match the fixed release commit.'
+          }
+
+      - name: Set up Python 3.13 x64
+        id: python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          architecture: x64
+
+      - name: Install the release with its dependency constraints
+        id: dependencies
+        working-directory: release-source
+        run: python -m pip install --disable-pip-version-check -c requirements-windows.lock .
+
+      - name: Download, verify and initialize the public player runtime
+        id: runtime
+        shell: python
+        timeout-minutes: 25
+        run: |
+          import importlib.metadata
+          import json
+          import os
+          from pathlib import Path
+          import platform
+          import time
+
+          report_directory = Path(os.environ['RUNNER_TEMP']) / 'lumanest-release-verification'
+          report_directory.mkdir(parents=True, exist_ok=True)
+          report_path = report_directory / 'report.json'
+          report = {
+              'release': 'v0.1.0a1',
+              'source_commit': 'f5a1fc6c9fa3f5b09b210e8d8f66438c3dde875f',
+              'python': platform.python_version(),
+              'platform': 'Windows',
+              'architecture': 'x86_64',
+              'state': 'failed',
+              'network': 'release-installer-direct-download',
+              'media_opened': False,
+              'credentials_used': False,
+          }
+          started = time.monotonic()
+          try:
+              from personal_cinema import embedded_runtime
+              report['package_version'] = importlib.metadata.version('lumanest')
+              if report['package_version'] != '0.1.0a1':
+                  raise RuntimeError('Unexpected package version')
+              report.update(
+                  core_version=embedded_runtime.CORE_VERSION,
+                  core_sha256=embedded_runtime.CORE_SHA256,
+                  support_sha256=embedded_runtime.SUPPORT_SHA256,
+              )
+              # A fresh runner directory forces both public downloads. No offline
+              # source, private configuration, media or preinstalled DLL is used.
+              prefix = Path(os.environ['RUNNER_TEMP']) / 'lumanest-public-runtime'
+              if prefix.exists():
+                  raise RuntimeError('Verification prefix must be fresh')
+              result = embedded_runtime.install(prefix=prefix)
+              if result.get('state') != 'installed' or result.get('initialized') is not True:
+                  raise RuntimeError('Runtime was not downloaded and initialized')
+              manifest = json.loads((prefix / 'player' / 'manifest.json').read_text('utf-8'))
+              if (manifest.get('core_sha256') != embedded_runtime.CORE_SHA256
+                      or manifest.get('support_sha256') != embedded_runtime.SUPPORT_SHA256):
+                  raise RuntimeError('Installed runtime digest record differs from release')
+              report.update(state='passed', initialized=True,
+                            api_version=int(result['api_version']),
+                            installed_file_count=len(manifest['files']))
+          except Exception as error:
+              # Exception messages may contain runner paths or signed CDN URLs.
+              # Publish only the exception class and fixed verification metadata.
+              report['error_type'] = type(error).__name__
+              raise SystemExit(1) from None
+          finally:
+              report['elapsed_seconds'] = round(time.monotonic() - started, 2)
+              report_path.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+              print(json.dumps(report))
+
+      - name: Finalize the sanitized verification report
+        if: always()
+        shell: pwsh
+        env:
+          CHECKOUT_OUTCOME: ${{ steps.checkout.outcome }}
+          REVISION_OUTCOME: ${{ steps.revision.outcome }}
+          PYTHON_OUTCOME: ${{ steps.python.outcome }}
+          DEPENDENCIES_OUTCOME: ${{ steps.dependencies.outcome }}
+          RUNTIME_OUTCOME: ${{ steps.runtime.outcome }}
+        run: |
+          $directory = Join-Path $env:RUNNER_TEMP 'lumanest-release-verification'
+          New-Item -ItemType Directory -Path $directory -Force | Out-Null
+          $path = Join-Path $directory 'report.json'
+          $report = @{
+            release = 'v0.1.0a1'
+            source_commit = 'f5a1fc6c9fa3f5b09b210e8d8f66438c3dde875f'
+            state = 'failed'
+            media_opened = $false
+            credentials_used = $false
+          }
+          if (Test-Path -LiteralPath $path) {
+            $report = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json -AsHashtable
+          }
+          $report.steps = @{
+            checkout = $env:CHECKOUT_OUTCOME
+            revision = $env:REVISION_OUTCOME
+            python = $env:PYTHON_OUTCOME
+            dependencies = $env:DEPENDENCIES_OUTCOME
+            runtime = $env:RUNTIME_OUTCOME
+          }
+          if ($env:RUNTIME_OUTCOME -ne 'success') { $report.state = 'failed' }
+          $report | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $path -Encoding utf8
+
+      - name: Upload the public verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lumanest-v0.1.0a1-public-runtime-report
+          path: ${{ runner.temp }}/lumanest-release-verification/report.json
+          if-no-files-found: error
+          retention-days: 30
