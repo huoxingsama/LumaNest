@@ -259,7 +259,7 @@ class MaintenanceManager:
 
 def main():
     from .runtime_paths import application_home
-    parser = argparse.ArgumentParser(description='Personal Cinema 私有配置备份与维护（不复制或移动影片）')
+    parser = argparse.ArgumentParser(description='LumaNest 私有配置备份与维护（不复制或移动影片）')
     parser.add_argument('--data-dir', type=Path, default=application_home())
     commands = parser.add_subparsers(dest='command', required=True)
     for name in ('backup', 'list', 'prune', 'autostart'): commands.add_parser(name)

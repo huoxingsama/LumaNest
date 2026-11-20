@@ -113,7 +113,7 @@ class HTTPError(Exception):
 
 def handler(application):
     class Handler(BaseHTTPRequestHandler):
-        server_version = 'PersonalCinema'
+        server_version = 'LumaNest'
         sys_version = ''
 
         def log_message(self, *_):
@@ -330,7 +330,7 @@ def handler(application):
 
 
 def default_root():
-    return Path(os.environ.get('LOCALAPPDATA', str(Path.home() / '.local/share'))) / 'PersonalCinema'
+    return Path(os.environ.get('LOCALAPPDATA', str(Path.home() / '.local/share'))) / 'LumaNest'
 
 
 def create_server(root, port=0):
@@ -377,7 +377,7 @@ def reopen_existing(root, timeout=8):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Personal Cinema 设置与首次启动')
+    parser = argparse.ArgumentParser(description='LumaNest 设置与首次启动')
     parser.add_argument('--data-dir', type=Path, default=default_root())
     parser.add_argument('--port', type=int, default=0)
     parser.add_argument('--no-browser', action='store_true')
@@ -411,7 +411,7 @@ def main():
                 pass
         url = f'http://127.0.0.1:{server.server_port}/#token={server.application.launch_token}'
         # Port is public; the session bootstrap token is never printed or logged.
-        print(f'Personal Cinema {__version__} — http://127.0.0.1:{server.server_port}/', flush=True)
+        print(f'LumaNest {__version__} — http://127.0.0.1:{server.server_port}/', flush=True)
         if not args.no_browser:
             webbrowser.open(url)
         server.serve_forever()

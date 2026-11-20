@@ -1,6 +1,7 @@
 """Build a deterministic, allowlisted source archive without local state."""
 import hashlib
 import json
+import tomllib
 import zipfile
 from pathlib import Path
 from release_check import ROOT, check, files
@@ -10,16 +11,17 @@ def main():
     issues = check()
     if issues:
         raise SystemExit('\n'.join(issues))
-    version = '0.1.0a1'
+    project = tomllib.loads((ROOT / 'pyproject.toml').read_text('utf-8'))['project']
+    version, name = project['version'], project['name']
     output = ROOT / 'dist'
     output.mkdir(exist_ok=True)
-    target = output / f'personal-cinema-{version}-source.zip'
+    target = output / f'{name}-{version}-source.zip'
     manifest = []
     with zipfile.ZipFile(target, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for source in files():
             relative = source.relative_to(ROOT).as_posix()
             data = source.read_bytes()
-            info = zipfile.ZipInfo(f'personal-cinema-{version}/' + relative, (2026, 11, 20, 0, 0, 0))
+            info = zipfile.ZipInfo(f'{name}-{version}/' + relative, (2026, 11, 20, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
             archive.writestr(info, data)

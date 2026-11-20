@@ -3,7 +3,7 @@ requires = ["setuptools==84.2.1", "wheel==0.48.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "personal-cinema"
+name = "lumanest"
 version = "0.1.0a1"
 description = "Configurable Windows personal cinema built on Jellyfin and MPV"
 readme = "README.md"
@@ -21,11 +21,18 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["build>=1.2", "playwright>=1.50", "ruff>=0.9"]
 
+[project.urls]
+Homepage = "https://github.com/huoxingsama/LumaNest"
+Issues = "https://github.com/huoxingsama/LumaNest/issues"
+
 [project.scripts]
+lumanest = "personal_cinema.server:main"
+lumanest-maintenance = "personal_cinema.maintenance:main"
 personal-cinema = "personal_cinema.server:main"
 personal-cinema-maintenance = "personal_cinema.maintenance:main"
 
 [project.gui-scripts]
+lumanest-settings = "personal_cinema.server:main"
 personal-cinema-settings = "personal_cinema.server:main"
 
 [tool.setuptools]

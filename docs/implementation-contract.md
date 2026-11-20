@@ -1,4 +1,4 @@
-# Implementation contract — Personal Cinema
+# Implementation contract — LumaNest
 
 Product rules: [rules.md](rules.md). Current scope and limitations: [implementation-ledger.md](implementation-ledger.md). Jellyfin/MPV are foundations. Kazumi integration and new multi-version functionality are excluded. Builds contain source and application resources, never personal credentials, media or runtime data.
 

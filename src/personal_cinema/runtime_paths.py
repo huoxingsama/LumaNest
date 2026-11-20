@@ -30,7 +30,7 @@ def application_home():
     if _INSTANCE.get() is not None:
         return _INSTANCE.get()
     return Path(os.environ.get('PERSONAL_CINEMA_HOME') or
-                str(Path(os.environ.get('LOCALAPPDATA', str(Path.home() / '.local/share'))) / 'PersonalCinema'))
+                str(Path(os.environ.get('LOCALAPPDATA', str(Path.home() / '.local/share'))) / 'LumaNest'))
 
 
 def manifest():

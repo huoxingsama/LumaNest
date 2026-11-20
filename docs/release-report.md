@@ -2,13 +2,13 @@
 
 日期：2026-11-20。环境：Windows x64、CPython 3.13.3。
 
-这是可安装的开发预览，未上传 GitHub，未覆盖原有个人影院。
+这是可安装的开发预览，发布仓库为 [huoxingsama/LumaNest](https://github.com/huoxingsama/LumaNest)，未覆盖原有个人影院。
 
 ## 本次实际执行
 
 | 检查 | 结果 |
 |---|---|
-| Python 回归 | 159 个用例，158 个通过；浏览器用例在普通批次跳过，随后单独执行通过 |
+| Python 回归 | 最终品牌版本的 159 个用例全部通过，包含真实浏览器用例 |
 | 浏览器 | 真实 Edge、临时后端；设置保存、恢复版本冲突、实际备份恢复、日志清理与窄屏布局通过 |
 | JavaScript | 5 个逻辑用例通过 |
 | 依赖 | `pip check` 通过，构建工具固定版本，运行依赖使用 Windows 约束表 |
@@ -20,11 +20,7 @@
 | 进程退出 | 核验 6 个启动包装器及子进程，停止后全部退出 |
 | 发布边界 | 源码白名单及三类压缩包检查通过；无运行配置、凭据文件、私有部署路径、媒体和组件二进制 |
 
-独立安装实际验证的 wheel SHA256：
-
-`0be548b3f0705b7cea2e1b5dfc74627f8cb11f37ab5f6a4c8965aa633d8bd5a1`
-
-机器可读结果与包校验值由构建产生在 `dist/installed-verification.json` 和 `dist/SHA256SUMS.txt`。
+独立安装实际验证的 wheel SHA256 随机器可读结果保存在 `dist/installed-verification.json`；包校验值见 `dist/SHA256SUMS.txt`。这两个文件也作为发行附件提供。
 复现命令见 README。`tools/verify_installed.py` 会新建并清理临时环境，不借用开发目录中的安装。
 
 ## 本轮额外修复

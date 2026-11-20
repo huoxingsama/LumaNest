@@ -1,4 +1,6 @@
-# Personal Cinema
+# LumaNest
+
+[下载 Windows 预览版](https://github.com/huoxingsama/LumaNest/releases/tag/v0.1.0a1) · [报告问题](https://github.com/huoxingsama/LumaNest/issues) · [功能与限制](docs/implementation-ledger.md)
 
 面向 Windows 的个人影院：Jellyfin 管理媒体库，MPV 播放，本地设置页统一管理来源、资料、缓存与后台脚本。
 
@@ -16,7 +18,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Install.ps1
 安装脚本会打开设置页。之后可以在 PowerShell 中运行 `scripts/Start.ps1`，或执行：
 
 ```powershell
-.\.venv\Scripts\personal-cinema.exe
+.\.venv\Scripts\lumanest.exe
 ```
 
 需要复现本次开发预览的依赖版本时，可在安装后执行：
@@ -34,10 +36,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Install.ps1
 3. 选择本地媒体目录；需要网盘时再启用 OpenList、授权并选择挂载目录。WebDAV 通过 OpenList 挂载接入。
 4. 保存、应用运行配置，打开影院。目录、权限与可选评分密钥均由当前用户配置。
 
-程序默认将实例数据存放在 `%LOCALAPPDATA%/PersonalCinema`，与源码目录分开。也可以指定：
+程序默认将实例数据存放在 `%LOCALAPPDATA%/LumaNest`，与源码目录分开。也可以指定：
 
 ```powershell
-.\.venv\Scripts\personal-cinema.exe --data-dir "D:\CinemaData"
+.\.venv\Scripts\lumanest.exe --data-dir "D:\CinemaData"
 ```
 
 管理界面只监听本机。请通过启动入口打开带会话认证的设置页。不要直接公开管理端口。
