@@ -10,10 +10,57 @@ import threading
 import time
 import unittest
 from http.server import ThreadingHTTPServer
+from urllib.parse import urlsplit
 
 
 @unittest.skipUnless(os.environ.get('CINEMA_BROWSER_TEST') == '1', 'opt-in browser smoke')
 class SettingsBrowser(unittest.TestCase):
+    def submit_credential_modal(self, page):
+        """Capture the failing boundary without logging credential values/headers."""
+        from playwright.sync_api import TimeoutError as BrowserTimeout
+        events = []
+        tracked = {'/api/credentials', '/api/status'}
+
+        def request_started(request):
+            path = urlsplit(request.url).path
+            if path in tracked:
+                events.append(('request', request.method, path))
+
+        def response_received(response):
+            path = urlsplit(response.url).path
+            if path in tracked:
+                events.append(('response', response.request.method, path, response.status))
+
+        def request_failed(request):
+            path = urlsplit(request.url).path
+            if path in tracked:
+                events.append(('failed', request.method, path, request.failure))
+
+        def details():
+            validation = page.locator('#modal-form').evaluate(
+                """form => Array.from(form.elements).filter(el => el.validity && !el.validity.valid)
+                    .map(el => ({name: el.name, message: el.validationMessage}))""")
+            return f'HTTP events={events!r}; validation={validation!r}; modal error={page.locator("#modal-error").inner_text()!r}'
+
+        listeners = [('request', request_started), ('response', response_received),
+                     ('requestfailed', request_failed)]
+        for name, callback in listeners:
+            page.on(name, callback)
+        try:
+            self.assertTrue(page.locator('#modal-form').evaluate('form => form.checkValidity()'), details())
+            page.locator('#modal [type="submit"]').click()
+            try:
+                # Surface a real application error immediately instead of only
+                # reporting that the still-open dialog exceeded 30 seconds.
+                page.locator('#modal:not([open]), #modal-error:not([hidden])').first.wait_for(state='attached')
+            except BrowserTimeout:
+                self.fail('Credential submission did not finish: ' + details())
+            self.assertFalse(page.locator('#modal').is_visible(), details())
+            self.assertIn(('response', 'POST', '/api/credentials', 200), events, details())
+        finally:
+            for name, callback in listeners:
+                page.remove_listener(name, callback)
+
     def test_local_settings_and_responsive_forms(self):
         from personal_cinema.server import Application, handler
         from playwright.sync_api import sync_playwright
@@ -75,8 +122,7 @@ class SettingsBrowser(unittest.TestCase):
                     page.locator('[data-action="credential-add"]').click()
                     page.locator('#modal [name="name"]').fill('test.token')
                     page.locator('#modal [name="value"]').fill('synthetic-ui-test-secret')
-                    page.locator('#modal [type="submit"]').click()
-                    page.locator('#modal').wait_for(state='hidden')
+                    self.submit_credential_modal(page)
                     self.assertEqual(app.secrets.get('test.token'), 'synthetic-ui-test-secret')
                     self.assertNotIn('synthetic-ui-test-secret', page.locator('body').inner_text())
 
