@@ -13,6 +13,7 @@ from pathlib import Path, PureWindowsPath
 import re
 import socket
 import subprocess
+import sys
 import threading
 import time
 import urllib.error
@@ -108,11 +109,15 @@ class IntegrationManager:
     def _values(self):
         return self.config.get_effective('device')
 
+    def _runtime_folder(self):
+        return Path(self._values().get('foundation.runtime_directory') or self.root / 'runtime').resolve()
+
     def _mode(self, provider, values=None):
         values = values or self._values()
         if provider == 'jellyfin': return values.get('foundation.jellyfin_mode', 'existing')
         if provider == 'openlist': return values.get('sources.openlist_mode', 'disabled')
         if provider == 'hypomux': return 'existing' if values.get('network.hypomux_path') else 'disabled'
+        if provider == 'mpv': return values.get('foundation.mpv_backend', 'embedded')
         return 'existing'
 
     def _url(self, provider):
@@ -128,7 +133,9 @@ class IntegrationManager:
         prefixes = {'jellyfin': ('foundation.jellyfin_',), 'openlist': ('sources.openlist_',),
                     'mpv': ('foundation.mpv_',), 'ffprobe': ('foundation.ffprobe_',), 'hypomux': ('network.',)}[provider]
         data = {key: value for key, value in values.items() if any(key.startswith(prefix) for prefix in prefixes)}
-        if provider == 'jellyfin': data['sources.entries'] = values.get('sources.entries', [])
+        if provider == 'jellyfin':
+            data['sources.entries'] = values.get('sources.entries', [])
+            data['foundation.runtime_directory'] = values.get('foundation.runtime_directory', '')
         return hashlib.sha256(json.dumps(data, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
     def _save_state(self, provider, result):
@@ -145,6 +152,7 @@ class IntegrationManager:
                                          ('ffprobe', '媒体参数探测', False),
                                          ('openlist', 'OpenList 媒体来源', False), ('hypomux', 'HypoMux 网络增强', False)]:
             mode = self._mode(provider, values)
+            if provider == 'mpv': name = '内置 libMPV 播放引擎' if mode == 'embedded' else '外置 MPV 播放器'
             if provider == 'openlist':
                 required = any(s.get('enabled', True) and s.get('kind') == 'openlist' for s in values.get('sources.entries', []))
             previous = records.get(provider, {})
@@ -157,7 +165,7 @@ class IntegrationManager:
                 actions += ['libraries'] if provider == 'jellyfin' else ['browse', 'drivers']
                 if mode == 'managed': actions += ['start', 'stop']
             if provider == 'hypomux': actions += ['plan']
-            if provider in COMPONENTS: actions += ['install_plan']
+            if provider in COMPONENTS and not (provider == 'mpv' and mode == 'embedded'): actions += ['install_plan']
             if mode == 'disabled':
                 state, detail, actions = 'disabled', '未启用，不影响基础影院', []
             row = {'id': provider, 'name': name, 'required': required, 'mode': mode,
@@ -213,7 +221,7 @@ class IntegrationManager:
 
         expected = []
         if cloud_sources:
-            expected.extend(str(self.root / 'runtime' / 'catalog' / name) for name in ('Movies', 'Shows'))
+            expected.extend(str(self._runtime_folder() / 'catalog' / name) for name in ('Movies', 'Shows'))
         for source in sources:
             if source.get('kind') == 'local':
                 local = Path(source['path'])
@@ -242,16 +250,17 @@ class IntegrationManager:
             raise ValueError('内部接口路径无效')
         url = self._url(provider) + path
         headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        token = None
         if authenticated:
             token = self.secrets.get(self._credential_ref(provider))
             if not token:
                 raise IntegrationError('请先登录该服务')
             if '\r' in token or '\n' in token:
                 raise IntegrationError('服务凭据格式无效，请重新登录')
-            if provider == 'jellyfin': headers['X-Emby-Token'] = token
-            else: headers['Authorization'] = token
+            if provider != 'jellyfin': headers['Authorization'] = token
         if provider == 'jellyfin':
-            headers['Authorization'] = 'MediaBrowser Client="PersonalCinema", Device="Setup", DeviceId="personal-cinema-setup", Version="0.1"'
+            from .network_security import jellyfin_authorization
+            headers['Authorization'] = jellyfin_authorization(token)
         # Private service traffic must not inherit an Internet proxy with credentials.
         values = self._values()
         mode = values.get('network.mode', 'direct')
@@ -294,6 +303,8 @@ class IntegrationManager:
         if not isinstance(payload, (dict, type(None))):
             raise ValueError('请求内容无效')
         payload = payload or {}
+        if provider == 'mpv' and self._mode(provider) == 'embedded' and action in ('install_plan', 'install_apply'):
+            raise ValueError('内置播放引擎使用发行安装器提供的 libMPV 运行库，不能用外置 MPV 程序替代。')
         if provider in COMPONENTS and action == 'install_plan':
             return self.installer.plan(provider, payload)
         if provider in COMPONENTS and action == 'install_apply':
@@ -338,6 +349,9 @@ class IntegrationManager:
             token = value.get('token') if isinstance(value, dict) else None
         if not isinstance(token, str) or not token:
             raise IntegrationError('登录响应缺少有效凭据')
+        if provider == 'jellyfin':
+            from .network_security import jellyfin_authorization
+            jellyfin_authorization(token)
         self.secrets.set(self._credential_ref(provider), token)
         self.secrets.set(provider + '.password', password)
         key = 'foundation.jellyfin_username' if provider == 'jellyfin' else 'sources.openlist_username'
@@ -391,6 +405,28 @@ class IntegrationManager:
             return {'state': 'ready', 'detail': '已验证登录；请浏览所选目录并验证实际媒体读取', 'version': version,
                     'username': str((user or {}).get('username', ''))[:256], 'playback_verified': False}
         values = self._values()
+        if provider == 'mpv' and values.get('foundation.mpv_backend', 'embedded') == 'embedded':
+            from .embedded_mpv import library_path, extend_environment
+            library = library_path(values)
+            if library is None:
+                return {'state': 'not_installed', 'detail': '内置播放器运行库尚未安装；请安装发行包附带的播放器运行库，或选择已有 libMPV。'}
+            # Probe in a separate process so the settings service never loads a
+            # user-selected DLL into its credential-owning Python interpreter.
+            code = ('import ctypes,sys; m=ctypes.CDLL(sys.argv[1]); '
+                    'f=m.mpv_client_api_version; f.restype=ctypes.c_ulong; '
+                    'print("libmpv-api",f())')
+            env = extend_environment(dict(os.environ), library)
+            try:
+                result = subprocess.run([sys.executable, '-c', code, str(library)], env=env,
+                    capture_output=True, timeout=8, text=True, encoding='utf-8', errors='replace',
+                    creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0), shell=False)
+            except (OSError, subprocess.TimeoutExpired):
+                raise IntegrationError('内置播放器运行库无法载入，请检查配套 DLL 与系统架构。') from None
+            version = result.stdout.strip()
+            if result.returncode or not re.fullmatch(r'libmpv-api [1-9][0-9]*', version):
+                raise IntegrationError('内置播放器运行库未返回有效 API 版本，请检查配套 DLL。')
+            return {'state': 'ready', 'detail': '内置 libMPV 可载入，实际画面输出需播放验证',
+                    'version': version, 'backend': 'embedded', 'playback_verified': False}
         key = {'mpv': 'foundation.mpv_path', 'ffprobe': 'foundation.ffprobe_path', 'hypomux': 'network.hypomux_path'}[provider]
         filename = values.get(key, '')
         if not filename:
@@ -480,8 +516,8 @@ class IntegrationManager:
                 if sources and not _loopback(self._url('jellyfin')):
                     raise ValueError('远端 Jellyfin 看不到本机目录。请在远端建立媒体库，或明确提供服务器可见的共享目录计划')
                 if mode == 'managed' or any(s.get('kind') == 'openlist' for s in sources):
-                    libraries = [{'name': '影院电影', 'kind': 'movies', 'paths': [str(self.root / 'runtime' / 'catalog' / 'Movies')]},
-                                 {'name': '影院剧集', 'kind': 'tvshows', 'paths': [str(self.root / 'runtime' / 'catalog' / 'Shows')]}]
+                    libraries = [{'name': '影院电影', 'kind': 'movies', 'paths': [str(self._runtime_folder() / 'catalog' / 'Movies')]},
+                                 {'name': '影院剧集', 'kind': 'tvshows', 'paths': [str(self._runtime_folder() / 'catalog' / 'Shows')]}]
                 for source in sources:
                     if source.get('kind') != 'local': continue
                     local = Path(_library_path(source.get('path')))
@@ -616,7 +652,7 @@ class IntegrationManager:
             else:
                 for item in library['paths']:
                     local = Path(item)
-                    try: local.resolve().relative_to(self.root / 'runtime' / 'catalog')
+                    try: local.resolve().relative_to(self._runtime_folder() / 'catalog')
                     except ValueError: continue
                     local.mkdir(parents=True, exist_ok=True)
                 parameters = {'name': library['name'], 'paths': library['paths'], 'refreshLibrary': 'false'}

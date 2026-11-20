@@ -277,4 +277,5 @@ def handler_for(catalog, upstream_port=8096):
     return Handler
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s', filename=ROOT / 'logs/metadata-proxy.log', encoding='utf-8')
-    ThreadingHTTPServer(('127.0.0.1', _cinema_port('gateway')), handler_for(Catalog())).serve_forever()
+    from personal_cinema.runtime_paths import bind_host
+    ThreadingHTTPServer((bind_host('gateway'), _cinema_port('gateway')), handler_for(Catalog())).serve_forever()

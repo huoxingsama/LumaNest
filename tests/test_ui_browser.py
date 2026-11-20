@@ -33,6 +33,17 @@ class SettingsBrowser(unittest.TestCase):
                     self.assertNotIn('token=', page.url)
                     self.assertEqual(page.locator('.nav-button').count(), 12)
 
+                    # Built-in playback is the normal setup; an executable is
+                    # only requested when the user explicitly chooses external.
+                    self.assertEqual(page.locator('[data-key="foundation.mpv_backend"]').input_value(), 'embedded')
+                    self.assertEqual(page.locator('[data-key="foundation.mpv_path"]').count(), 0)
+                    page.locator('[data-key="foundation.mpv_backend"]').select_option('external')
+                    page.locator('[data-key="foundation.mpv_path"]').fill('C:/Example/MPV/mpv.exe')
+                    page.locator('[data-key="foundation.mpv_backend"]').select_option('embedded')
+                    self.assertEqual(page.locator('[data-key="foundation.mpv_path"]').count(), 0)
+                    with page.expect_response(lambda response: '/api/config?scope=' in response.url):
+                        page.locator('[data-action="discard"]').click()
+
                     page.locator('[data-section="cache"]').click()
                     buffer = page.locator('[data-key="cache.playback_gib"]')
                     buffer.fill('')
@@ -162,8 +173,36 @@ class SettingsBrowser(unittest.TestCase):
 
                     page.set_viewport_size({'width':390,'height':844})
                     page.locator('#search').fill('')
-                    page.locator('[data-section="playback"]').click()
-                    self.assertLessEqual(page.evaluate('document.documentElement.scrollWidth'), 390)
+                    # Every group must remain usable on a phone, including
+                    # long source paths, credentials and recovery actions.
+                    sections = page.locator('.nav-button').evaluate_all('(nodes) => nodes.map(node => node.dataset.section)')
+                    for section in sections:
+                        page.locator(f'[data-section="{section}"]').click()
+                        self.assertLessEqual(page.evaluate('document.documentElement.scrollWidth'), 390, section)
+                        outside = page.locator('main input:visible, main select:visible, main textarea:visible, #savebar button').evaluate_all('''nodes => nodes.filter(node => {
+                            const box = node.getBoundingClientRect();
+                            return box.left < 0 || box.right > window.innerWidth;
+                        }).map(node => node.id || node.name)''')
+                        self.assertEqual(outside, [], section)
+
+                    page.locator('[data-section="sources"]').click()
+                    page.locator('[data-action="source-add"]').click()
+                    self.assertLessEqual(page.locator('#modal').evaluate('node => node.scrollWidth'), 358)
+                    page.locator('#modal [data-action="close-modal"]').first.click()
+
+                    page.set_viewport_size({'width':1440,'height':1000})
+                    page.locator('[data-section="cache"]').click()
+                    label_size = page.locator('.setting-label').first.evaluate('node => parseFloat(getComputedStyle(node).fontSize)')
+                    self.assertGreaterEqual(label_size, 15)
+                    self.assertGreaterEqual(page.locator('#save-button').bounding_box()['height'], 44)
+                    # Hover stays subtle; keyboard users still get a clear focus ring.
+                    page.locator('#refresh').hover()
+                    self.assertEqual(page.locator('#refresh').evaluate('node => getComputedStyle(node).outlineStyle'), 'none')
+                    page.locator('#search').focus()
+                    page.keyboard.press('Tab')
+                    self.assertEqual(page.locator(':focus-visible').get_attribute('id'), 'scope')
+                    self.assertEqual(page.locator('#scope').evaluate('node => getComputedStyle(node).outlineWidth'), '2px')
+                    self.assertEqual(page.locator('#scope').evaluate('node => getComputedStyle(node).outlineColor'), 'rgb(244, 241, 234)')
                     screenshot = os.environ.get('CINEMA_UI_SCREENSHOT')
                     if screenshot:
                         page.set_viewport_size({'width':1440,'height':1000})

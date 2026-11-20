@@ -102,35 +102,9 @@ def page_surface(page, children):
 
 def action_surface(node, width):
     """Center the existing controls, retaining their IDs, focus and callbacks."""
-    from ...mpvtk.widgets import Icon, Row
-    from .cinema_presentation import PLAY_HEIGHT, PLAY_WIDTH, PLAY_FONT_SIZE, PLAY_ICON_SIZE, PLAY_RADIUS, PLAY_BG, PLAY_FG
-
-    def style(current):
-        if isinstance(current, Row) and getattr(current, 'on_click', None):
-            primary = current.bg == theme.ACCENT and current.id in {'btn-resume', 'btn-play', 'sa-nextup', 'se-nextup', 'se-play'}
-            current.radius = 24
-            if primary:
-                current.bg = PLAY_BG
-                current.h = PLAY_HEIGHT
-                current.w = PLAY_WIDTH
-                current.radius = PLAY_RADIUS
-                current.align = 'center'
-                current.justify = 'center'
-                current.gap = 10
-                current.hover = {'fill': 'ffffff'}
-                current.pad = (24, 12)
-                for child in current.children:
-                    if isinstance(child, (Text, Icon)):
-                        child.color = PLAY_FG
-                        if isinstance(child, Icon):
-                            child.w = child.h = PLAY_ICON_SIZE
-                        else:
-                            child.size = theme.baked_text(PLAY_FONT_SIZE)
-                            child.bold = False
-            return
-        for child in getattr(current, 'children', []):
-            style(child)
-    style(node)
+    from ...mpvtk.widgets import Row
+    # controls.action_btn owns appearance and scalable geometry. Centering a
+    # row must not identify primary actions by node ID or style them twice.
     if isinstance(node, Column):
         node.align = 'center'
         for row in node.children:

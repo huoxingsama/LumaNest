@@ -1,0 +1,13 @@
+{
+  "name": "暮色影院 · LumaNest",
+  "rounded": true,
+  "glow": false,
+  "accent_buttons": false,
+  "badge_shadow": true,
+  "arrow_mode": "header",
+  "arrow_alpha": 220,
+  "poster_scale": 1.3,
+  "base_size": 18,
+  "heading_size": 26,
+  "tile_landscape": [300, 169]
+}

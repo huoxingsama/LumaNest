@@ -41,8 +41,33 @@ def manifest():
 
 
 def root_path(suffix=''):
-    root = _INSTANCE.get() / 'runtime' if _INSTANCE.get() is not None else Path(os.environ.get('MEDIA_LIBRARY_ROOT') or str(application_home() / 'runtime'))
+    if _INSTANCE.get() is None and os.environ.get('MEDIA_LIBRARY_ROOT'):
+        root = Path(os.environ['MEDIA_LIBRARY_ROOT'])
+    else:
+        home = application_home()
+        saved = manifest().get('runtime_directory')
+        if not saved:
+            from .configuration import ConfigStore
+            saved = ConfigStore(home).get_effective('device').get('foundation.runtime_directory')
+        root = Path(saved) if saved else home / 'runtime'
     return str(root / suffix)
+
+
+def config_home_for_runtime(runtime_root):
+    """Resolve explicit request/worker ownership; never guess a second instance."""
+    runtime_root = Path(runtime_root).resolve()
+    if _INSTANCE.get() is not None or os.environ.get('PERSONAL_CINEMA_HOME'):
+        if Path(root_path()).resolve() != runtime_root:
+            raise ValueError('运行数据目录不属于当前影院实例。')
+        return application_home()
+    # Standalone legacy tooling/tests with the conventional home/runtime layout.
+    return runtime_root.parent
+
+
+def bind_host(name):
+    if name not in ('gateway', 'stream'):
+        raise ValueError('Unknown media listener')
+    return manifest().get('bind_hosts', {}).get(name, '127.0.0.1')
 
 
 def python_path():

@@ -58,12 +58,13 @@ class MaintenanceManager:
         self.registry = registry if registry is not None else WindowsAutostart()
         self.autostart_name = 'PersonalCinema-' + hashlib.sha256(os.path.normcase(str(self.root)).encode()).hexdigest()[:16]
 
-    def _safe(self, relative):
-        path = self.root / relative
-        try: path.resolve().relative_to(self.root)
+    def _safe(self, relative, base=None):
+        base = self.root if base is None else Path(base).resolve()
+        path = base / relative
+        try: path.resolve().relative_to(base)
         except ValueError: raise ValueError('实例维护路径越界。') from None
         current = path
-        while current != self.root:
+        while current != base:
             if current.is_symlink() or (hasattr(current, 'is_junction') and current.is_junction()):
                 raise ValueError('维护目录不能包含符号链接或目录联接。')
             current = current.parent
@@ -227,9 +228,15 @@ class MaintenanceManager:
     def sync_autostart(self):
         enabled = self.config.get_effective('device')['maintenance.autostart']
         if enabled:
-            executable = Path(sys.executable).with_name('pythonw.exe')
-            if not executable.is_file(): raise ValueError('缺少 pythonw.exe，无法创建无控制台窗口的登录自启。')
-            command = subprocess.list2cmdline([str(executable), '-m', 'personal_cinema.server', '--data-dir', str(self.root), '--no-browser', '--start-runtime'])
+            executable = Path(sys.executable)
+            # Custom windowless executables can be bound to a network interface.
+            # Preserve that identity; only standard console Python needs its GUI sibling.
+            if executable.name.lower() == 'python.exe':
+                executable = executable.with_name('pythonw.exe')
+            if not executable.is_file():
+                raise ValueError('登录自启程序不存在；请使用已安装的应用重新应用自启规则。')
+            # Reuse the normal singleton launcher and its dependency readiness checks.
+            command = subprocess.list2cmdline([str(executable), '-m', 'personal_cinema', '--data-dir', str(self.root), '--background'])
             self.registry.set(self.autostart_name, command)
         else:
             self.registry.delete(self.autostart_name)
@@ -237,11 +244,15 @@ class MaintenanceManager:
 
     def prune_diagnostics(self, now=None):
         now = time.time() if now is None else float(now)
-        days = self.config.get_effective('device')['maintenance.diagnostic_retention_days']
+        values = self.config.get_effective('device')
+        days = values['maintenance.diagnostic_retention_days']
+        from .runtime import read
+        runtime = Path(read(self.root / 'runtime-manifest.json').get('runtime_directory')
+                       or values.get('foundation.runtime_directory') or self.root / 'runtime')
         cutoff = now - days * 86400
         removed = skipped = 0
-        for relative in ('logs', 'runtime/logs', 'diagnostics'):
-            try: folder = self._safe(relative)
+        for base, relative in ((self.root, 'logs'), (runtime, 'logs'), (self.root, 'diagnostics')):
+            try: folder = self._safe(relative, base=base)
             except ValueError:
                 skipped += 1; continue
             if not folder.is_dir(): continue
@@ -250,7 +261,7 @@ class MaintenanceManager:
                 is_report = relative == 'diagnostics' and bool(re.fullmatch(r'diagnostics-[A-Za-z0-9_.-]+\.json', path.name))
                 if not (is_log or is_report): continue
                 try:
-                    self._safe(str(path.relative_to(self.root)))
+                    self._safe(str(path.relative_to(Path(base).resolve())), base=base)
                     if path.is_file() and path.stat().st_mtime < cutoff:
                         path.unlink(); removed += 1
                 except (OSError, ValueError): skipped += 1

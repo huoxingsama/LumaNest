@@ -43,7 +43,12 @@ FIELDS = [
     field('foundation.jellyfin_credential', 'Jellyfin 凭据引用', 'text', 'jellyfin.token', '这是凭据名称，不是令牌内容；通过服务登录保存凭据。', advanced=True, target='integrations.jellyfin'),
     field('foundation.jellyfin_path', 'Jellyfin 程序', 'path', '', '仅托管模式需要；选择受支持的 jellyfin 可执行文件。', target='service_manager'),
     field('foundation.jellyfin_data', 'Jellyfin 数据目录', 'path', '', '为空时使用本实例独立目录；不会接管其他安装的数据目录。', target='service_manager', private=True),
-    field('foundation.mpv_path', 'MPV 程序', 'path', '', '选择已有 MPV，或在安装后自动检测。', scope=DEVICE, target='runtime.player', private=True),
+    field('foundation.runtime_directory', '影院运行数据目录', 'path', '', '为空时使用实例内的 runtime。可在首次接管时选择已有目录，保留资料、播放缓存与用户设置；应用后更换需要单独迁移。', advanced=True, target='runtime.folder/runtime_paths.root_path'),
+    field('foundation.gateway_url', '本机媒体接口地址', 'text', '', '为空时分配端口；接管已有安装可保留本机 HTTP 地址和端口。', advanced=True, private=True, target='runtime.manifest.endpoints.gateway'),
+    field('foundation.player_credential', '播放账户凭据引用', 'text', '', '为空时沿用 Jellyfin 授权；迁移时可保留独立播放账户及其权限。', advanced=True, target='player_launcher.authorized_credential'),
+    field('foundation.mpv_backend', '播放引擎方式', 'select', 'embedded', '默认在影院内使用 libMPV；仅需要自带外置播放器时切换。', options=[('embedded','内置 libMPV'),('external','外置 MPV')], scope=DEVICE, target='runtime.player'),
+    field('foundation.mpv_library_path', 'libMPV 动态库', 'path', '', '默认检测随安装包提供的 mpv-2.dll；也可选择已有兼容动态库。', scope=DEVICE, advanced=True, target='runtime.embedded_mpv'),
+    field('foundation.mpv_path', '外置 MPV 程序', 'path', '', '仅选择外置模式时需要；内置模式使用 libMPV 动态库。', scope=DEVICE, target='runtime.player', private=True),
     field('foundation.ffprobe_path', '媒体探测程序', 'path', '', '检测视频真实分辨率、轨道、码率与 HDR 信息。', target='runtime.probe', private=True),
 
     field('sources.openlist_mode', 'OpenList 部署方式', 'select', 'disabled', '仅需要网盘挂载的来源启用。', options=[('disabled','不使用'),('existing','连接已有 OpenList'),('managed','本机托管')], target='integrations.openlist'),
@@ -73,7 +78,7 @@ FIELDS = [
 
     field('playback.hdr_output', '画面输出', 'select', 'auto', '自动保留设备输出设置；SDR 将 HDR 色调映射到 SDR，不改变原片。', options=[('auto','自动'),('sdr','转为 SDR 观看')], scope=DEVICE, effect='next_playback', target='mpv.hdr_output'),
     field('playback.brightness', '亮度', 'int', 0, '新播放会话的亮度默认值；播放中可在颜色均衡器打开数值滑杆，HDR 使用播放器对应调节管线。', minimum=-100, maximum=100, scope=DEVICE, effect='next_playback', target='mpv.conf.brightness'),
-    field('playback.hwdec', '硬件解码', 'select', 'auto-safe', '按设备能力选择硬件解码；遇到画面问题可以关闭。', options=[('auto-safe','自动（兼容优先）'),('auto','自动'),('no','关闭')], scope=DEVICE, effect='next_playback', target='mpv.hwdec'),
+    field('playback.hwdec', '硬件解码', 'select', 'auto-copy', '按设备能力选择硬件解码；遇到画面问题可以关闭。', options=[('auto-copy','自动（复制模式）'),('auto-safe','自动（兼容优先）'),('auto','自动'),('no','关闭')], scope=DEVICE, effect='next_playback', target='mpv.hwdec'),
     field('playback.audio_languages', '音轨语言顺序', 'list', ['zho','jpn','eng'], '优先选择匹配的音轨，具体影片仍可临时切换。', scope=DEVICE, effect='next_playback', target='mpv.conf.track_languages'),
     field('playback.subtitle_languages', '字幕语言顺序', 'list', ['zho','eng'], '优先选择匹配字幕，不保证影片含有这些字幕。', scope=DEVICE, effect='next_playback', target='mpv.conf.track_languages'),
 
@@ -90,13 +95,16 @@ FIELDS = [
 
     field('network.mode', '网络访问方式', 'select', 'direct', '直连绕过环境代理；指定代理只作用于本程序支持的请求。', options=[('direct','直连'),('system','跟随系统'),('proxy','指定 HTTP 代理')], scope=DEVICE, target='runtime.network'),
     field('network.proxy_url', 'HTTP 代理地址', 'text', '', '仅指定代理模式需要。认证信息不放入 URL。', scope=DEVICE, target='runtime.network', private=True),
+    field('network.stream_url', '媒体流访问地址', 'text', '', '手机与平板需要填写能访问本机的 HTTP 地址；为空时仅本机。地址端口也是媒体流监听端口。', advanced=True, target='runtime.manifest.endpoints.stream', private=True),
+    field('network.stream_bind_host', '媒体流监听地址', 'text', '127.0.0.1', '默认仅本机；0.0.0.0 允许局域网访问。流接口仍校验播放密钥。', advanced=True, target='legacy.cache_worker.HTTPServer', private=True),
+    field('network.gateway_bind_host', '媒体库接口监听地址', 'text', '127.0.0.1', '默认仅本机；需 VidHub 等设备连接时，可显式设置 0.0.0.0。媒体库接口继续使用 Jellyfin 授权。', advanced=True, target='legacy.metadata_proxy.HTTPServer', private=True),
     field('network.hypomux_path', 'HypoMux 程序', 'path', '', '可选增强，不影响普通网络下的影院启动。', scope=DEVICE, target='integrations.hypomux', private=True),
     field('network.preferred_interface', '优先网络接口', 'text', '', '需要兼容的网络适配组件，不能仅凭配置值宣称已绑定出口。', scope=DEVICE, available=False, private=True),
     field('network.fallback', '优先网络不可用时', 'select', 'direct', '外出可回到普通网络，或停止该类请求。', options=[('direct','使用普通直连'),('stop','停止请求')], scope=DEVICE, available=False),
 
-    field('appearance.theme', '主题', 'select', 'default', '使用播放器已提供的统一主题。', options=[('default','默认'),('superdark','深色')], scope=DEVICE, target='mpv.theme'),
+    field('appearance.theme', '主题', 'text', 'lumanest', '默认 LumaNest 影院；可填写已安装的主题名称，兼容既有自定义主题。', scope=DEVICE, target='mpv.theme'),
     field('appearance.text_scale', '文字缩放', 'float', 1.0, '整体调整字号，不改变每页独立间距。', minimum=0.8, maximum=2.0, scope=DEVICE, target='mpv.ui_text_scale'),
-    field('appearance.poster_scale', '封面尺寸', 'float', 1.0, '整体调整卡片尺寸，保持布局比例。', minimum=0.5, maximum=2.0, scope=DEVICE, target='mpv.poster_scale'),
+    field('appearance.poster_scale', '封面尺寸', 'float', 1.3, '整体调整卡片尺寸，保持布局比例。', minimum=0.5, maximum=2.0, scope=DEVICE, target='mpv.poster_scale'),
     field('appearance.reduced_motion', '减少海报动态效果', 'bool', False, '关闭影院海报的下拉缩放回弹与滚动虚化；普通列表仍可滚动。', scope=DEVICE, target='mpvtk.widgets.reduced_motion/cinema_home._motion_buffers'),
     field('appearance.home_refresh', '首页推荐更新时机', 'select', 'explicit', '详情返回始终保留推荐与位置；选择新会话后，当前会话点击首页也不换批。', options=[('explicit','主动点击首页时'),('new_session','新会话时')], scope=DEVICE, effect='next_page', target='mpvtk_browser.app.go_home/cinema_featured.refresh_on_home'),
 

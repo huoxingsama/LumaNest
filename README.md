@@ -15,7 +15,7 @@
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Install.ps1
 ```
 
-安装脚本会打开设置页。之后可以在 PowerShell 中运行 `scripts/Start.ps1`，或执行：
+安装脚本会自动安装经过 SHA256 校验的内置 MPV 运行库，再打开设置页。播放直接在影院窗口内完成，不需要另外启动 MPV 窗口。之后可以在 PowerShell 中运行 `scripts/Start.ps1`，或执行：
 
 ```powershell
 .\.venv\Scripts\lumanest.exe
@@ -32,7 +32,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Install.ps1
 首次向导按以下顺序完成配置：
 
 1. 连接已有 Jellyfin，或指定本机托管程序并预览初始化计划。登录后读取媒体库。
-2. 选择 MPV 与 ffprobe 程序。缺少组件时，可输入允许的官方下载 ZIP、版本和 SHA256，预览安装计划再执行。
+2. 确认默认内置 MPV，配置 ffprobe 媒体探测程序。需要时可在高级设置手动改为外置 MPV；缺少其他组件时，可输入允许的官方下载 ZIP、版本和 SHA256，预览安装计划再执行。
 3. 选择本地媒体目录；需要网盘时再启用 OpenList、授权并选择挂载目录。WebDAV 通过 OpenList 挂载接入。
 4. 保存、应用运行配置，打开影院。目录、权限与可选评分密钥均由当前用户配置。
 
@@ -45,6 +45,22 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Install.ps1
 管理界面只监听本机。请通过启动入口打开带会话认证的设置页。不要直接公开管理端口。
 
 ## 设置与脚本
+
+LumaNest 只有一套发行程序。日常使用与公开安装共享同一个包，个人媒体来源、账号、目录和偏好保存在独立实例中；升级程序不需要保留另一份私人版本。界面规则见 [界面设计约定](docs/ui-design.md)。
+
+安装后可通过同一入口选择操作：
+
+```powershell
+lumanest                         # 打开系统设置
+lumanest --open-cinema           # 打开影院；播放器模式由配置决定，默认内置 MPV
+lumanest --background            # 只启动后台，任务遵循已保存的自动化设置
+lumanest --scan-new              # 提交新入库扫描
+lumanest --scan-all              # 提交全库扫描
+```
+
+以上入口均可附加 `--data-dir "D:\LumaNest\instance"` 指定私人配置实例。密码、令牌不放在命令行参数中。
+快捷方式可指向安装环境的 `pythonw.exe -m personal_cinema` 并使用相同参数；命令只调用已安装包，不运行媒体目录里的旧 worker 脚本。
+选择连接已有 Jellyfin / OpenList 时，这些服务仍由用户原来的服务方式启动。入口会等待所需服务就绪，默认最长 120 秒，可用 `--wait-services` 调整；它不会自动执行外部启动脚本或接管既有服务。
 
 设置页包含基础服务、媒体来源、整理入库、识别资料、海报人物、评分、播放画面、缓存、网络、界面、自动化和维护。
 每项标明作用范围与生效时机；未完成适配的选项会禁用并说明原因。

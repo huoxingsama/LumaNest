@@ -156,13 +156,42 @@ class MaintenanceTests(unittest.TestCase):
         self.config.update({'maintenance.autostart': True}, 1)
         result = self.manager.sync_autostart()
         command = self.registry.values[result['name']]
-        self.assertIn('--no-browser', command); self.assertIn('--start-runtime', command)
+        self.assertIn('-m personal_cinema ', command); self.assertIn('--background', command)
+        self.assertNotIn('personal_cinema.server', command)
         self.assertIn('"' + str(self.root.resolve()) + '"', command)
         self.config.update({'maintenance.autostart': False}, 2)
         self.manager.sync_autostart()
         self.assertEqual({'SomeoneElsesSoftware': 'leave this alone'}, self.registry.values)
         other = self.module.MaintenanceManager(Path(self.temp.name) / 'other', registry=self.registry, cipher=self.cipher)
         self.assertNotEqual(result['name'], other.autostart_name)
+
+    def test_autostart_preserves_custom_interpreter_network_identity(self):
+        self.config.update({'maintenance.autostart': True}, 1)
+        binary = Path(self.temp.name) / 'network runtime' / 'media-worker.exe'
+        binary.parent.mkdir()
+        binary.write_bytes(b'fixture executable path')
+        # A sibling pythonw exists but must not replace an interface-bound executable.
+        binary.with_name('pythonw.exe').write_bytes(b'fixture alternative')
+        with patch.object(self.module.sys, 'executable', str(binary)):
+            result = self.manager.sync_autostart()
+        command = self.registry.values[result['name']]
+        self.assertTrue(command.startswith('"' + str(binary) + '" '))
+        self.assertIn('--background', command)
+        self.assertNotIn('pythonw.exe', command)
+
+    def test_autostart_uses_windowless_sibling_only_for_standard_python(self):
+        self.config.update({'maintenance.autostart': True}, 1)
+        binary = Path(self.temp.name) / 'python.exe'
+        binary.write_bytes(b'fixture executable path')
+        windowless = binary.with_name('pythonw.exe')
+        windowless.write_bytes(b'fixture windowless')
+        with patch.object(self.module.sys, 'executable', str(binary)):
+            result = self.manager.sync_autostart()
+        self.assertIn(str(windowless), self.registry.values[result['name']])
+        windowless.unlink()
+        with patch.object(self.module.sys, 'executable', str(binary)):
+            with self.assertRaises(ValueError):
+                self.manager.sync_autostart()
 
     def test_retention_deletes_only_old_owned_logs_and_never_media(self):
         self.config.update({'maintenance.diagnostic_retention_days': 5}, 1)

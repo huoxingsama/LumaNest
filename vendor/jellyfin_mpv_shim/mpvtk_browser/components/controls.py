@@ -19,9 +19,8 @@ ROW = 16
 def action_btn(icon, text, node_id, cb, on=False, primary=False, size=ROW, autofocus=False):
     """An icon+label action button.
 
-    ``primary`` is the accent-filled call to action (Play, Next Up); ``on``
-    is a *toggle* that happens to share the accent fill (Watched, Favorite).
-    Both use white on blue — black on blue read as disabled.
+    ``primary`` is the warm-white call to action (Play, Next Up); ``on``
+    is a toggle with a quieter neutral fill (Watched, Favorite).
 
     Every button in an action row must come from here, icon or not: the
     plain Button widget defaults to a 20px label against this one's 16,
@@ -31,18 +30,25 @@ def action_btn(icon, text, node_id, cb, on=False, primary=False, size=ROW, autof
     keyboard or remote arrival (the renderer only honours it on a
     navigation it was asked to focus, and never while the pointer is
     driving). Off by default and set deliberately: on a page with two
-    accented buttons, "the primary one" is not the same question as "the
+    prominent buttons, "the primary one" is not the same question as "the
     one a remote should land on".
 
     Was ``ViewsMixin._action_btn``.
     """
-    accent = on or primary
-    fg = theme.ACCENT_FG if accent else theme.TEXT_FG
+    width, height, primary_size, primary_icon = toolkit_theme.primary_metrics()
+    size = primary_size if primary else toolkit_theme.text_size(size)
+    fg = toolkit_theme.PRIMARY_FG if primary else theme.TEXT_FG
     children: List[Any] = []
     if icon:
-        children.append(Icon(icon, toolkit_theme.text_size(size) + 2, color=fg))
+        children.append(Icon(icon, primary_icon if primary else size, color=fg))
     children.append(Text(text, size=size, color=fg))
-    return Row(children, id=node_id, gap=7, pad=10, bg=theme.ACCENT if accent else theme.BUTTON_BG, hover={'fill': theme.ACCENT_HOVER if accent else theme.BUTTON_ACTIVE}, radius=6, align='center', on_click=cb, autofocus=autofocus)
+    return Row(children, id=node_id, gap=toolkit_theme.CONTROL_GAP, pad=(24 if primary else 16, 0),
+               min_w=width if primary else None,
+               h=height if primary else max(toolkit_theme.CONTROL_HEIGHT, int(size * 1.25) + 16),
+               bg=toolkit_theme.PRIMARY_BG if primary else theme.ACCENT_SOFT if on else theme.BUTTON_BG,
+               hover={'fill': 'ffffff' if primary else theme.BUTTON_ACTIVE},
+               radius=height / 2 if primary else toolkit_theme.CONTROL_RADIUS,
+               align='center', justify='center', on_click=cb, autofocus=autofocus)
 
 def tab_btn(label, node_id, active, cb, style=None):
     """One tab in a tab bar — music library, Live TV, Settings.

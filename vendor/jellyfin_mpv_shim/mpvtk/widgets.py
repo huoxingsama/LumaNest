@@ -279,17 +279,18 @@ class Button(Box):
         if flat:
             kw.setdefault('bg', None)
             kw.setdefault('alpha', 70)
-            kw.setdefault('hover', {'fill': theme.ACCENT, 'circle': True})
+            kw.setdefault('hover', {'fill': theme.CONTROL_HOVER, 'circle': True})
         else:
             kw.setdefault('bg', theme.CONTROL_BG)
             kw.setdefault('hover', {'fill': theme.CONTROL_HOVER})
-        kw.setdefault('radius', 6)
-        kw.setdefault('pad', 10)
+        kw.setdefault('radius', theme.CONTROL_RADIUS)
+        kw.setdefault('pad', (16, 0))
+        kw.setdefault('h', max(theme.CONTROL_HEIGHT, int(size * 1.25) + 16))
         kw.setdefault('align', 'center')
         kw.setdefault('direction', 'row')
         children = []
         if icon:
-            tint = theme.ACCENT if flat and themed_fg else None
+            tint = theme.ON_SURFACE_STRONG if flat and themed_fg else None
             children.append(Icon(icon, icon_size or int(size * 0.95), color=fg, hover_parent=kw.get('id'), hover_tint=tint))
             kw.setdefault('gap', gap if gap is not None else 7)
         if label:

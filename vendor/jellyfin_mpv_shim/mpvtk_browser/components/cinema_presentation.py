@@ -2,18 +2,18 @@
 from personal_cinema.runtime_paths import root_path as _cinema_path, endpoint as _cinema_endpoint, python_path as _cinema_python
 import math
 from functools import lru_cache
-from ...mpvtk import pilfont
+from ...mpvtk import pilfont, theme as toolkit_theme
 from ...mpvtk.scaling import px, raster
 from .. import theme, cinema_paint
 from ..thumbnails import make_key
 from . import chrome
-PLAY_HEIGHT = 48
-PLAY_WIDTH = 156
-PLAY_FONT_SIZE = 18
-PLAY_ICON_SIZE = 16
-PLAY_RADIUS = 24
-PLAY_BG = 'faf8f5'
-PLAY_FG = '202228'
+PLAY_HEIGHT = toolkit_theme.PRIMARY_HEIGHT
+PLAY_WIDTH = toolkit_theme.PRIMARY_WIDTH
+PLAY_FONT_SIZE = toolkit_theme.PRIMARY_SIZE
+PLAY_ICON_SIZE = toolkit_theme.PRIMARY_ICON_SIZE
+PLAY_RADIUS = PLAY_HEIGHT / 2
+PLAY_BG = toolkit_theme.PRIMARY_BG
+PLAY_FG = toolkit_theme.PRIMARY_FG
 
 def logo_image(page, item, box):
     """Request an actual wordmark; never substitute a poster for a missing logo."""
@@ -79,8 +79,7 @@ def geometry(box, count=1, home=True):
     width, height = box
     narrow = width < 680
     compact = height < 420
-    button_h = PLAY_HEIGHT
-    play_w = PLAY_WIDTH
+    play_w, button_h, _, _ = toolkit_theme.primary_metrics()
     detail_w = 110 if narrow else 132
     gap = 12
     total = play_w + detail_w + gap
@@ -97,7 +96,7 @@ def geometry(box, count=1, home=True):
             start = (width - count * step) / 2
             for index in range(count):
                 controls[f'dot-{index}'] = (start + index * step, height - 32, step, 24)
-    return {'margin': 26 if narrow else 48, 'controls': controls, 'logo_w': min(width * 0.58 if narrow else width * 0.32, 560), 'logo_h': min(150, height * 0.22), 'title_size': 24 if narrow else 30 if width < 1500 else 38, 'body_size': 14 if narrow else 17 if width < 1500 else 19, 'text_width': min(width - 2 * (26 if narrow else 48), 1660), 'overview_lines': 1 if compact else 2, 'bottom': button_y - 17 if home else height - 35, 'home': home, 'compact': compact}
+    return {'margin': 26 if narrow else 48, 'controls': controls, 'logo_w': min(width * 0.58 if narrow else width * 0.32, 560), 'logo_h': min(150, height * 0.22), 'title_size': 24 if narrow else 30 if width < 1500 else 38, 'body_size': 15 if narrow else 17, 'text_width': min(width - 2 * (26 if narrow else 48), 1160), 'overview_lines': 1 if compact else 2, 'bottom': button_y - 17 if home else height - 35, 'home': home, 'compact': compact}
 
 def _font(size, text, bold=False):
     from ...imageutil import pil_font
@@ -141,6 +140,23 @@ def _rating_line_height(font, text=''):
 def _rating_baseline(font, y, text=''):
     bounds = font.getbbox('0123456789.%' + str(text), anchor='ls')
     return y + (_rating_line_height(font, text) - (bounds[3] - bounds[1])) / 2 - bounds[1]
+
+def rating_layout(draw, records, available, narrow=False):
+    """Wrap scores at a readable size instead of shrinking a long source list."""
+    font = _font(16 if narrow else 18, '评分', True)
+    gap = px(16 if narrow else 24)
+    rows, row, used = [], [], 0
+    for record in records:
+        width = _rating_width(draw, record, font)
+        if row and used + gap + width > available:
+            rows.append(row)
+            row, used = [], 0
+        used += (gap if row else 0) + width
+        row.append((record, width))
+    if row:
+        rows.append(row)
+    labels = ''.join(record['label'] for record in records if record['kind'] in ('critic', 'season_rating'))
+    return font, rows, gap, _rating_line_height(font, labels)
 
 def _rating_lead(record, font):
     if record['kind'] == 'season_rating':
@@ -282,9 +298,9 @@ def foreground(box, item, logo=None, *, index=0, count=1, home=True, title=None,
     title_font = _font(g['title_size'], title, True)
     body_font = _font(g['body_size'], '作品简介')
     meta = _metadata(item)
-    meta_font = _font(14 if box[0] < 680 else 17, meta)
+    meta_font = _font(15 if box[0] < 680 else 17, meta)
     rating_font = _font(16 if box[0] < 680 else 19, '评分', True)
-    context_font = _font(13 if box[0] < 680 else 16, context or '')
+    context_font = _font(14 if box[0] < 680 else 16, context or '')
     synopsis = chrome.overview(item)[:600] if home else ''
     descriptions = _wrap(draw, synopsis, body_font, px(g['text_width']), g['overview_lines'])
     community = _community_record(item)
@@ -292,25 +308,7 @@ def foreground(box, item, logo=None, *, index=0, count=1, home=True, title=None,
     meta_gap = px(18) if community and meta else 0
     metadata = _wrap(draw, meta, meta_font, max(px(40), px(g['text_width']) - community_width - meta_gap), 1)
     records = rating_records(item)
-    rating_gap = px(14 if box[0] < 680 else 22)
-    for rating_size in range(16 if box[0] < 680 else 19, 10, -1):
-        rating_font = _font(rating_size, '评分', True)
-        rating_gap = px(min(14 if box[0] < 680 else 22, max(6, (rating_size - 8) * 2)))
-        rating_widths = [_rating_width(draw, r, rating_font) for r in records]
-        if sum(rating_widths) + rating_gap * max(0, len(records) - 1) <= px(g['text_width']):
-            break
-    rating_rows = []
-    row = []
-    row_width = 0
-    for record, record_width in zip(records, rating_widths):
-        if row and row_width + rating_gap + record_width > px(g['text_width']):
-            rating_rows.append(row)
-            row = []
-            row_width = 0
-        row_width += (rating_gap if row else 0) + record_width
-        row.append((record, record_width))
-    if row:
-        rating_rows.append(row)
+    rating_font, rating_rows, rating_gap, rating_line_height = rating_layout(draw, records, px(g['text_width']), box[0] < 680)
     wordmark = None
     if logo is not None:
         wordmark = logo.convert('RGBA')
@@ -329,7 +327,6 @@ def foreground(box, item, logo=None, *, index=0, count=1, home=True, title=None,
     titles = [] if wordmark else _wrap(draw, title, title_font, px(min(g['text_width'], 1100)), 2)
     title_h = wordmark.height if wordmark else len(titles) * (_height(title_font) + px(3))
     meta_line_height = _rating_line_height(meta_font, metadata[0] if metadata else '')
-    rating_line_height = _rating_line_height(rating_font)
     meta_h = meta_line_height + px(13) if metadata or community else 0
     body_h = len(descriptions) * (_height(body_font) + px(3)) + (px(12) if descriptions else 0)
     rating_h = len(rating_rows) * (rating_line_height + px(8)) + px(7) if records else 0
@@ -368,8 +365,10 @@ def foreground(box, item, logo=None, *, index=0, count=1, home=True, title=None,
         y += px(12)
     for row in rating_rows:
         x = (width - sum((record_width for _, record_width in row)) - rating_gap * (len(row) - 1)) / 2
+        labels = ''.join(record['label'] for record, _ in row if record['kind'] in ('critic', 'season_rating'))
+        baseline = _rating_baseline(rating_font, y, labels)
         for record, record_width in row:
-            _draw_rating(draw, x, y, record, rating_font, canvas)
+            _draw_rating(draw, x, y, record, rating_font, canvas, baseline=baseline)
             x += record_width + rating_gap
         y += rating_line_height + px(8)
     if home:
@@ -379,7 +378,7 @@ def foreground(box, item, logo=None, *, index=0, count=1, home=True, title=None,
             x, y, w, h = g['controls'][name]
             rect = (px(x), px(y), px(x + w), px(y + h))
             primary = name == 'play'
-            cinema_paint.rounded(canvas, rect, radius=px(PLAY_RADIUS), fill=(250, 248, 245, 255) if primary else (22, 29, 39, 112))
+            cinema_paint.rounded(canvas, rect, radius=px(h / 2), fill=theme.rgb(PLAY_BG, 255) if primary else (28, 33, 41, 176))
             font = _font(PLAY_FONT_SIZE, label)
             tx = px(x) + (px(w) - pilfont.text_length(draw, label, font)) / 2 + (px(6) if primary else 0)
             label_bounds = font.getbbox(label)
@@ -387,7 +386,7 @@ def foreground(box, item, logo=None, *, index=0, count=1, home=True, title=None,
             if primary:
                 cx = tx - px(12)
                 cy = px(y + h / 2)
-                r = px(PLAY_ICON_SIZE) / 2
+                r = px(toolkit_theme.primary_metrics()[3]) / 2
                 cinema_paint.polygon(canvas, [(cx - r * 0.4, cy - r * 0.75), (cx - r * 0.4, cy + r * 0.75), (cx + r * 0.6, cy)], fill=(32, 34, 40, 255))
             _text(draw, (tx, ty), label, font, (32, 34, 40, 255) if primary else (255, 255, 255, 255), shadow=not primary)
         if count > 1:

@@ -183,9 +183,26 @@ def _value(key, value):
             raise ValueError(descriptor['label'] + '：数值超出允许范围。')
     if kind == 'select' and value not in [o['value'] for o in descriptor['options']]: raise ValueError(descriptor['label'] + '：选项无效。')
     if kind == 'path': _path(value)
-    if key.endswith('_url'): _url(value, optional=key == 'network.proxy_url')
+    if key.endswith('_url'): _url(value, optional=key in ('network.proxy_url', 'foundation.gateway_url', 'network.stream_url'))
+    if key in ('foundation.gateway_url', 'network.stream_url') and value:
+        from urllib.parse import urlsplit
+        address = urlsplit(value)
+        if address.scheme != 'http' or address.path not in ('', '/') or not address.port:
+            raise ValueError('媒体接口需要不含子路径、明确端口的 HTTP 地址。')
+        if key == 'foundation.gateway_url' and address.hostname not in ('127.0.0.1', 'localhost'):
+            raise ValueError('影院内部连接地址必须为本机；远程设备访问请调整监听地址。')
+    if key.endswith('_bind_host'):
+        import ipaddress
+        try:
+            if ipaddress.ip_address(value).version != 4: raise ValueError()
+        except ValueError:
+            raise ValueError('监听地址需要有效 IPv4 地址；本机填 127.0.0.1，所有接口填 0.0.0.0。') from None
+        if key == 'network.gateway_bind_host' and value not in ('127.0.0.1', '0.0.0.0'):
+            raise ValueError('媒体库接口须保留本机连接，请使用 127.0.0.1 或 0.0.0.0。')
+    if key == 'appearance.theme' and not re.fullmatch(r'[\w -]{1,80}', value):
+        raise ValueError('主题名称不能包含路径或特殊符号。')
     if key.endswith('_credential') or key.endswith('credential_ref'):
-        if not NAME.fullmatch(value) or value == '__proto__': raise ValueError('只能填写凭据引用名称。')
+        if not (key == 'foundation.player_credential' and value == '') and (not NAME.fullmatch(value) or value == '__proto__'): raise ValueError('只能填写凭据引用名称。')
     if key == 'sources.entries': _sources(value)
     elif kind == 'list':
         if len(value) > 32 or any(not isinstance(x,str) or len(x)>80 for x in value) or len(set(value)) != len(value): raise ValueError(descriptor['label'] + '：列表无效或有重复项。')

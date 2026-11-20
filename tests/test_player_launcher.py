@@ -74,7 +74,7 @@ class PlayerCredentialTests(unittest.TestCase):
             self.assertNotIn('legacy-private-token', file.read_text('utf-8'))
 
     def test_main_hands_off_to_native_without_secrets_in_arguments(self):
-        from personal_cinema import runtime_paths
+        from personal_cinema import runtime_paths, windows_bootstrap
         directory = self.root / 'runtime/data/mpv-shim'
         self.store.set('jellyfin.token', 'secret-native-launch')
         self.store.set('jellyfin.user_id', 'user-one')
@@ -83,11 +83,17 @@ class PlayerCredentialTests(unittest.TestCase):
         package = types.ModuleType('jellyfin_mpv_shim'); package.args = native_args
         manager = Mock()
         native_main = Mock()
+        startup = Mock()
+        startup.attach_mock(native_main, 'native_main')
+        startup.attach_mock(Mock(), 'prepare_process')
+        startup.attach_mock(Mock(), 'prepare_window')
         modules = {'jellyfin_mpv_shim': package,
             'jellyfin_mpv_shim.conf': types.SimpleNamespace(settings=types.SimpleNamespace(load=Mock())),
             'jellyfin_mpv_shim.users': types.SimpleNamespace(userManager=manager),
             'jellyfin_mpv_shim.mpv_shim': types.SimpleNamespace(main=native_main)}
         with patch.dict(sys.modules, modules), patch.object(sys, 'argv', ['test']), \
+             patch.object(windows_bootstrap, 'prepare_process', startup.prepare_process), \
+             patch.object(windows_bootstrap, 'prepare_window', startup.prepare_window), \
              patch.object(runtime_paths, 'root_path', return_value=str(directory)), \
              patch.object(runtime_paths, 'vault', return_value=self.store), \
              patch.object(runtime_paths, 'settings', return_value={}), \
@@ -95,6 +101,9 @@ class PlayerCredentialTests(unittest.TestCase):
              patch.object(self.module, 'synchronize_profile') as sync:
             self.module.main(['--config', str(directory)])
             native_main.assert_called_once_with()
+            self.assertEqual([call[0] for call in startup.mock_calls],
+                             ['prepare_process', 'prepare_window', 'native_main'])
+            startup.prepare_window.assert_called_once_with(directory.resolve())
             self.assertEqual(sync.call_args.args[1]['AccessToken'], 'secret-native-launch')
             self.assertNotIn('secret-native-launch', ' '.join(sys.argv))
 

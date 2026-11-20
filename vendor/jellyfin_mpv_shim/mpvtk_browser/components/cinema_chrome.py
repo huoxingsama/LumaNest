@@ -41,7 +41,7 @@ def active(browser):
 
 def render(browser, bar, width):
     """Reuse the actual topbar's geometry, callbacks and native switchers."""
-    height = 60
+    height = theme.NAV_BAR_HEIGHT
     icons, native = ({}, {})
 
     def visit(node):
@@ -66,12 +66,12 @@ def render(browser, bar, width):
             x, y, w, h = (px(node[k]) for k in ('x', 'y', 'w', 'h'))
             ident = node['id']
             if node.get('click'):
-                fill = (42, 47, 55, 182) if hovered == ident else (28, 32, 39, 118)
+                fill = (53, 60, 70, 210) if hovered == ident else (28, 33, 41, 164)
                 if ident == 'win-close' and hovered == ident:
                     fill = (192, 52, 70, 240)
-                cinema_paint.rounded(canvas, (x, y, x + w, y + h), radius=h / 2, fill=fill, outline=(255, 255, 255, 58 if hovered == ident else 30), width=max(1, px(0.6)))
+                cinema_paint.rounded(canvas, (x, y, x + w, y + h), radius=h / 2, fill=fill)
             if node['t'] == 'icon' and ident in icons:
-                glyph = icon_image(icons[ident], max(1, min(w, h)), (255, 255, 255))
+                glyph = icon_image(icons[ident], max(1, min(w, h)), theme.rgb(theme.TEXT_FG))
                 canvas.alpha_composite(glyph, (x + (w - glyph.width) // 2, y + (h - glyph.height) // 2))
             elif node['t'] == 'text':
                 text = node.get('text', '')
@@ -81,7 +81,7 @@ def render(browser, bar, width):
                 bounds = font.getbbox(text or ' ')
                 ty = y + (h - (bounds[3] - bounds[1])) / 2 - bounds[1]
                 pilfont.draw_text(draw, (tx, ty + px(1)), text, font, fill=(0, 0, 0, 110))
-                pilfont.draw_text(draw, (tx, ty), text, font, fill=(255, 255, 255, 255))
+                pilfont.draw_text(draw, (tx, ty), text, font, fill=theme.rgb(theme.TEXT_FG, 255))
         return canvas
 
     def hover(ident):
@@ -100,9 +100,10 @@ def render(browser, bar, width):
             continue
         ident = node['id']
         region = {k: node[k] for k in ('id', 'x', 'y', 'w', 'h')}
+        region['radius'] = node.get('radius', node['h'] / 2)
         region.update(on_click=callbacks['click'], on_context=callbacks.get('context'), hover={}, on_hover=lambda _v=None, ident=ident: hover(ident), on_hover_end=lambda ident=ident: leave(ident))
         regions.append(region)
-    bitmap = browser.strips.bitmap('cinema-nav-v4-stable|' + key, compose, lsize=(width, height))
+    bitmap = browser.strips.bitmap('cinema-nav-v5-lumanest|' + key, compose, lsize=(width, height))
     picture = ImageMap(bitmap['src'], bitmap['iw'], bitmap['ih'], regions=regions, v=bitmap.get('v', 0), w=bitmap['lw'], h=bitmap['lh'], anchor='nw', id='cinema-navigation')
     drag = Row([], h=height, w=width, window_drag=browser.window_controls, anchor='nw')
     children = [drag, picture]

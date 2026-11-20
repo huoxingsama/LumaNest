@@ -37,6 +37,14 @@ _CANDIDATES = {'latin': ['DejaVuSans.ttf', '/usr/share/fonts/truetype/dejavu/Dej
 _FALLBACK_SCRIPTS = {'emoji': ('symbol',), 'symbol': ('emoji',)}
 _STRIKES = (16, 20, 26, 32, 40, 48, 52, 64, 96, 109, 128, 136, 160)
 _BOLD = {'latin': ['DejaVuSans-Bold.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 'NotoSans-Bold.ttf', 'arialbd.ttf'], 'cjk': ['NotoSansCJK-Bold.ttc', '/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc']}
+if os.name == 'nt':
+    # Match the ASS metric face for both Chinese and Latin UI text. Keep the
+    # script coverage fallback for Japanese/Korean characters this face lacks.
+    for _script in ('latin', 'cjk'):
+        _CANDIDATES[_script] = ['msyh.ttc'] + _CANDIDATES[_script]
+        _BOLD[_script] = ['msyhbd.ttc'] + _BOLD[_script]
+    _CANDIDATES['latin'] = ['msyh.ttc', 'segoeui.ttf', 'arial.ttf'] + _CANDIDATES['latin']
+    _BOLD['latin'] = ['msyhbd.ttc', 'segoeuib.ttf', 'arialbd.ttf'] + _BOLD['latin']
 _cache = {}
 _chains = {}
 _coverage = {}

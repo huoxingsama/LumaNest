@@ -1,3 +1,3 @@
-from .server import main
+from .launcher import main
 
-main()
+raise SystemExit(main())

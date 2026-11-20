@@ -124,7 +124,7 @@ def _server_label(sv):
     if sv.get('connected', True):
         return name
     return _('%s (needs reconnect)') % name
-WINDOW_CONTROL_W = 34
+WINDOW_CONTROL_W = theme.NAV_HEIGHT
 
 def window_controls(b, prefix='win', icon_size=16, w=WINDOW_CONTROL_W, fg=None, gap=4):
     """Minimize / maximize / close, for a window the desktop drew no title
@@ -144,7 +144,10 @@ def window_controls(b, prefix='win', icon_size=16, w=WINDOW_CONTROL_W, fg=None, 
         return []
 
     def ctl(icon, node_id, cb, tip, hover=None):
-        return Button('', id='%s-%s' % (prefix, node_id), icon=icon, size=icon_size, w=w, fg=fg, tip=tip, on_click=cb, flat=True, hover=hover)
+        return Button('', id='%s-%s' % (prefix, node_id), icon=icon, size=icon_size,
+                      icon_size=icon_size, w=w, h=w, pad=0, radius=w / 2,
+                      justify='center', fg=fg, tip=tip, on_click=cb, flat=True,
+                      hover=hover or {'fill': theme.BUTTON_ACTIVE, 'circle': True})
     return [Spacer(w=gap), ctl('minimize', 'min', b.minimize_window, _('Minimize')), ctl('filter_none' if b.maximized else 'crop_square', 'max', b.toggle_maximized, _('Restore') if b.maximized else _('Maximize')), ctl('close', 'close', b.close_window, _('Close'), hover={'fill': theme.FAV_RED, 'circle': True})]
 RESIZE_GRIP = 22
 
@@ -174,12 +177,14 @@ def resize_grip(b, w, h):
 
 def chrome_bar(b, compact, probe=False, servers=None, users=None, immersive=False):
     title = '' if probe else b.route.get('bar_title') or b.route.get('title') or _('Home')
-    accent_style = theme.chrome_button_style()
-    if immersive:
-        accent_style = dict(size='normal', icon_size=20, h=40, pad=(14, 0), gap=8, radius=20, justify='center')
+    accent_style = dict(theme.chrome_button_style(), size='normal', icon_size=20,
+                        h=theme.NAV_HEIGHT, pad=(16, 0), gap=theme.NAV_GAP,
+                        radius=theme.NAV_HEIGHT / 2, justify='center')
 
     def nav_button(label, node_id, icon, cb, on_context=None):
-        return Button('' if compact else label, id=node_id, icon=icon, on_click=cb, tip=label if compact else None, on_context=on_context, **dict(accent_style, w=40, pad=0) if immersive and compact else accent_style)
+        return Button('' if compact else label, id=node_id, icon=icon, on_click=cb,
+                      tip=label if compact else None, on_context=on_context,
+                      **(dict(accent_style, w=theme.NAV_HEIGHT, pad=0) if compact else accent_style))
     left = []
     if b._nav.can_go_back:
         left.append(nav_button(_('Back'), 'nav-back', 'arrow_back', b.go_back, on_context=lambda x, y: open_history_menu(b, x, y)))
@@ -207,30 +212,25 @@ def chrome_bar(b, compact, probe=False, servers=None, users=None, immersive=Fals
                 b.go_offline()
             else:
                 b._switch_server(servers[i]['uuid'])
-        right.append(Dropdown('nav-server', labels, selected=cur, min_w=110, tip=_('Server'), force=True, ack=b._server_pick_ack, max_w=170 if compact else 300, popup_w=460, icons=icons, on_select=chosen, **{'size': 'normal', 'h': 40} if immersive else {}))
+        right.append(Dropdown('nav-server', labels, selected=cur, min_w=110, tip=_('Server'), force=True, ack=b._server_pick_ack, max_w=170 if compact else 300, popup_w=460, icons=icons, on_select=chosen, size='normal', h=theme.NAV_HEIGHT, radius=theme.NAV_HEIGHT / 2))
     if users is None:
         users = b._users()
     if len(users) > 1:
         cur = next((i for i, u in enumerate(users) if u.get('active')), 0)
-        right.append(Dropdown('nav-user', [u.get('name', '?') for u in users], selected=cur, min_w=100, tip=_('User'), max_w=190 if compact else 280, force=True, popup_w=380, icons=['lock' if u.get('locked') else 'person' for u in users], on_select=lambda i, v: b._switch_user(users[i]), **{'size': 'normal', 'h': 40} if immersive else {}))
-    if not immersive:
-        right.append(TextBox('nav-search', placeholder=_('Search…'), size='large', w=140 if compact else 220, on_change=lambda v: b._search_box.__setitem__('term', v), on_submit=b._search))
+        right.append(Dropdown('nav-user', [u.get('name', '?') for u in users], selected=cur, min_w=100, tip=_('User'), max_w=190 if compact else 280, force=True, popup_w=380, icons=['lock' if u.get('locked') else 'person' for u in users], on_select=lambda i, v: b._switch_user(users[i]), size='normal', h=theme.NAV_HEIGHT, radius=theme.NAV_HEIGHT / 2))
     from .components.cinema_chrome import open_search
-    right += [Button('', id='nav-search-go', icon='search', tip=_('Search'), on_click=(lambda: open_search(b)) if immersive else lambda: b._search(b._search_box.get('term', '')), **dict(accent_style, w=40, pad=0) if immersive else dict(accent_style, size='large')), nav_button(_('Settings'), 'nav-settings', 'settings', b._open_settings)]
+    right += [Button('', id='nav-search-go', icon='search', tip=_('Search'),
+                     on_click=lambda: open_search(b), **dict(accent_style, w=theme.NAV_HEIGHT, pad=0)),
+              nav_button(_('Settings'), 'nav-settings', 'settings', b._open_settings)]
     if _may_syncplay(b):
         right.insert(-1, nav_button(_('SyncPlay'), 'nav-syncplay', 'groups', b._open_syncplay))
-    if immersive:
-        controls = window_controls(b, icon_size=18, w=40, gap=0)
-        for control in controls[1:]:
-            control.h, control.pad, control.radius = (40, 0, 20)
-            control.justify = 'center'
-        if controls:
-            right.append(Row(controls[1:], gap=8, h=40, align='center'))
-        middle = [Text(title, size='normal'), Spacer()] if b.route.get('kind') != 'home' else [Spacer()]
-    else:
-        right += window_controls(b)
-        middle = [Spacer(w=6), Text(title, size='title', bold=True), Spacer()]
-    bar = Row(left + middle + right, pad=(16, 10) if immersive else 12, gap=8 if immersive or compact else 10, align='center', h=60, bg=None if immersive or theme.topbar_gradient() else theme.PANEL_BG, window_drag=b.window_controls)
+    controls = window_controls(b, icon_size=18, gap=0)
+    if controls:
+        right.append(Row(controls[1:], gap=theme.NAV_GAP, h=theme.NAV_HEIGHT, align='center'))
+    middle = [Text(title, id='nav-page-title', size='normal', flex=1, min_w=0)] if b.route.get('kind') != 'home' else [Spacer()]
+    bar = Row(left + middle + right, pad=(16, 8), gap=theme.NAV_GAP, align='center',
+              h=theme.NAV_BAR_HEIGHT, bg=None if immersive or theme.topbar_gradient() else theme.PANEL_BG,
+              window_drag=b.window_controls)
     stops = None if immersive else theme.topbar_gradient()
     if not stops:
         return bar

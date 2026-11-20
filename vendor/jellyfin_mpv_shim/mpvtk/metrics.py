@@ -15,6 +15,8 @@ import tempfile
 log = logging.getLogger('mpvtk')
 _METRICS_VERSION = 2
 _CANDIDATES = ['DejaVuSans.ttf', 'segoeui.ttf', 'arial.ttf', 'Helvetica.ttc']
+if sys.platform.startswith('win'):
+    _CANDIDATES = ['msyh.ttc', 'segoeui.ttf', 'arial.ttf']
 _MEASURE_SIZE = 128
 _REFERENCE_HEIGHT = 150.0
 _WIDTH_FACTOR = _MEASURE_SIZE / _REFERENCE_HEIGHT

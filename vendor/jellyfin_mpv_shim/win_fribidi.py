@@ -37,9 +37,14 @@ def _candidate_dirs():
     exactly why this is not left to the search path. The executable's own
     directory covers a build that places it alongside, and the package
     directory covers running from a source checkout with the DLL dropped in
-    beside ``mpv-2.dll``.
+    beside ``mpv-2.dll``. A wheel installation uses the explicitly selected
+    player directory or the current Python prefix's installed runtime.
     """
     dirs = []
+    selected = os.environ.get('LUMANEST_PLAYER_DIRECTORY')
+    if selected and os.path.isabs(selected):
+        dirs.append(os.path.abspath(selected))
+    dirs.append(os.path.join(os.path.abspath(sys.prefix), 'player'))
     meipass = getattr(sys, '_MEIPASS', None)
     if meipass:
         dirs.append(meipass)
@@ -48,7 +53,7 @@ def _candidate_dirs():
     except Exception:
         pass
     dirs.append(os.path.dirname(os.path.abspath(__file__)))
-    dirs.append(os.getcwd())
+    # Launching from an arbitrary directory must not load a DLL from that cwd.
     return list(dict.fromkeys((d for d in dirs if d)))
 
 def preload():

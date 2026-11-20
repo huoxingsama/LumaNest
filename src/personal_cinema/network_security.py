@@ -5,6 +5,17 @@ import urllib.parse
 import urllib.request
 
 
+def jellyfin_authorization(token=None):
+    """Jellyfin's token belongs in the same MediaBrowser Authorization header."""
+    value = 'MediaBrowser Client="LumaNest", Device="Cinema", DeviceId="lumanest-service", Version="0.1"'
+    if token is not None:
+        if (not isinstance(token, str) or not token or len(token) > 65536
+                or any(ord(ch) < 33 or ord(ch) > 126 or ch in '\\",' for ch in token)):
+            raise ValueError('媒体库凭据格式无效，请重新授权。')
+        value += ', Token="' + token + '"'
+    return value
+
+
 class CredentialRedirectError(ValueError):
     """Safe to display: deliberately excludes server-controlled URL/body text."""
 

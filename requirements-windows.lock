@@ -12,6 +12,11 @@ colorama==0.4.6
 greenlet==3.5.6
 idna==3.20
 jellyfin-apiclient-python==1.21.0
+# OpenCV 5 removes CascadeClassifier from its main package; retain 4.13.
+# NumPy 2.5 requires Python 3.12+; 3.11 uses the compatible 2.3 series.
+numpy==2.3.5; python_version < "3.12"
+numpy==2.5.4; python_version >= "3.12"
+opencv-python-headless==4.13.0.92
 packaging==26.3
 pillow==12.3.0
 playwright==1.65.2

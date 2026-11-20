@@ -13,8 +13,17 @@ and the exactly-once multiplier, and the floor-not-a-scale argument -- is in
 `mpvtk/GUIDE.md` section 7.
 """
 from personal_cinema.runtime_paths import root_path as _cinema_path, endpoint as _cinema_endpoint, python_path as _cinema_python
-DEFAULT_ACCENT = '7aa2f7'
-TOKENS = {'ON_SURFACE': 'eeeeee', 'ON_SURFACE_STRONG': 'ffffff', 'ON_SURFACE_MUTED': 'aaaaaa', 'ON_SURFACE_FAINT': '777777', 'CONTROL_BG': '333333', 'CONTROL_HOVER': '4a4a4a', 'CONTROL_SUNKEN': '2a2a2a', 'OUTLINE': '444444', 'OUTLINE_STRONG': '555555', 'POPUP_BG': '222222', 'OVERLAY_BG': '111111', 'SCROLLBAR_THUMB': '666666', 'SCROLLBAR_THUMB_ACTIVE': 'bbbbbb', 'SELECTION': '3d59a1', 'ACCENT': DEFAULT_ACCENT, 'ACCENT_HOVER': None, 'ACCENT_SOFT': None, 'ON_ACCENT': None, 'ACCENT_ON_VIDEO': None, 'SCRIM': '000000', 'CHIP_BG': '202020', 'CHIP_BG_HOVER': '3a3a3a', 'CHIP_FG': 'ffffff'}
+DEFAULT_ACCENT = 'e6e2da'
+CONTROL_HEIGHT = 44
+CONTROL_RADIUS = 22
+CONTROL_GAP = 8
+PRIMARY_HEIGHT = 48
+PRIMARY_WIDTH = 156
+PRIMARY_SIZE = 18
+PRIMARY_ICON_SIZE = 16
+PRIMARY_BG = 'faf8f5'
+PRIMARY_FG = '202228'
+TOKENS = {'ON_SURFACE': 'f4f1eb', 'ON_SURFACE_STRONG': 'ffffff', 'ON_SURFACE_MUTED': 'b3b8c1', 'ON_SURFACE_FAINT': '848b96', 'CONTROL_BG': '262c35', 'CONTROL_HOVER': '353c46', 'CONTROL_SUNKEN': '1c2129', 'OUTLINE': '343b46', 'OUTLINE_STRONG': '555d68', 'POPUP_BG': '1c2129', 'OVERLAY_BG': '12151b', 'SCROLLBAR_THUMB': '656d79', 'SCROLLBAR_THUMB_ACTIVE': 'b3b8c1', 'SELECTION': '454a52', 'ACCENT': DEFAULT_ACCENT, 'ACCENT_HOVER': 'faf8f5', 'ACCENT_SOFT': '343a43', 'ON_ACCENT': PRIMARY_FG, 'ACCENT_ON_VIDEO': 'e6e2da', 'SCRIM': '000000', 'CHIP_BG': '20242b', 'CHIP_BG_HOVER': '363d47', 'CHIP_FG': 'f4f1eb'}
 TYPE_SCALE = {'MICRO': 0.7, 'CAPTION': 0.8, 'SMALL': 0.88, 'NORMAL': 1.0, 'LARGE': 1.12, 'TITLE': 1.3, 'HEADING': 1.42, 'PAGE': 1.53, 'HERO': 1.7}
 DEFAULT_BASE_SIZE = 17
 _base_size = DEFAULT_BASE_SIZE
@@ -97,6 +106,14 @@ def text_factor():
 
 def min_size():
     return _min_size
+
+def primary_metrics():
+    """One logical footprint for bitmap and native Play/Resume controls."""
+    text = text_size(PRIMARY_SIZE)
+    icon = text_size(PRIMARY_ICON_SIZE)
+    height = max(PRIMARY_HEIGHT, int(round(text * 1.25)) + 16)
+    width = max(PRIMARY_WIDTH, int(text * 4 + icon + CONTROL_GAP + 48))
+    return width, height, text, icon
 _ALIASES = {'HOVER': 'ACCENT_HOVER', 'SOFT': 'ACCENT_SOFT'}
 _tokens = {}
 GLOW = False

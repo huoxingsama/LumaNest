@@ -13,6 +13,7 @@ license-files = ["LICENSE.md", "THIRD_PARTY_NOTICES.md", "vendor/licenses/*.txt"
 classifiers = ["Development Status :: 3 - Alpha", "Operating System :: Microsoft :: Windows", "Programming Language :: Python :: 3"]
 dependencies = [
   "psutil>=6,<8", "requests>=2.32,<3", "pillow>=11,<13",
+  "opencv-python-headless>=4.13.0.92,<4.14", "numpy>=2,<3",
   "python-mpv>=1.0.8,<2", "python-mpv-jsonipc>=1.5,<2",
   "jellyfin-apiclient-python>=1.20.2,<2", "certifi>=2026.10.19",
   "pystray>=0.19,<1", "playwright>=1.50,<2", "pywin32>=308; sys_platform == 'win32'",
@@ -26,14 +27,14 @@ Homepage = "https://github.com/huoxingsama/LumaNest"
 Issues = "https://github.com/huoxingsama/LumaNest/issues"
 
 [project.scripts]
-lumanest = "personal_cinema.server:main"
+lumanest = "personal_cinema.launcher:main"
 lumanest-maintenance = "personal_cinema.maintenance:main"
-personal-cinema = "personal_cinema.server:main"
+personal-cinema = "personal_cinema.launcher:main"
 personal-cinema-maintenance = "personal_cinema.maintenance:main"
 
 [project.gui-scripts]
-lumanest-settings = "personal_cinema.server:main"
-personal-cinema-settings = "personal_cinema.server:main"
+lumanest-settings = "personal_cinema.launcher:main"
+personal-cinema-settings = "personal_cinema.launcher:main"
 
 [tool.setuptools]
 include-package-data = true

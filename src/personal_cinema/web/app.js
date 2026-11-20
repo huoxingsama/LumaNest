@@ -1,4 +1,4 @@
-/* Personal Cinema. Local assets only; never store credentials in browser storage. */
+/* LumaNest. Local assets only; never store credentials in browser storage. */
 (function () {
   'use strict';
   function filterFields(fields, section, query) {
@@ -51,10 +51,23 @@
   const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const state = {schema:{sections:[],fields:[]},config:{values:{},overrides:{}},status:{integrations:[],runtime:{},setup:{}},credentials:{},draft:{},invalid:{},scope:'global',section:'foundation',query:'',advanced:false,csrf:'',wizard:false,step:0,busy:false,modalSubmit:null,tasks:null,organizing:null,backups:null};
   const labels = {foundation:'基础服务',sources:'媒体来源',organizing:'整理与入库',metadata:'识别与资料',artwork:'海报与人物',ratings:'评分',playback:'播放与画面',cache:'缓存与存储',network:'网络与远程访问',appearance:'界面与交互',automation:'自动化与工作台',maintenance:'账户与维护'};
-  const icons = {foundation:'◈',sources:'▱',organizing:'▤',metadata:'⌕',artwork:'▧',ratings:'☆',playback:'▷',cache:'▥',network:'◎',appearance:'◐',automation:'↻',maintenance:'⚙'};
+  const icons = {
+    foundation:'<rect x="4" y="3" width="16" height="7" rx="2"/><rect x="4" y="14" width="16" height="7" rx="2"/><path d="M8 6.5h.01M8 17.5h.01M12 6.5h4M12 17.5h4"/>',
+    sources:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/>',
+    organizing:'<path d="M5 5h14M5 12h10M5 19h6M18 11v9m-3-3 3 3 3-3"/>',
+    metadata:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/>',
+    artwork:'<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.5"/><path d="m3 16 5-5 5 5 4-4 4 4"/>',
+    ratings:'<path d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.3-5.7-3-5.7 3 1.1-6.3-4.6-4.5 6.4-.9Z"/>',
+    playback:'<path d="m8 4 12 8-12 8Z"/>',
+    cache:'<path d="m5 4-2 12v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2L19 4Z"/><path d="M3 15h18M16 17.5h.01M18 17.5h.01"/>',
+    network:'<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/>',
+    appearance:'<path d="M4 7h4m4 0h8M4 17h8m4 0h4"/><circle cx="10" cy="7" r="2"/><circle cx="14" cy="17" r="2"/>',
+    automation:'<path d="M20 6v6h-6M4 18v-6h6M6.2 6.2A8 8 0 0 1 20 12M4 12a8 8 0 0 0 13.8 5.8"/>',
+    maintenance:'<circle cx="12" cy="12" r="3"/><path d="m10 3-.6 2.3-2 .9L5.3 5 3 9l1.8 1.5v3L3 15l2.3 4 2.1-1.2 2 .9L10 21h4l.6-2.3 2-.9 2.1 1.2 2.3-4-1.8-1.5v-3L21 9l-2.3-4-2.1 1.2-2-.9L14 3Z"/>'
+  };
   const descriptions = {foundation:'先让媒体库和播放器就绪，再按需要添加其他能力。',sources:'只管理你选择的目录。播放读取与云端整理分别授权。',organizing:'预先设定整理方式，具体作品可以单独覆盖。',metadata:'来源、身份和人工确认分开记录，匹配失败时可继续处理。',artwork:'清晰、正确的图片优先；没有资料时使用整齐的占位。',ratings:'保留真实来源与评分范围，缺少某个平台不影响观看。',playback:'调整这台设备的输出、声音与字幕，按标注时机生效。',cache:'顺序播放缓冲、离线影片和图片缓存分别管理。',network:'普通网络即可使用。指定出口和远程访问按需开启。',appearance:'统一页面密度、文字与交互，返回时保留浏览位置。',automation:'选择何时处理哪些任务，并保留可重试的结果。',maintenance:'保存配置、管理凭据、查看诊断及维护运行环境。'};
   const effects = {immediate:'立即生效',next_page:'重新进入页面',next_playback:'下次播放',next_batch:'下批任务',restart:'重启后生效'};
-  const wizardSteps = [{label:'基础服务',section:'foundation',title:'连接媒体库与播放器',description:'Jellyfin 和 MPV 是影院基础。填写地址或路径，保存后检测；已有媒体库只连接，不默认接管。'}, {label:'媒体来源',section:'sources',title:'选择要使用的媒体',description:'已有 Jellyfin 媒体库可以先跳过新增来源。需要网盘时再配置 OpenList 与所选目录。'}, {label:'缓存与网络',section:'cache',title:'安排本机存储',description:'选择缓存目录与容量，并保留足够磁盘空间。校园网等出口策略可稍后在网络设置配置。'}, {label:'就绪检查',section:'foundation',title:'检查后进入影院',description:'检测 Jellyfin 登录与 MPV。完成向导不会自动启动全库整理；可在工作台选择处理范围。'}];
+  const wizardSteps = [{label:'基础服务',section:'foundation',title:'连接媒体库与影院',description:'连接 Jellyfin，检测影院内置的 MPV 引擎。仅需使用其他播放器时选择外置模式；已有媒体库只连接，不默认接管。'}, {label:'媒体来源',section:'sources',title:'选择要使用的媒体',description:'已有 Jellyfin 媒体库可以先跳过新增来源。需要网盘时再配置 OpenList 与所选目录。'}, {label:'缓存与网络',section:'cache',title:'安排本机存储',description:'选择缓存目录与容量，并保留足够磁盘空间。校园网等出口策略可稍后在网络设置配置。'}, {label:'就绪检查',section:'foundation',title:'检查后进入影院',description:'检测 Jellyfin 登录与所选播放引擎。完成向导不会自动启动全库整理；可在工作台选择处理范围。'}];
 
   async function api(path, options = {}) {
     const method = options.method || 'GET';
@@ -99,8 +112,18 @@
     $('save-button').disabled=!count || !!errors || state.busy;
   }
   function renderNavigation() {
-    $('navigation').innerHTML=state.schema.sections.map(s=>`<button type="button" class="nav-button" data-section="${esc(s.id)}" ${state.section===s.id?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${icons[s.id]||'·'}</span>${esc(s.label||labels[s.id]||s.id)}</button>`).join('');
+    $('navigation').innerHTML=state.schema.sections.map(s=>`<button type="button" class="nav-button" data-section="${esc(s.id)}" ${state.section===s.id?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${icons[s.id]||'<circle cx="12" cy="12" r="3"/>'}</svg></span><span>${esc(s.label||labels[s.id]||s.id)}</span></button>`).join('');
+    alignMobileNavigation();
   }
+  function alignMobileNavigation() {
+    if (!window.matchMedia('(max-width:720px)').matches) return;
+    const nav=$('navigation'),selected=nav.querySelector('[aria-current="page"]');
+    if (selected) {
+      const container=nav.getBoundingClientRect(),current=selected.getBoundingClientRect();
+      nav.scrollLeft+=current.left-container.left-(container.width-current.width)/2;
+    }
+  }
+  window.matchMedia('(max-width:720px)').addEventListener('change',alignMobileNavigation);
   function renderWizard() {
     const complete=state.status.setup?.complete || state.status.setup?.completed;
     if (!state.wizard) { $('banner').innerHTML=complete?'':`<div class="onboarding-banner"><div><h2>从基础配置开始</h2><p>先连接 Jellyfin 与 MPV，再选择媒体来源和缓存方式。</p></div><button class="primary" type="button" data-action="wizard">开始配置</button></div>`;return; }
@@ -128,7 +151,7 @@
   function integrationHtml(service) {
     const actionLabels={probe:'检测连接',login:'登录授权',plan:'配置计划',apply:'应用配置',install_plan:'下载与安装',install_apply:'安装组件',start:'启动',stop:'停止',browse:'浏览目录',drivers:'查看驱动',libraries:'查看媒体库'};
     const actions=(service.actions||[]).map(a=>typeof a==='string'?{id:a,label:actionLabels[a]||a}:a).filter(a=>!['apply','install_apply'].includes(a.id));
-    return `<section class="integration-card ${service.required?'':'optional'}"><div class="integration-head"><div><h3>${esc(service.name||service.id)}</h3><small>${service.required?'影院基础':'按需使用'} · ${service.mode==='managed'?'本程序托管':service.mode==='disabled'?'未启用':'连接已有服务'}</small></div>${badge(service.state)}</div><p>${esc(service.detail||'配置后检测实际连接状态。')}</p>${service.download_page&&/^https:\/\//i.test(service.download_page)?`<a class="inline-link" href="${esc(service.download_page)}" target="_blank" rel="noopener noreferrer">官方下载与校验值 ↗</a>`:''}<div class="button-row">${actions.map(a=>`<button type="button" class="small-button" data-service="${esc(service.id)}" data-service-action="${esc(a.id)}">${esc(a.label||actionLabels[a.id]||a.id)}</button>`).join('')}</div></section>`;
+    return `<section class="integration-card ${service.required?'':'optional'}"><div class="integration-head"><div><h3>${esc(service.name||service.id)}</h3><small>${service.required?'影院基础':'按需使用'} · ${({managed:'本程序托管',disabled:'未启用',embedded:'内置 libMPV',external:'外置 MPV'})[service.mode]||'连接已有服务'}</small></div>${badge(service.state)}</div><p>${esc(service.detail||'配置后检测实际连接状态。')}</p>${service.download_page&&/^https:\/\//i.test(service.download_page)?`<a class="inline-link" href="${esc(service.download_page)}" target="_blank" rel="noopener noreferrer">官方下载与校验值 ↗</a>`:''}<div class="button-row">${actions.map(a=>`<button type="button" class="small-button" data-service="${esc(service.id)}" data-service-action="${esc(a.id)}">${esc(a.label||actionLabels[a.id]||a.id)}</button>`).join('')}</div></section>`;
   }
   function renderIntegrations(ids) { const items=(state.status.integrations||[]).filter(i=>ids.includes(i.id));return items.length?`<div class="integration-grid">${items.map(integrationHtml).join('')}</div>`:''; }
   function sourcesHtml() {
@@ -179,6 +202,8 @@
       if(state.section==='maintenance')html+=maintenanceHtml()+runtimeHtml();
     }
     let fields=filterFields(state.schema.fields,state.query?null:state.section,state.query).filter(f=>eligible(f)&&f.key!=='sources.entries'&&(state.advanced||!f.advanced||state.query));
+    const backend=state.schema.fields.find(f=>f.key==='foundation.mpv_backend');
+    if(!state.query&&backend&&fieldValue(backend)!=='external') fields=fields.filter(f=>f.key!=='foundation.mpv_path');
     if(fields.length){
       const groups=state.query?state.schema.sections.filter(s=>fields.some(f=>f.section===s.id)):[{id:state.section,label:'偏好与规则'}];
       for(const group of groups){const fs=fields.filter(f=>f.section===group.id);if(!fs.length)continue;html+=`<section class="setting-card"><div class="card-heading"><h2>${esc(group.label||labels[group.id])}</h2><button type="button" class="text-button" data-reset-section="${esc(group.id)}">${state.scope==='global'?'恢复本组默认':'恢复本组继承'}</button></div>${fs.map(fieldHtml).join('')}</section>`;}
@@ -347,6 +372,7 @@
     if(result.error){state.invalid[field.key]=result.error;row?.classList.add('invalid');if(error){error.textContent=result.error;error.hidden=false;}el.setAttribute('aria-invalid','true');}
     else{delete state.invalid[field.key];row?.classList.remove('invalid');if(error)error.hidden=true;el.removeAttribute('aria-invalid');setDraft(field.key,result.value);if(field.kind==='bool'){const label=row?.querySelector('.value-boolean');if(label)label.textContent=result.value?'已开启':'已关闭';}}
     updateSavebar();
+    if(field.key==='foundation.mpv_backend'&&!result.error){render();document.querySelector('[data-key="foundation.mpv_backend"]')?.focus({preventScroll:true});}
   });
   $('search').addEventListener('input',event=>{state.query=event.target.value.trim();render();});
   $('advanced').addEventListener('change',event=>{state.advanced=event.target.checked;render();});

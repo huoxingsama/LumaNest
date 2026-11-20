@@ -1119,6 +1119,7 @@ def main():
     if worker.config.get('smart_cache'):
         threading.Thread(target=worker.monitor_playback, daemon=True).start()
     threading.Thread(target=worker.run, daemon=True).start()
-    ThreadingHTTPServer(('127.0.0.1', _cinema_port('stream')), handler_for(worker)).serve_forever()
+    from personal_cinema.runtime_paths import bind_host
+    ThreadingHTTPServer((bind_host('stream'), _cinema_port('stream')), handler_for(worker)).serve_forever()
 if __name__ == '__main__':
     main()

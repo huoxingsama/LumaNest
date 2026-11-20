@@ -89,7 +89,7 @@ class SettingsLauncherTests(unittest.TestCase):
                 opener.assert_not_called()
                 first = center.command({}, [], admin, payload)
                 self.assertEqual(center.command({}, [], admin, payload), first)
-                opener.assert_called_once_with(root.parent)
+                opener.assert_called_once_with(root.parent.resolve())
                 self.assertEqual(first['state'], 'applied')
                 self.assertEqual(first['message'], '已打开')
                 self.assertNotIn('token', json.dumps(first))

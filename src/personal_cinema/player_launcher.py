@@ -109,14 +109,16 @@ def authorized_credential(values, store, gateway):
     if (target.scheme != 'http' or target.hostname not in ('127.0.0.1', '::1', 'localhost')
             or target.username or target.password or target.query or target.fragment):
         raise ValueError('影院只能通过本实例的本地媒体接口启动。')
-    reference = values.get('foundation.jellyfin_credential') or 'jellyfin.token'
+    selected_player = values.get('foundation.player_credential')
+    reference = selected_player or values.get('foundation.jellyfin_credential') or 'jellyfin.token'
     token = store.get(reference)
-    user_id, server_id = store.get('jellyfin.user_id'), store.get('jellyfin.server_id')
+    namespace = 'player.jellyfin' if selected_player else 'jellyfin'
+    user_id, server_id = store.get(namespace + '.user_id'), store.get(namespace + '.server_id')
     if not token or not user_id or not server_id:
         raise ValueError('请在设置页重新完成 Jellyfin 登录，保存媒体库与用户身份后打开影院。')
     return {'Id': server_id, 'UserId': user_id, 'AccessToken': token,
             'address': gateway.rstrip('/'), 'LocalAddress': gateway.rstrip('/'),
-            'Name': 'Personal Cinema', 'username': values.get('foundation.jellyfin_username') or '',
+            'Name': 'LumaNest', 'username': (store.get('player.jellyfin.username') if selected_player else None) or values.get('foundation.jellyfin_username') or '',
             'uuid': str(uuid.uuid4()), 'PersonalCinemaCredential': reference}
 
 
@@ -141,6 +143,8 @@ def synchronize_profile(manager, credential):
 
 
 def main(argv=None):
+    from .windows_bootstrap import prepare_process, prepare_window
+    prepare_process()
     parser = argparse.ArgumentParser(description='Personal Cinema native player')
     parser.add_argument('--config', required=True)
     args = parser.parse_args(argv)
@@ -150,6 +154,10 @@ def main(argv=None):
     if config_dir != expected:
         raise ValueError('播放器配置目录不属于当前影院实例。')
     credential = authorized_credential(settings(), vault(), endpoint('gateway'))
+    from .embedded_mpv import library_path, extend_environment
+    if settings().get('foundation.mpv_backend', 'embedded') == 'embedded':
+        extend_environment(os.environ, library_path(settings()))
+    prepare_window(config_dir)
     # The native modules parse their own arguments. Never forward credentials.
     sys.argv = ['personal-cinema-player', '--config', str(config_dir), '--gui']
     from jellyfin_mpv_shim import args as native_args

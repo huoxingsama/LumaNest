@@ -1,8 +1,9 @@
 """Bounded, once-per-artwork framing; never mistake texture for a character.
 
 Face boxes describe visible faces, not a semantic lead-character prediction.
-Optional local OpenCV models are used only when already installed. Images with
-no reliable evidence retain a neutral centre. No downloads occur here.
+Local OpenCV models are installed with the application. Images with no reliable
+evidence retain a neutral centre. No downloads occur while framing an image;
+a broken native dependency degrades gracefully until installation is repaired.
 """
 from personal_cinema.runtime_paths import root_path as _cinema_path, endpoint as _cinema_endpoint, python_path as _cinema_python
 import hashlib

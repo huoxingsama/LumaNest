@@ -475,6 +475,8 @@ def _arrange_image_map(ctx, el, x, y, w, h, sc, path):
     for i, reg in enumerate(el.regions):
         rid = reg.get('id') or '%s.r%d' % (node['id'], i)
         rnode = {'t': 'rect', 'id': rid, 'x': _round(x + reg['x']), 'y': _round(y + reg['y']), 'w': _round(reg['w']), 'h': _round(reg['h']), 'ring': True}
+        if reg.get('radius'):
+            rnode['radius'] = reg['radius']
         if sc:
             rnode['sc'] = sc
         if reg.get('on_click'):

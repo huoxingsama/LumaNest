@@ -11,14 +11,14 @@ import re
 import time
 
 from personal_cinema.configuration import ConfigStore
-from personal_cinema.runtime_paths import vault
+from personal_cinema.runtime_paths import vault, config_home_for_runtime
 from library_tasks import read, write
 
 SUPPORTED = {'Quark', 'BaiduNetdisk'}
 
 
 def _config(root):
-    return ConfigStore(root.parent)
+    return ConfigStore(config_home_for_runtime(root))
 
 
 def source_entries(root):

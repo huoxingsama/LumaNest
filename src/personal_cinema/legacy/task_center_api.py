@@ -100,10 +100,14 @@ def launch_background(root):
 
 def auth_headers(headers, query=''):
     result = {k: v for k, v in headers.items() if k.lower() in ('authorization', 'x-emby-token', 'x-mediabrowser-token')}
-    if not result:
-        token = urllib.parse.parse_qs(query).get('api_key', [''])[0]
+    normalized = {key.lower(): value for key, value in result.items()}
+    authorization = normalized.get('authorization', '')
+    if not re.search(r'\bToken\s*=', authorization, flags=re.I):
+        token = normalized.get('x-emby-token') or normalized.get('x-mediabrowser-token') or urllib.parse.parse_qs(query).get('api_key', [''])[0]
         if token:
-            result = {'X-Emby-Token': token}
+            from personal_cinema.network_security import jellyfin_authorization
+            try: result = {'Authorization': jellyfin_authorization(token)}
+            except ValueError: raise APIError(401, '媒体库凭据格式无效，请重新登录') from None
     return result
 
 def upstream_json(port, headers, path):
@@ -373,8 +377,9 @@ class Center:
                     raise APIError(409, '请求编号已使用，请刷新后重试')
                 return prior
             from personal_cinema.settings_launcher import open_settings
+            from personal_cinema.runtime_paths import config_home_for_runtime
             try:
-                launched = open_settings(self.root.parent)
+                launched = open_settings(config_home_for_runtime(self.root))
             except (OSError, ValueError):
                 raise APIError(503, '系统设置暂时无法打开，请通过影院电脑的桌面入口重试') from None
             result = {'request_id': rid, 'owner': user['Id'], 'action': 'open-settings',

@@ -32,10 +32,8 @@ def open_settings(root=None):
         return {'state': 'opened', 'message': '已在影院电脑的浏览器打开系统设置'}
 
     executable = Path(sys.executable)
-    if os.name == 'nt':
-        windowless = executable.with_name('pythonw.exe')
-        if windowless.is_file():
-            executable = windowless
+    # Keep any executable-specific network binding when opening settings from
+    # the native player; the process creation flag supplies windowless launch.
     environment = os.environ.copy()
     environment['PERSONAL_CINEMA_HOME'] = str(root)
     # The server owns an instance lease, so concurrent launch clicks cannot

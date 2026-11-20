@@ -17,6 +17,8 @@
 | 基础服务 | Jellyfin 连接/登录；本机托管实例计划；MPV 与 ffprobe 检测；独立进程所有权记录 | `test_integrations.py`、服务管理测试 |
 | 可选来源 | OpenList 连接、驱动/目录发现与明确的挂载计划；本地来源交给本机 Jellyfin 建库；WebDAV 通过 OpenList | `test_integrations.py` |
 | 组件安装 | 允许的下载来源、显式版本与 SHA256、ZIP 安全检查、计划后安装；不捆绑媒体服务器二进制 | `test_component_installer.py` |
+| 内置 MPV | 默认同窗口播放；固定核心与支持包来源/哈希，自动安装、离线导入、失败回滚；保留第三方许可 | `test_embedded_runtime.py`、真实 libmpv 初始化验证 |
+| 旧实例接入 | 独立配置与加密账户导入；数据留在原位，端口冲突保护；同一个安装包负责影院与后台 | `test_existing_installation.py`、`test_installation.py`、`test_launcher.py` |
 | 来源整理 | 选择来源、单独写授权、预览计划、配置版本和对象身份约束、执行前重新校验；当前写适配为 Quark/BaiduNetdisk | `test_source_policy.py`、网盘适配测试 |
 | 资料与评分 | 全局资料语言顺序，海报真实尺寸门槛，评分开关/平台顺序/更新间隔，来源明确的作品分与独立季分 | `test_policy_settings.py`、保留的资料模块测试 |
 | 人物与图片 | 同人物多职务合并；缺图显示暂无或隐藏；原生播放器图片磁盘预算；无合格图片时不伪造高清 | `test_policy_settings.py` |

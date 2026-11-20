@@ -510,7 +510,7 @@ def render_featured(page, size, items, index, on_change, prewarm=False):
     regions = []
     for name, callback in callbacks.items():
         x, y, w, h = geometry['controls'][name]
-        regions.append({'id': 'cinema-hero-' + name, 'x': x, 'y': y, 'w': w, 'h': h, 'on_click': callback, 'hover': {}})
+        regions.append({'id': 'cinema-hero-' + name, 'x': x, 'y': y, 'w': w, 'h': h, 'radius': h / 2, 'on_click': callback, 'hover': {}})
     surface = foreground_surface(art.strips, 'cinema-hero|' + layer_key, layers, box, regions, 'cinema-hero')
     route['_cinema_visible_surface'] = surface
     return surface

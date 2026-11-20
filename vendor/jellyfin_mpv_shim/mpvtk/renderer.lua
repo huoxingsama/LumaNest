@@ -91,34 +91,34 @@ local state = {
     -- The tok.chip_*/tok.scrim entries are drawn over VIDEO, not over the
     -- app, and stay dark whatever the app's theme does.
     tok = {
-        on_surface = 'eeeeee',
+        on_surface = 'f4f1eb',
         on_surface_strong = 'ffffff',
-        on_surface_muted = 'aaaaaa',
-        on_surface_faint = '777777',
-        control_bg = '333333',
-        control_hover = '4a4a4a',
-        control_sunken = '2a2a2a',
-        outline = '444444',
-        outline_strong = '555555',
-        popup_bg = '222222',
-        overlay_bg = '111111',
-        scrollbar_thumb = '666666',
-        scrollbar_thumb_active = 'bbbbbb',
-        selection = '3d59a1',
-        accent = '7aa2f7',
-        accent_hover = '92b3f8',
-        accent_soft = '223055',
-        on_accent = '101010',
-        accent_on_video = '7aa2f7',
+        on_surface_muted = 'b3b8c1',
+        on_surface_faint = '848b96',
+        control_bg = '262c35',
+        control_hover = '353c46',
+        control_sunken = '1c2129',
+        outline = '343b46',
+        outline_strong = '555d68',
+        popup_bg = '1c2129',
+        overlay_bg = '12151b',
+        scrollbar_thumb = '656d79',
+        scrollbar_thumb_active = 'b3b8c1',
+        selection = '454a52',
+        accent = 'e6e2da',
+        accent_hover = 'faf8f5',
+        accent_soft = '343a43',
+        on_accent = '202228',
+        accent_on_video = 'e6e2da',
         scrim = '000000',
-        chip_bg = '202020',
-        chip_bg_hover = '3a3a3a',
-        chip_fg = 'ffffff',
+        chip_bg = '20242b',
+        chip_bg_hover = '363d47',
+        chip_fg = 'f4f1eb',
     },
     -- Kept as their own fields because so much code reads them: aliases into
     -- tok, refreshed whenever it is replaced.
-    accent = '7aa2f7',
-    accent_soft = '223055',
+    accent = 'e6e2da',
+    accent_soft = '343a43',
     -- Themed glow: a blurred accent halo behind bold titles and around the
     -- selected card. Off unless an app theme asks for it (mpvtk-theme), so
     -- the stock look is unchanged.
@@ -2616,7 +2616,7 @@ render = function()
                 ring = state.tok.on_surface_strong
             end
             draw_rect(ass, ex - 3, ey - 3, node.w + 6, node.h + 6, {
-                bc = ring, bw = 3, radius = 4, clip = clip,
+                bc = ring, bw = 2, radius = (node.radius or 8) + 3, clip = clip,
             })
         end
     end

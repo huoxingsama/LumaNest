@@ -1,5 +1,4 @@
 """Give this pythonw-hosted cinema its own Windows taskbar identity."""
-from personal_cinema.runtime_paths import root_path as _cinema_path, endpoint as _cinema_endpoint, python_path as _cinema_python
 import ctypes
 import logging
 import os
@@ -7,7 +6,7 @@ from pathlib import Path
 import sys
 import threading
 import time
-APP_ID = 'Jellyfin.MPVShim.Cinema'
+APP_ID = 'LumaNest.Cinema'
 _keeper = None
 log = logging.getLogger(__name__)
 

@@ -142,14 +142,14 @@ class TileGeom:
     """Pixel geometry for a tile (poster + caption block below it)."""
     tile_w: int = 140
     tile_h: int = 210
-    gap: int = 14
-    caption_h: int = 46
-    title_size: int = 15
-    sub_size: int = 13
+    gap: int = 16
+    caption_h: int = 50
+    title_size: int = 16
+    sub_size: int = 14
     badge_size: int = 14
     caption_lines: int = 2
     SUB_GAP = 4
-    TITLE_GAP = 7
+    TITLE_GAP = 8
 
     def with_caption_lines(self, n):
         """A copy with room for ``n`` caption lines instead of two.
@@ -256,10 +256,10 @@ class TileGeom:
         def r(v):
             return max(1, int(round(v * f)))
         return dataclasses.replace(self, tile_w=r(self.tile_w), tile_h=r(self.tile_h))
-POSTER_GEOM = TileGeom(tile_w=150, tile_h=225, caption_h=46)
-LANDSCAPE_GEOM = TileGeom(tile_w=240, tile_h=135, caption_h=44)
-SQUARE_GEOM = TileGeom(tile_w=170, tile_h=170, caption_h=44)
-BANNER_GEOM = TileGeom(tile_w=486, tile_h=90, caption_h=44)
+POSTER_GEOM = TileGeom(tile_w=150, tile_h=225, caption_h=50)
+LANDSCAPE_GEOM = TileGeom(tile_w=240, tile_h=135, caption_h=50)
+SQUARE_GEOM = TileGeom(tile_w=170, tile_h=170, caption_h=50)
+BANNER_GEOM = TileGeom(tile_w=486, tile_h=90, caption_h=50)
 WIDE_GEOM = LANDSCAPE_GEOM
 
 @dataclass
@@ -542,7 +542,6 @@ class StripStore:
         tile = PILImage.new('RGBA', (g.tile_w, g.tile_h), (0, 0, 0, 0))
         self._paint_poster_inner(tile, ImageDraw.Draw(tile), 0, t, g, rounded=False, border=False)
         radius = _px(14)
-        cinema_paint.rounded(tile, (0, 0, g.tile_w - 1, g.tile_h - 1), radius, outline=theme.rgb('101012', 255), resample=PILImage.Resampling.BOX)
         tile.putalpha(_card_mask(g, radius))
         img.alpha_composite(tile, (int(x), 0))
 
@@ -633,7 +632,7 @@ class StripStore:
             cx -= _px(self.BADGE_PITCH)
         if t.progress and t.progress > 0:
             frac = max(0.0, min(1.0, t.progress))
-            bar = _px(6)
+            bar = _px(4)
             fill = theme.FAV_RED if t.recording else theme.ACCENT
             if bool((theme.active() or {}).get('rounded')):
                 from PIL import Image as PILImage, ImageChops, ImageDraw

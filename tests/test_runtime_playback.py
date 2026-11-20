@@ -23,7 +23,10 @@ class PlaybackTests(unittest.TestCase):
                 pass
 
             def do_GET(self):
-                seen.append((self.path, self.headers.get('X-Emby-Token')))
+                authorization = self.headers.get('Authorization', '')
+                if 'Token="fixture-token"' not in authorization:
+                    self.send_error(401); return
+                seen.append((self.path, 'fixture-token'))
                 raw = json.dumps(responses.pop(0)).encode()
                 self.send_response(200)
                 self.send_header('Content-Length', str(len(raw)))

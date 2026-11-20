@@ -41,10 +41,33 @@ def free_port():
         return sock.getsockname()[1]
 
 
+def merge_json(path, updates, defaults=None):
+    value = read(path)
+    if not isinstance(value, dict):
+        raise ValueError('已有运行配置不是有效对象，未覆盖：' + Path(path).name)
+    for key, default in (defaults or {}).items():
+        value.setdefault(key, default)
+    value.update(updates)
+    write(path, value)
+
+
+def merge_mpv_options(path, options):
+    """Update managed global keys; retain custom lines and named MPV profiles."""
+    path = Path(path)
+    lines = path.read_text('utf-8-sig').splitlines() if path.is_file() else []
+    split = next((i for i, line in enumerate(lines) if line.strip().startswith('[')), len(lines))
+    keys = {line.split('=', 1)[0] for line in options} | {'http-proxy'}
+    global_lines = [line for line in lines[:split]
+                    if line.lstrip().startswith(('#', ';')) or line.split('=', 1)[0].strip() not in keys]
+    path.write_text('\n'.join(global_lines + options + lines[split:]) + '\n', 'utf-8')
+
+
 class Runtime:
     def __init__(self, root, config, credentials, integrations):
         self.root = Path(root).resolve()
-        self.folder = self.root / 'runtime'
+        values = config.get_effective('device')
+        selected = read(self.root / 'runtime-manifest.json').get('runtime_directory') or values.get('foundation.runtime_directory')
+        self.folder = Path(selected).resolve() if selected else self.root / 'runtime'
         self.config, self.credentials, self.integrations = config, credentials, integrations
         from .process_lock import LifecycleLock
         self.lock = LifecycleLock(self.root / '.runtime.lock')
@@ -74,7 +97,7 @@ class Runtime:
         # server too, retaining paused playback and failing closed on outages.
         try:
             import urllib.request
-            from .network_security import credential_opener
+            from .network_security import credential_opener, jellyfin_authorization
             from .runtime_paths import instance_context, proxy_handler
             manifest = read(self.root / 'runtime-manifest.json')
             base = manifest.get('endpoints', {}).get('jellyfin')
@@ -82,7 +105,7 @@ class Runtime:
             token = self.credentials.get(values.get('foundation.jellyfin_credential', 'jellyfin.token'))
             if not base or not token:
                 return True
-            request = urllib.request.Request(base.rstrip('/') + '/Sessions', headers={'X-Emby-Token': token})
+            request = urllib.request.Request(base.rstrip('/') + '/Sessions', headers={'Authorization': jellyfin_authorization(token)})
             with instance_context(self.root):
                 with credential_opener(proxy_handler()).open(request, timeout=2) as response:
                     raw = response.read(2 * 1024 * 1024 + 1)
@@ -112,15 +135,39 @@ class Runtime:
         endpoints.update(jellyfin=values['foundation.jellyfin_url'].rstrip('/'),
                          openlist=values['sources.openlist_url'].rstrip('/'))
         for name in ('gateway', 'stream'):
-            endpoints.setdefault(name, f'http://127.0.0.1:{free_port()}')
+            selected = values.get('foundation.gateway_url' if name == 'gateway' else 'network.stream_url')
+            if selected:
+                endpoints[name] = selected.rstrip('/')
+            elif name not in endpoints:
+                endpoints[name] = f'http://127.0.0.1:{free_port()}'
         cache = values.get('cache.directory') or str(self.folder / 'cache')
         old_cache = old.get('cache_directory')
         if old_cache and os.path.normcase(old_cache) != os.path.normcase(cache):
             if any(Path(old_cache).glob('ready/**/*')) or any(Path(old_cache).glob('partial/*')) or any(Path(old_cache).glob('playback-buffer/**/*')):
                 raise ValueError('旧缓存目录仍有文件，请先迁移或清理缓存后修改位置；现有缓存没有被删除')
         return {'version': 1, 'endpoints': endpoints, 'cache_directory': str(Path(cache).resolve()),
+                'runtime_directory': str(self.folder),
+                'bind_hosts': {name: values.get('network.' + name + '_bind_host', '127.0.0.1') for name in ('gateway', 'stream')},
                 'tools': {'mpv': values.get('foundation.mpv_path', ''), 'ffprobe': values.get('foundation.ffprobe_path', '')},
                 'revision': revision}
+
+    def _require_unclaimed_listeners(self, values):
+        """Do not silently attach to an old version or another instance."""
+        endpoints = read(self.root / 'runtime-manifest.json').get('endpoints', {})
+        for name, process, key in (('gateway', 'gateway', 'foundation.gateway_url'), ('stream', 'cache', 'network.stream_url')):
+            if self._alive(process):
+                continue
+            address = values.get(key) or endpoints.get(name)
+            if not address:
+                continue
+            host = values.get('network.' + name + '_bind_host', '127.0.0.1')
+            if host == '0.0.0.0': host = '127.0.0.1'
+            try:
+                with socket.create_connection((host, urllib.parse.urlsplit(address).port), timeout=.2):
+                    pass
+            except OSError:
+                continue
+            raise ValueError('媒体接口端口已由其他进程占用；请先停止旧版本后台及其监督程序，不能同时运行两套后台。')
 
     def apply(self):
         with self.lock:
@@ -129,6 +176,12 @@ class Runtime:
                 return {'state': 'waiting_for_playback', 'message': '影片正在播放、暂停或播放状态暂时无法确认；退出播放后后台会自动应用。'}
             snapshot = self.config.effective_snapshot('device')
             values, revision = snapshot['values'], snapshot['revision']
+            self._require_unclaimed_listeners(values)
+            selected = Path(values.get('foundation.runtime_directory') or self.root / 'runtime').resolve()
+            if selected != self.folder:
+                if (self.root / 'runtime-applied.json').exists() or any(self._alive(name) for name in (*WORKER_COMMANDS, 'player')):
+                    raise ValueError('运行数据目录已应用；更换需要先完成独立迁移，现有数据未移动。')
+                self.folder = selected
             manifest = self._manifest(values, revision)
             was_running = self._alive('gateway') or self._alive('cache')
             if was_running:
@@ -149,44 +202,46 @@ class Runtime:
                      'playback_buffer_bytes': int(values.get('cache.playback_gib', 10) * GIB),
                      'retention_seconds': int(values.get('cache.retain_days', 30) * 86400),
                      'next_episodes': values.get('cache.next_episodes', 3),
-                     'download_connections': 2, 'poll_seconds': 30,
                      'scan_interval_seconds': values.get('automation.scan_interval_minutes', 30) * 60,
-                     'stream_base_url': manifest['endpoints']['stream'], 'smart_cache': True,
+                     'stream_base_url': manifest['endpoints']['stream'],
                      'recent_playback_seconds': values.get('cache.recent_days', 14) * 86400,
                      'cleanup_only_on_pressure': values.get('cache.cleanup_only_on_pressure', True),
                      'downloads_paused': values.get('cache.downloads_paused', False),
                      'cloud_normalization_enabled': bool(values.get('organizing.enabled') and any(s.get('allow_write') for s in sources)),
                      'organizing_preview_only': values.get('organizing.preview_only', True),
                      'cleanup_empty': values.get('organizing.cleanup_empty', False),
-                     'manual_ingestion_only': mode != 'scheduled', 'pause_cache_for_steam': False,
-                     'session_poll_seconds': 5}
-            write(self.folder / 'data/cache-config.json', cache)
-            write(self.folder / 'data/metadata-config.json', {'enabled': True, 'preferred_provider': values.get('metadata.search_provider', 'TheMovieDb'),
+                     'manual_ingestion_only': mode != 'scheduled'}
+            merge_json(self.folder / 'data/cache-config.json', cache, {'download_connections': 2, 'poll_seconds': 30,
+                'smart_cache': True, 'pause_cache_for_steam': False, 'session_poll_seconds': 5})
+            merge_json(self.folder / 'data/metadata-config.json', {'enabled': True, 'preferred_provider': values.get('metadata.search_provider', 'TheMovieDb'),
                     'search_languages': values.get('metadata.languages', ['zh-CN', 'en']), 'retry_seconds': [120, 600, 3600, 43200]})
-            write(self.folder / 'data/automation-config.json', {'enabled': True, 'automatic_versions': False,
+            merge_json(self.folder / 'data/automation-config.json', {'enabled': True, 'automatic_versions': False,
                     'recycle_inferior_sources': False, 'manual_only': mode == 'manual', 'background_cache_yields_to_library': True})
-            write(self.folder / 'data/chinese-credits-config.json', {'enabled': True, 'source_priority': ['baidu_baike', 'wikipedia'],
+            merge_json(self.folder / 'data/chinese-credits-config.json', {}, {'enabled': True, 'source_priority': ['baidu_baike', 'wikipedia'],
                     'max_cast': 30, 'source_urls': {}, 'source_titles': {}})
-            write(self.folder / 'data/task-center-config.json', {'user_ids': [self.credentials.get('jellyfin.user_id')] if self.credentials.get('jellyfin.user_id') else []})
+            merge_json(self.folder / 'data/task-center-config.json', {}, {'user_ids': [self.credentials.get('jellyfin.user_id')] if self.credentials.get('jellyfin.user_id') else []})
             current_mpv = read(self.folder / 'data/mpv-shim/conf.json')
-            current_mpv.update({'mpv_ext': True, 'mpv_ext_path': values.get('foundation.mpv_path') or None,
-                'mpv_ext_start': True, 'mpv_ext_ipc': self.ipc_name(), 'lang': 'zh_CN',
+            current_mpv.update({'mpv_ext': values.get('foundation.mpv_backend', 'embedded') == 'external', 'mpv_ext_path': values.get('foundation.mpv_path') or None,
+                'mpv_ext_start': True, 'mpv_ext_ipc': self.ipc_name(), 'lang': current_mpv.get('lang') or 'zh_Hans',
                 'check_updates': False, 'notify_updates': 'disabled',
-                'hdr_output': values.get('playback.hdr_output', 'auto'), 'hwdec': values.get('playback.hwdec', 'auto-safe'),
-                'ui_text_scale': values.get('appearance.text_scale', 1), 'poster_scale': values.get('appearance.poster_scale', 1),
-                'theme': values.get('appearance.theme', 'default')})
+                'hdr_output': values.get('playback.hdr_output', 'auto'), 'hwdec': values.get('playback.hwdec', 'auto-copy'),
+                'ui_text_scale': values.get('appearance.text_scale', 1), 'poster_scale': values.get('appearance.poster_scale', 1.3),
+                'theme': values.get('appearance.theme', 'lumanest')})
             write(self.folder / 'data/mpv-shim/conf.json', current_mpv)
             # Credential list is stored in the vault; the customized client reads it through the bridge.
             write(self.root / 'runtime-manifest.json', manifest)
+            from .mpv_config import global_options
+            current_options = global_options(self.folder / 'data/mpv-shim/mpv.conf')
             mpv_lines = [f'brightness={values.get("playback.brightness", 0)}', 'cache=yes',
-                         'demuxer-max-bytes=256MiB',
                          'alang=' + ','.join(values.get('playback.audio_languages', ['zho','jpn','eng'])),
                          'slang=' + ','.join(values.get('playback.subtitle_languages', ['zho','eng']))]
+            if 'demuxer-max-bytes' not in current_options:
+                mpv_lines.append('demuxer-max-bytes=256MiB')
             if values.get('network.mode') == 'proxy':
                 mpv_lines.append('http-proxy=' + values.get('network.proxy_url', ''))
             elif values.get('network.mode') == 'direct':
                 mpv_lines.append('http-proxy=')
-            (self.folder / 'data/mpv-shim/mpv.conf').write_text('\n'.join(mpv_lines) + '\n', 'utf-8')
+            merge_mpv_options(self.folder / 'data/mpv-shim/mpv.conf', mpv_lines)
             resource = Path(__file__).parent / 'resources/brightness-control.lua'
             shutil.copyfile(resource, self.folder / 'data/mpv-shim/scripts/brightness-control.lua')
             write(self.root / 'runtime-applied.json', {'revision': revision, 'applied_at': time.time()})
@@ -209,6 +264,9 @@ class Runtime:
         paths = [str(src), str(project / 'vendor'), str(Path(__file__).parent / 'legacy')]
         env['PYTHONPATH'] = os.pathsep.join(paths)
         values = self.config.get_effective('device')
+        if values.get('foundation.mpv_backend', 'embedded') == 'embedded':
+            from .embedded_mpv import library_path, extend_environment
+            extend_environment(env, library_path(values))
         mode = values.get('network.mode', 'direct')
         if mode == 'direct':
             for key in ('HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'http_proxy', 'https_proxy', 'all_proxy'):
@@ -237,6 +295,7 @@ class Runtime:
 
     def start(self, apply=True):
         with self.lock:
+            self._require_unclaimed_listeners(self.config.get_effective('device'))
             if apply and self.status()['pending']:
                 result = self.apply()
                 if result['state'] != 'applied':
@@ -343,9 +402,12 @@ class Runtime:
 
     def _launch_player(self):
         values = self.config.get_effective('device')
-        mpv = Path(values.get('foundation.mpv_path') or '')
-        if not mpv.is_file():
-            raise ValueError('请先选择并检测 MPV 程序')
+        if values.get('foundation.mpv_backend', 'embedded') == 'embedded':
+            from .embedded_mpv import library_path
+            if not library_path(values):
+                raise ValueError('内置播放运行库尚未安装；请安装随发行包提供的播放器运行库，或选择已有 libMPV。')
+        elif not Path(values.get('foundation.mpv_path') or '').is_file():
+            raise ValueError('请先选择并检测外置 MPV 程序')
         self.start()
         self._spawn('player', [sys.executable, '-m', 'personal_cinema.player_launcher', '--config', str(self.folder / 'data/mpv-shim')])
         return {'state': 'starting', 'message': '正在启动本实例影院'}

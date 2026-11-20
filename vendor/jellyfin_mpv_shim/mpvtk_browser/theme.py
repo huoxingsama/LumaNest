@@ -27,6 +27,10 @@ lookup still works exactly as it looks.
 """
 from personal_cinema.runtime_paths import root_path as _cinema_path, endpoint as _cinema_endpoint, python_path as _cinema_python
 from . import themes
+from ..mpvtk import theme as toolkit
+NAV_HEIGHT = toolkit.CONTROL_HEIGHT
+NAV_GAP = toolkit.CONTROL_GAP
+NAV_BAR_HEIGHT = 60
 _active = None
 _palette = dict(themes.DEFAULT['palette'])
 
@@ -82,7 +86,8 @@ def chrome_button_style():
     """
     if not (_active or {}).get('accent_buttons'):
         return {}
-    return {'bg': _palette['BUTTON_BG'], 'border': _palette['ACCENT'], 'border_w': 1, 'radius': 9, 'hover': {'fill': _palette['BUTTON_ACTIVE'], 'glow': True}}
+    return {'bg': _palette['BUTTON_BG'], 'radius': toolkit.CONTROL_RADIUS,
+            'hover': {'fill': _palette['BUTTON_ACTIVE']}}
 
 def toolkit_tokens():
     """This palette expressed as mpvtk's design tokens.

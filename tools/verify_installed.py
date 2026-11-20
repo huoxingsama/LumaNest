@@ -169,7 +169,18 @@ def resources_check(forbidden):
     ET.parse(native_root / 'mpvtk_browser/components/models/lbpcascade_animeface.xml')
     with (native_root / 'messages/zh_Hans/LC_MESSAGES/base.mo').open('rb') as translation:
         gettext.GNUTranslations(translation)
-    return {'state': 'passed', 'checked': [relative for _, relative in expected], 'imports_from_venv': True}
+    from jellyfin_mpv_shim.mpvtk_browser.components import subject_framing
+    detector = subject_framing._local_detector()
+    require(detector is not None, 'Installed subject detector dependencies are missing')
+    cv2, numpy, classifiers = detector
+    for dependency in (cv2, numpy):
+        require(Path(dependency.__file__).resolve().is_relative_to(prefix), 'Subject detector imported outside installed venv')
+    require(len(classifiers) == 2 and all(not model.empty() for model in classifiers), 'Installed subject models incomplete')
+    for model in classifiers:
+        require(len(model.detectMultiScale(numpy.zeros((128, 128), dtype=numpy.uint8))) == 0,
+                'Native subject detector failed on empty fixture')
+    return {'state': 'passed', 'checked': [relative for _, relative in expected], 'imports_from_venv': True,
+            'subject_detection': {'opencv': cv2.__version__, 'numpy': numpy.__version__, 'models_loaded': len(classifiers)}}
 
 
 def settings_check(workspace, outside):
@@ -322,7 +333,9 @@ def installed_main(args):
     report = {'state': 'running', 'python': sys.version.split()[0], 'platform': sys.platform, 'checks': {}}
     try:
         require(os.name == 'nt', 'Installed verification requires Windows DPAPI')
-        report['checks']['resources'] = resources_check(Path(args.forbidden_root).resolve())
+        from personal_cinema.runtime_paths import instance_context
+        with instance_context(workspace / 'resources-instance'):
+            report['checks']['resources'] = resources_check(Path(args.forbidden_root).resolve())
         report['checks']['settings'] = settings_check(workspace, outside)
         report['checks']['runtime'] = runtime_check(workspace)
         report['state'] = 'passed'

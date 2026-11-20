@@ -108,7 +108,7 @@
     if(!bufferNote){bufferNote=el('p','media-sub');bufferNote.id='playback-buffer-pool';$('current-note').after(bufferNote);}
     bufferNote.hidden=!buffer;
     if(buffer){
-      bufferNote.textContent=`E 盘播放缓冲：已用 ${gib(buffer.pool_bytes)} / 上限 ${gib(buffer.limit_bytes)}。空间用满后自动回收已读取的片段。${buffer.error?' '+buffer.error+'。':''}`;
+      bufferNote.textContent=`磁盘播放缓冲：已用 ${gib(buffer.pool_bytes)} / 上限 ${gib(buffer.limit_bytes)}。空间用满后自动回收已读取的片段。${buffer.error?' '+buffer.error+'。':''}`;
     }
     const batch=data.automation?.batch;
     $('automation-note').textContent=data.automation?.manual_only?`定时扫描已关闭 · ${batch?.state==='running'?'本批检查进行中':batch?.state==='complete'?'上批检查已完成':batch?.state==='partial'?'上批有未完成项目，请查看入库任务':'批量添加资源后，点击“扫描新入库”'}`:'入库整理已开启 · 后台程序运行中';
